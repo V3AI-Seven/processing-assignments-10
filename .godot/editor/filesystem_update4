@@ -1,0 +1,4 @@
+res://scenes/main_menu.tscn
+res://scripts/MainMenu/main_menu.gd
+res://scripts/MoveableCharacter/player.gd
+res://scenes/projects/moveable_character.tscn

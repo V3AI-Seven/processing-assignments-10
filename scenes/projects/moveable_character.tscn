@@ -12,15 +12,15 @@ radius = 88.0
 [node name="MoveableCharacter" type="Node2D"]
 script = ExtResource("1_0k7wt")
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+[node name="Player" type="CharacterBody2D" parent="."]
 position = Vector2(584, 200)
 script = ExtResource("2_foshr")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 position = Vector2(-0.00012207031, 0)
 shape = SubResource("CircleShape2D_0k7wt")
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="CharacterBody2D"]
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Player"]
 position = Vector2(-6.1035156e-05, 4.5776367e-05)
 scale = Vector2(176.19951, 176.00005)
 mesh = SubResource("SphereMesh_foshr")
@@ -35,5 +35,5 @@ text = "Start"
 
 [node name="ExitButton" parent="." instance=ExtResource("1_2mv4v")]
 
-[connection signal="move_allowed" from="." to="CharacterBody2D" method="move_allowed"]
+[connection signal="move_allowed" from="." to="Player" method="move_allowed"]
 [connection signal="pressed" from="Start" to="." method="enable_movement"]

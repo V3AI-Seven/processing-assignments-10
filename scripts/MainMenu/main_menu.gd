@@ -9,3 +9,5 @@ func switch_to_project() -> void:
 			pass
 		0: #Clicker game
 			get_tree().change_scene_to_file("res://scenes/projects/clicker_game.tscn")
+		1: #Moveable character
+			get_tree().change_scene_to_file("res://scenes/projects/moveable_character.tscn")
