@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://cfrum3nukva1h"]
+
+[ext_resource type="Script" uid="uid://bfuklqtmiymal" path="res://scripts/MoveableCharacter/main.gd" id="1_0k7wt"]
+[ext_resource type="PackedScene" uid="uid://d4mmehk8jrrto" path="res://scenes/templates/exit_button.tscn" id="1_2mv4v"]
+[ext_resource type="Script" uid="uid://dveia5jveqykf" path="res://scripts/MoveableCharacter/player.gd" id="2_foshr"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0k7wt"]
+radius = 88.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_foshr"]
+
+[node name="MoveableCharacter" type="Node2D"]
+script = ExtResource("1_0k7wt")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+position = Vector2(584, 200)
+script = ExtResource("2_foshr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(-0.00012207031, 0)
+shape = SubResource("CircleShape2D_0k7wt")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="CharacterBody2D"]
+position = Vector2(-6.1035156e-05, 4.5776367e-05)
+scale = Vector2(176.19951, 176.00005)
+mesh = SubResource("SphereMesh_foshr")
+
+[node name="Start" type="Button" parent="."]
+offset_left = 384.0
+offset_top = 320.0
+offset_right = 776.0
+offset_bottom = 448.0
+theme_override_font_sizes/font_size = 32
+text = "Start"
+
+[node name="ExitButton" parent="." instance=ExtResource("1_2mv4v")]
+
+[connection signal="move_allowed" from="." to="CharacterBody2D" method="move_allowed"]
+[connection signal="pressed" from="Start" to="." method="enable_movement"]

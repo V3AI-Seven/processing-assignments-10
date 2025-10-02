@@ -1,0 +1,55 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7a6v8c4mmlb1"]
+
+[ext_resource type="Script" uid="uid://dh66qokrs1736" path="res://scripts/MainMenu/main_menu.gd" id="1_l6cm7"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_l6cm7")
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 0
+offset_right = 1144.0
+offset_bottom = 200.0
+theme_override_font_sizes/font_size = 64
+text = "Grayson's Computer Class Processing Assignments"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="ProjectSelector" type="OptionButton" parent="."]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 288.0
+offset_right = 832.0
+offset_bottom = 448.0
+theme_override_font_sizes/font_size = 32
+allow_reselect = true
+item_count = 2
+popup/item_0/text = "Clicker Game"
+popup/item_0/id = 0
+popup/item_1/text = "Moveable Character"
+popup/item_1/id = 1
+
+[node name="SelectInfo" type="Label" parent="."]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 240.0
+offset_right = 832.0
+offset_bottom = 263.0
+text = "Select a project below! Hopefully I told you which one :)"
+horizontal_alignment = 1
+
+[node name="GoButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 464.0
+offset_right = 832.0
+offset_bottom = 624.0
+theme_override_font_sizes/font_size = 64
+text = "Go"
+
+[connection signal="pressed" from="GoButton" to="." method="switch_to_project"]

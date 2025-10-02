@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://d4mmehk8jrrto"]
+
+[ext_resource type="Script" uid="uid://3vi16j6y1o4d" path="res://scripts/TemplateScenes/ExitButton/exit_button.gd" id="1_f12ck"]
+
+[node name="ExitButton" type="Button"]
+offset_right = 104.0
+offset_bottom = 104.0
+text = "Exit"
+script = ExtResource("1_f12ck")
+
+[connection signal="pressed" from="." to="." method="exit"]

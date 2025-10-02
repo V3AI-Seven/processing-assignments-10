@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://dasy6a5cegan"]
+
+[ext_resource type="Script" uid="uid://cscqtyfuaq0fr" path="res://scripts/ClickerGame/clicker_game.gd" id="1_crega"]
+[ext_resource type="PackedScene" uid="uid://d4mmehk8jrrto" path="res://scenes/templates/exit_button.tscn" id="2_xtswu"]
+
+[node name="ClickerGame" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_crega")
+
+[node name="MainCLickerButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 464.0
+offset_top = 216.0
+offset_right = 688.0
+offset_bottom = 288.0
+text = "Click Me"
+
+[node name="Reset" type="Button" parent="."]
+layout_mode = 0
+offset_left = 464.0
+offset_top = 304.0
+offset_right = 688.0
+offset_bottom = 376.0
+text = "Reset"
+
+[node name="CurrentScore" type="Label" parent="."]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 40.0
+offset_right = 832.0
+offset_bottom = 88.0
+theme_override_font_sizes/font_size = 32
+text = "Score: 0"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="ExitButton" parent="." instance=ExtResource("2_xtswu")]
+layout_mode = 0
+
+[connection signal="pressed" from="MainCLickerButton" to="." method="increase_score"]
+[connection signal="pressed" from="Reset" to="." method="reset"]
