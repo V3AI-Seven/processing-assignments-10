@@ -1,0 +1,94 @@
+[gd_scene load_steps=4 format=3 uid="uid://u1p0vojt75ux"]
+
+[ext_resource type="Script" uid="uid://b667aitbi2w2m" path="res://scripts/Test/test.gd" id="1_xqpen"]
+[ext_resource type="Script" uid="uid://rl5iu6bhvxjb" path="res://scripts/Test/title_screen.gd" id="2_cro8k"]
+[ext_resource type="Script" uid="uid://dttyd4hp4q4lw" path="res://scripts/Test/template_question_script.gd" id="3_bgcr8"]
+
+[node name="Test" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 252.0
+offset_right = 900.0
+offset_bottom = 648.0
+script = ExtResource("1_xqpen")
+
+[node name="TitleScreen" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_left = -252.0
+offset_right = 900.0
+offset_bottom = 648.0
+script = ExtResource("2_cro8k")
+
+[node name="Title" type="Label" parent="TitleScreen"]
+layout_mode = 0
+offset_left = 360.0
+offset_top = 24.0
+offset_right = 792.0
+offset_bottom = 120.0
+theme_override_font_sizes/font_size = 64
+text = "A test of sorts"
+horizontal_alignment = 1
+
+[node name="StartButton" type="Button" parent="TitleScreen"]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 152.0
+offset_right = 960.0
+offset_bottom = 496.0
+theme_override_font_sizes/font_size = 128
+text = "Start"
+
+[node name="TemplateQuestion" type="Control" parent="."]
+anchors_preset = 0
+script = ExtResource("3_bgcr8")
+
+[node name="QuestionTitle" type="Label" parent="TemplateQuestion"]
+layout_mode = 0
+offset_left = -252.0
+offset_right = 900.0
+offset_bottom = 168.0
+theme_override_font_sizes/font_size = 48
+text = "Question Title"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="AnswerButtons" type="BoxContainer" parent="TemplateQuestion"]
+layout_mode = 0
+offset_left = 68.0
+offset_top = 256.0
+offset_right = 580.0
+offset_bottom = 552.0
+alignment = 1
+vertical = true
+
+[node name="AnswerButtonsTop" type="BoxContainer" parent="TemplateQuestion/AnswerButtons"]
+layout_mode = 2
+alignment = 1
+
+[node name="Answer1" type="Button" parent="TemplateQuestion/AnswerButtons/AnswerButtonsTop"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Answer1"
+
+[node name="Answer2" type="Button" parent="TemplateQuestion/AnswerButtons/AnswerButtonsTop"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Answer2"
+
+[node name="AnswerButtonsBottom" type="BoxContainer" parent="TemplateQuestion/AnswerButtons"]
+layout_mode = 2
+alignment = 1
+
+[node name="Answer3" type="Button" parent="TemplateQuestion/AnswerButtons/AnswerButtonsBottom"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Answer3"
+
+[node name="Answer4" type="Button" parent="TemplateQuestion/AnswerButtons/AnswerButtonsBottom"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Answer4"
+
+[connection signal="pressed" from="TitleScreen/StartButton" to="TitleScreen" method="start"]

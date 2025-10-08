@@ -1,0 +1,50 @@
+[gd_scene load_steps=4 format=3 uid="uid://cbqrmv4ypre6o"]
+
+[ext_resource type="PackedScene" uid="uid://d4mmehk8jrrto" path="res://scenes/templates/exit_button.tscn" id="1_m7sgr"]
+[ext_resource type="Texture2D" uid="uid://qqh808r7net2" path="res://scripts/Pig/pngtree-pig-clipart-cute-fat-pig-cartoon-vector-animal-material-png-image_2368706.jpg" id="1_uhekp"]
+[ext_resource type="Script" uid="uid://cwpxomp5dbvbt" path="res://scripts/Pig/pig.gd" id="3_de8h7"]
+
+[node name="Pig" type="Node2D"]
+
+[node name="ExitButton" parent="." instance=ExtResource("1_m7sgr")]
+
+[node name="Pig" type="Sprite2D" parent="."]
+position = Vector2(576, 256)
+texture = ExtResource("1_uhekp")
+script = ExtResource("3_de8h7")
+
+[node name="ClickDetector" type="Button" parent="Pig"]
+offset_left = -180.0
+offset_top = -180.0
+offset_right = 180.0
+offset_bottom = 180.0
+
+[node name="Title" type="Label" parent="."]
+offset_left = 312.0
+offset_right = 840.0
+offset_bottom = 67.0
+theme_override_font_sizes/font_size = 48
+text = "Click the Pig"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Chick" type="Button" parent="."]
+offset_left = 320.0
+offset_top = 464.0
+offset_right = 512.0
+offset_bottom = 552.0
+theme_override_font_sizes/font_size = 48
+text = "Chick"
+
+[node name="Cow" type="Button" parent="."]
+offset_left = 640.0
+offset_top = 464.0
+offset_right = 832.0
+offset_bottom = 552.0
+theme_override_font_sizes/font_size = 48
+text = "Cow"
+
+[connection signal="pressed" from="Pig/ClickDetector" to="Pig" method="pig_clicked"]
+[connection signal="pressed" from="Chick" to="Pig" method="chick_clicked"]
+[connection signal="pressed" from="Cow" to="Pig" method="cow_clicked"]
