@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://u1p0vojt75ux"]
+[gd_scene load_steps=5 format=3 uid="uid://u1p0vojt75ux"]
 
 [ext_resource type="Script" uid="uid://b667aitbi2w2m" path="res://scripts/Test/test.gd" id="1_xqpen"]
+[ext_resource type="PackedScene" uid="uid://d4mmehk8jrrto" path="res://scenes/templates/exit_button.tscn" id="2_7w81a"]
 [ext_resource type="Script" uid="uid://rl5iu6bhvxjb" path="res://scripts/Test/title_screen.gd" id="2_cro8k"]
-[ext_resource type="Script" uid="uid://dttyd4hp4q4lw" path="res://scripts/Test/template_question_script.gd" id="3_bgcr8"]
+[ext_resource type="Script" uid="uid://dttyd4hp4q4lw" path="res://scripts/Test/question.gd" id="3_bgcr8"]
 
 [node name="Test" type="Control"]
 layout_mode = 3
@@ -12,8 +13,12 @@ offset_right = 900.0
 offset_bottom = 648.0
 script = ExtResource("1_xqpen")
 
+[node name="ExitButton" parent="." instance=ExtResource("2_7w81a")]
+layout_mode = 0
+offset_left = -252.0
+offset_right = -148.0
+
 [node name="TitleScreen" type="Control" parent="."]
-visible = false
 anchors_preset = 0
 offset_left = -252.0
 offset_right = 900.0
@@ -40,6 +45,7 @@ theme_override_font_sizes/font_size = 128
 text = "Start"
 
 [node name="TemplateQuestion" type="Control" parent="."]
+visible = false
 anchors_preset = 0
 script = ExtResource("3_bgcr8")
 
@@ -91,4 +97,5 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Answer4"
 
+[connection signal="start_test" from="TitleScreen" to="TemplateQuestion" method="start"]
 [connection signal="pressed" from="TitleScreen/StartButton" to="TitleScreen" method="start"]

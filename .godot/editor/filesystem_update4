@@ -1,8 +1,4 @@
 res://scenes/projects/test.tscn
-res://scripts/Test/test.gd
-res://scenes/main_menu.tscn
-res://scripts/MainMenu/main_menu.gd
-res://scenes/projects/pig.tscn
-res://scenes/projects/pig.gd
 res://scripts/Test/template_question_script.gd
-res://scripts/Globals/utilities.gd
+res://scripts/Test/test.gd
+res://scripts/Test/question.gd
