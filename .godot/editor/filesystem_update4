@@ -1,4 +1,3 @@
 res://scenes/projects/test.tscn
-res://scripts/Test/template_question_script.gd
-res://scripts/Test/test.gd
 res://scripts/Test/question.gd
+res://scripts/Test/score_monitoring.gd

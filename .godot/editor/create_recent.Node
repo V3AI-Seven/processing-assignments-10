@@ -1,6 +1,8 @@
+AudioStreamPlayer2D
+Label
+AnimationPlayer
 Button
 BoxContainer
 Control
-Label
 AspectRatioContainer
 MarginContainer

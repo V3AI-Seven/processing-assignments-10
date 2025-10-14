@@ -23,6 +23,13 @@ Utilities="*res://scripts/Globals/utilities.gd"
 
 project/assembly_name="CompSci 10 Processing"
 
+[file_customization]
+
+folder_colors={
+"res://scenes/": "orange",
+"res://scripts/": "blue"
+}
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
