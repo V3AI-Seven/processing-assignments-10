@@ -1,8 +1,8 @@
+Button
+Label
 Control
 AudioStreamPlayer2D
-Label
 AnimationPlayer
-Button
 BoxContainer
 AspectRatioContainer
 MarginContainer

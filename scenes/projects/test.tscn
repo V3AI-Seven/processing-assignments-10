@@ -1,12 +1,13 @@
-[gd_scene load_steps=12 format=3 uid="uid://u1p0vojt75ux"]
+[gd_scene load_steps=13 format=3 uid="uid://u1p0vojt75ux"]
 
 [ext_resource type="Script" uid="uid://b667aitbi2w2m" path="res://scripts/Test/test.gd" id="1_xqpen"]
 [ext_resource type="PackedScene" uid="uid://d4mmehk8jrrto" path="res://scenes/templates/exit_button.tscn" id="2_7w81a"]
 [ext_resource type="Script" uid="uid://rl5iu6bhvxjb" path="res://scripts/Test/title_screen.gd" id="2_cro8k"]
 [ext_resource type="Script" uid="uid://dttyd4hp4q4lw" path="res://scripts/Test/question.gd" id="3_bgcr8"]
 [ext_resource type="Script" uid="uid://bxpalvhos0lti" path="res://scripts/Test/score_monitoring.gd" id="5_t76ik"]
-[ext_resource type="AudioStream" uid="uid://buxt1m7wv2ceo" path="res://scripts/Test/Sounds/echec-370391.mp3" id="6_pb7v1"]
+[ext_resource type="AudioStream" uid="uid://w81opueue3m0" path="res://scripts/Test/Sounds/wrong-47985.mp3" id="6_0ltnd"]
 [ext_resource type="AudioStream" uid="uid://nmxtfe66vj2f" path="res://scripts/Test/Sounds/success-340660.mp3" id="7_0ltnd"]
+[ext_resource type="Script" uid="uid://cu753simncxae" path="res://scripts/Test/finish_screen.gd" id="8_0ltnd"]
 
 [sub_resource type="Animation" id="Animation_t76ik"]
 resource_name = "FadeInCorrect"
@@ -118,8 +119,8 @@ script = ExtResource("3_bgcr8")
 
 [node name="QuestionTitle" type="Label" parent="TemplateQuestion"]
 layout_mode = 0
-offset_left = -252.0
-offset_right = 900.0
+offset_left = -140.0
+offset_right = 788.0
 offset_bottom = 168.0
 theme_override_font_sizes/font_size = 48
 text = "Question Title"
@@ -205,21 +206,55 @@ script = ExtResource("5_t76ik")
 
 [node name="Failure" type="AudioStreamPlayer2D" parent="TemplateQuestion"]
 position = Vector2(324, 256)
-stream = ExtResource("6_pb7v1")
+stream = ExtResource("6_0ltnd")
 
 [node name="Success" type="AudioStreamPlayer2D" parent="TemplateQuestion"]
 position = Vector2(324, 256)
 stream = ExtResource("7_0ltnd")
 
 [node name="FinishScreen" type="Control" parent="."]
+visible = false
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = -252.0
+offset_right = 900.0
+offset_bottom = 648.0
+script = ExtResource("8_0ltnd")
+
+[node name="WinText" type="Label" parent="FinishScreen"]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 144.0
+offset_right = 1040.0
+offset_bottom = 240.0
+theme_override_font_sizes/font_size = 48
+text = "Test Complete!"
+horizontal_alignment = 1
+
+[node name="Score" type="Label" parent="FinishScreen"]
+layout_mode = 0
+offset_left = 328.0
+offset_top = 200.0
+offset_right = 840.0
+offset_bottom = 245.0
+theme_override_font_sizes/font_size = 32
+text = "Score: -1"
+horizontal_alignment = 1
+
+[node name="PlayAgain" type="Button" parent="FinishScreen"]
+layout_mode = 0
+offset_left = 352.0
+offset_top = 256.0
+offset_right = 800.0
+offset_bottom = 448.0
+theme_override_font_sizes/font_size = 48
+text = "Play Again"
 
 [connection signal="start_test" from="TitleScreen" to="TemplateQuestion" method="start"]
 [connection signal="pressed" from="TitleScreen/StartButton" to="TitleScreen" method="start"]
+[connection signal="quiz_finish" from="TemplateQuestion" to="FinishScreen" method="show_finsh"]
 [connection signal="score_change" from="TemplateQuestion" to="TemplateQuestion/Score" method="update_score"]
 [connection signal="pressed" from="TemplateQuestion/AnswerButtons/AnswerButtonsTop/Answer1" to="TemplateQuestion" method="answer_1"]
 [connection signal="pressed" from="TemplateQuestion/AnswerButtons/AnswerButtonsTop/Answer2" to="TemplateQuestion" method="answer_2"]
 [connection signal="pressed" from="TemplateQuestion/AnswerButtons/AnswerButtonsBottom/Answer3" to="TemplateQuestion" method="answer_3"]
 [connection signal="button_up" from="TemplateQuestion/AnswerButtons/AnswerButtonsBottom/Answer4" to="TemplateQuestion" method="answer_4"]
+[connection signal="pressed" from="FinishScreen/PlayAgain" to="FinishScreen" method="play_again"]

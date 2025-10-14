@@ -1,6 +1,7 @@
 extends Control
 
 signal score_change(new_score: int)
+signal quiz_finish(score:int)
 
 var current_question = 0
 var current_correct_button = -1
@@ -53,9 +54,12 @@ func next_question() -> void:
 		2:
 			generate_question("Yes, no, maybe, so",["Yes","No","Maybe","So"], 4) #Annoying question
 		3:
-			generate_question("What is the answer to Life, The Universe, and Everything?", ["No", "42", "24", "Probably"],2) #Question about a great book
+			generate_question("What is the answer to Life, The Universe, and Everything?", ["No", "42", "24", "Everything"],2) #Question about a great book
 		4:
-			generate_question("")
+			generate_question("What was this game made with?",["Unity","Godot","Python","Unreal"],2)
+		5:
+			visible = false
+			quiz_finish.emit(score)
 
 func question_correct() -> void:
 	score += 1
