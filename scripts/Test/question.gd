@@ -51,7 +51,11 @@ func next_question() -> void:
 	
 	match current_question:
 		2:
-			generate_question("Yes, no, maybe, so",["Yes","So","Maybe","No"], 2)
+			generate_question("Yes, no, maybe, so",["Yes","No","Maybe","So"], 4) #Annoying question
+		3:
+			generate_question("What is the answer to Life, The Universe, and Everything?", ["No", "42", "24", "Probably"],2) #Question about a great book
+		4:
+			generate_question("")
 
 func question_correct() -> void:
 	score += 1
@@ -64,6 +68,8 @@ func question_correct() -> void:
 	$Success.play()
 
 func question_incorrect() -> void:
+	print("Question Incorrect!")
+
 	buttons.visible = false
 	visible = false
 	$Failure.play()

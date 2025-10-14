@@ -211,6 +211,11 @@ stream = ExtResource("6_pb7v1")
 position = Vector2(324, 256)
 stream = ExtResource("7_0ltnd")
 
+[node name="FinishScreen" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
 [connection signal="start_test" from="TitleScreen" to="TemplateQuestion" method="start"]
 [connection signal="pressed" from="TitleScreen/StartButton" to="TitleScreen" method="start"]
 [connection signal="score_change" from="TemplateQuestion" to="TemplateQuestion/Score" method="update_score"]
