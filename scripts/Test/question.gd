@@ -8,7 +8,8 @@ var current_correct_button = -1
 var score = 0
 var buttons
 
-func _ready() -> void:
+func _ready() -> void: #Auto run on start of scene
+	visible = false
 	buttons = $AnswerButtons
 
 func generate_question(title:String, answers:Array, correct_answer:int) -> void:
@@ -52,12 +53,19 @@ func next_question() -> void:
 	
 	match current_question:
 		2:
-			generate_question("Yes, no, maybe, so",["Yes","No","Maybe","So"], 4) #Annoying question
+			generate_question("Yes, no, maybe, so?",["Yes","No","Maybe","So"], 4) #Annoying question
 		3:
 			generate_question("What is the answer to Life, The Universe, and Everything?", ["No", "42", "24", "Everything"],2) #Question about a great book
 		4:
 			generate_question("What was this game made with?",["Unity","Godot","Python","Unreal"],2)
 		5:
+			generate_question("Something has changed about the sun. How long is the delay for us to know?",["Instantly", "25 seconds","8 minutes", "4 hours"],3)
+		6:
+			generate_question("Including the 3 at the start, what is the 27th number of Pi? Excluding rounding.",["8","3","7","4"],1)
+		7:
+			generate_question("What is the name of the standard English keyboard layout?",["Homerow","FGHJ","QWERTY","Linear"],3)
+			
+		8:
 			visible = false
 			quiz_finish.emit(score)
 
@@ -81,7 +89,7 @@ func question_incorrect() -> void:
 
 #Yes this is quite redundant, and could be replaced with more functions, but it was fast and it is easy to runderstand from a readerr's perspectives
 #All of these are connected with signals(a way of linking events). if you open in the Godot editor, you can see the connections
-func answer_1() -> void:
+func answer_1() -> void:#connected via signal
 	if current_correct_button == 1:
 		#$AnimationPlayer.play("FadeInCorrect")
 		question_correct()
@@ -91,7 +99,7 @@ func answer_1() -> void:
 		question_incorrect()
 		next_question()
 		
-func answer_2() -> void:
+func answer_2() -> void:#connected via signal
 	if current_correct_button == 2:
 		#$AnimationPlayer.play("FadeInCorrect")
 		question_correct()
@@ -101,7 +109,7 @@ func answer_2() -> void:
 		question_incorrect()
 		next_question()
 		
-func answer_3() -> void:
+func answer_3() -> void:#connected via signal
 	if current_correct_button == 3:
 		#$AnimationPlayer.play("FadeInCorrect")
 		question_correct()
@@ -111,7 +119,7 @@ func answer_3() -> void:
 		question_incorrect()
 		next_question()
 			
-func answer_4() -> void:
+func answer_4() -> void:#connected via signal
 	if current_correct_button == 4:
 		#$AnimationPlayer.play("FadeInCorrect")
 		question_correct()

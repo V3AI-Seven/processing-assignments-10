@@ -1,4 +1,5 @@
-res://scripts/Test/question.gd
 res://scenes/projects/test.tscn
-res://scripts/Test/finish_screen.gd
+res://scripts/Test/question.gd
 res://scripts/Test/score_monitoring.gd
+res://scripts/Test/title_screen.gd
+res://README.md
