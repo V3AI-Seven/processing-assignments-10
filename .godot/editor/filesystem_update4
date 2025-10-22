@@ -1,4 +1,9 @@
-res://scripts/Test/question.gd
 res://scenes/projects/test.tscn
-res://scripts/Test/finish_screen.gd
-res://scripts/Test/score_monitoring.gd
+res://scenes/main_menu.tscn
+res://scripts/MainMenu/main_menu.gd
+res://scenes/projects/asteroid_shooter.tscn
+res://scripts/Test/question.gd
+res://scripts/MoveableCharacter/player.gd
+res://scripts/Pig/pig.gd
+res://scripts/AsteroidShooter/player.gd
+res://scenes/projects/bullet.gd
