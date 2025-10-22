@@ -28,7 +28,7 @@ offset_right = 832.0
 offset_bottom = 448.0
 theme_override_font_sizes/font_size = 32
 allow_reselect = true
-item_count = 4
+item_count = 5
 popup/item_0/text = "Clicker Game"
 popup/item_0/id = 0
 popup/item_1/text = "Moveable Character"
@@ -37,6 +37,8 @@ popup/item_2/text = "Test/Quiz"
 popup/item_2/id = 2
 popup/item_3/text = "Pig Thing"
 popup/item_3/id = 3
+popup/item_4/text = "Asteroid Shooter"
+popup/item_4/id = 4
 
 [node name="SelectInfo" type="Label" parent="."]
 layout_mode = 0

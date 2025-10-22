@@ -15,3 +15,5 @@ func switch_to_project() -> void:
 			get_tree().change_scene_to_file("res://scenes/projects/test.tscn")
 		3: #Pig clicker?
 			get_tree().change_scene_to_file("res://scenes/projects/pig.tscn")
+		4: # Asteroid Shooter game
+			get_tree().change_scene_to_file("res://scenes/projects/asteroid_shooter.tscn")

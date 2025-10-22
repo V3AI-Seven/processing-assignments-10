@@ -39,11 +39,11 @@ func generate_question(title:String, answers:Array, correct_answer:int) -> void:
 	
 	buttons.visible = true
 	visible = true
-	print("Questions Visible")
+	print("[Quiz] Questions Visible")
 
 
 func start() -> void:
-	print("Starting quiz")
+	print("[Quiz] Starting quiz")
 	current_question = 1
 	generate_question("2+2?", ["22","2","fish","4"], 3) #Simple math question
 
@@ -71,8 +71,8 @@ func next_question() -> void:
 
 func question_correct() -> void:
 	score += 1
-	print("Question Correct!")
-	print("New score: "+str(score))
+	print("[Quiz] Question Correct!")
+	print("[Quiz] New score: "+str(score))
 	
 	score_change.emit(score)
 	buttons.visible = false
@@ -80,7 +80,7 @@ func question_correct() -> void:
 	$Success.play()
 
 func question_incorrect() -> void:
-	print("Question Incorrect!")
+	print("[Quiz] Question Incorrect!")
 
 	buttons.visible = false
 	visible = false

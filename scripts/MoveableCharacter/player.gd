@@ -13,7 +13,6 @@ func _input(event: InputEvent) -> void:
 		var target_velocity = Vector2.ZERO
 		if move_enabled:
 			if event.keycode == KEY_W:
-				print("Moving up")
 				target_velocity.y += -speed
 			if event.keycode == KEY_S:
 				target_velocity.y += speed

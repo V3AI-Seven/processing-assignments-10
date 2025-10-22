@@ -1,0 +1,86 @@
+[gd_scene load_steps=9 format=3 uid="uid://b14glku3kr23n"]
+
+[ext_resource type="PackedScene" uid="uid://d4mmehk8jrrto" path="res://scenes/templates/exit_button.tscn" id="1_ybcku"]
+[ext_resource type="Script" uid="uid://b4y6yumhp0y13" path="res://scripts/AsteroidShooter/player.gd" id="2_afidj"]
+[ext_resource type="Script" uid="uid://dvfoble2cq0q7" path="res://scenes/projects/bullet.gd" id="2_asjkd"]
+[ext_resource type="Texture2D" uid="uid://c6ra6w73t0bf7" path="res://scripts/AsteroidShooter/Media/White_triangle.svg.png" id="2_x37lq"]
+[ext_resource type="Texture2D" uid="uid://crb1vgkqapdjf" path="res://scripts/AsteroidShooter/Media/blue.png" id="4_afidj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x37lq"]
+size = Vector2(20, 664)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_afidj"]
+size = Vector2(20, 1168)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_asjkd"]
+size = Vector2(18, 56)
+
+[node name="AsteroidShooter" type="Node2D"]
+
+[node name="ExitButton" parent="." instance=ExtResource("1_ybcku")]
+
+[node name="OuterWalls" type="Node2D" parent="."]
+
+[node name="NegativeX" type="StaticBody2D" parent="OuterWalls"]
+position = Vector2(-8, 320)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OuterWalls/NegativeX"]
+shape = SubResource("RectangleShape2D_x37lq")
+
+[node name="PositiveX" type="StaticBody2D" parent="OuterWalls"]
+position = Vector2(1160, 320)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OuterWalls/PositiveX"]
+shape = SubResource("RectangleShape2D_x37lq")
+
+[node name="NegativeY" type="StaticBody2D" parent="OuterWalls"]
+position = Vector2(576, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OuterWalls/NegativeY"]
+rotation = 1.5707964
+shape = SubResource("RectangleShape2D_afidj")
+
+[node name="PositiveY" type="StaticBody2D" parent="OuterWalls"]
+position = Vector2(576, 656)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OuterWalls/PositiveY"]
+rotation = 1.5707964
+shape = SubResource("RectangleShape2D_afidj")
+
+[node name="Bullet" type="CharacterBody2D" parent="."]
+visible = false
+position = Vector2(576, 320)
+script = ExtResource("2_asjkd")
+
+[node name="Visual" type="Sprite2D" parent="Bullet"]
+position = Vector2(-2.2888184e-05, 8.702278e-06)
+scale = Vector2(0.05, 0.213)
+texture = ExtResource("4_afidj")
+
+[node name="CollisionArea" type="Area2D" parent="Bullet"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bullet/CollisionArea"]
+shape = SubResource("RectangleShape2D_asjkd")
+
+[node name="Score" type="Label" parent="."]
+offset_left = -16.0
+offset_top = 16.0
+offset_right = 1168.0
+offset_bottom = 83.0
+theme_override_font_sizes/font_size = 48
+text = "Score: 0"
+horizontal_alignment = 1
+
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(576, 320)
+script = ExtResource("2_afidj")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Player"]
+position = Vector2(0, 16)
+rotation = -3.1415927
+scale = Vector2(1, 5.8125)
+polygon = PackedVector2Array(0, 8, 32, -2.7526875, -32, -2.7526894)
+
+[node name="WhiteTriangle_svg" type="Sprite2D" parent="Player"]
+scale = Vector2(0.03125, 0.03125)
+texture = ExtResource("2_x37lq")
