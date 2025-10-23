@@ -1,8 +1,9 @@
+Timer
+Sprite2D
+CollisionShape2D
 CharacterBody2D
 Label      - Matches the "text" keyword.
-CollisionShape2D
 Area2D
-Sprite2D
 Node2D
 StaticBody2D
 CollisionPolygon2D
@@ -11,4 +12,3 @@ Label
 Control
 AudioStreamPlayer2D
 AnimationPlayer
-BoxContainer

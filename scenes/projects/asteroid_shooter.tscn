@@ -1,10 +1,17 @@
-[gd_scene load_steps=9 format=3 uid="uid://b14glku3kr23n"]
+[gd_scene load_steps=14 format=3 uid="uid://b14glku3kr23n"]
 
 [ext_resource type="PackedScene" uid="uid://d4mmehk8jrrto" path="res://scenes/templates/exit_button.tscn" id="1_ybcku"]
 [ext_resource type="Script" uid="uid://b4y6yumhp0y13" path="res://scripts/AsteroidShooter/player.gd" id="2_afidj"]
-[ext_resource type="Script" uid="uid://dvfoble2cq0q7" path="res://scenes/projects/bullet.gd" id="2_asjkd"]
+[ext_resource type="Script" uid="uid://dvfoble2cq0q7" path="res://scripts/AsteroidShooter/bullet.gd" id="2_asjkd"]
 [ext_resource type="Texture2D" uid="uid://c6ra6w73t0bf7" path="res://scripts/AsteroidShooter/Media/White_triangle.svg.png" id="2_x37lq"]
+[ext_resource type="Script" uid="uid://bqutef4p3ttk3" path="res://scenes/projects/score_label.gd" id="4_8dmoq"]
 [ext_resource type="Texture2D" uid="uid://crb1vgkqapdjf" path="res://scripts/AsteroidShooter/Media/blue.png" id="4_afidj"]
+[ext_resource type="Script" uid="uid://x5swyj3bqhgi" path="res://scenes/projects/boulder.gd" id="7_llpqh"]
+[ext_resource type="Texture2D" uid="uid://53unuext77eo" path="res://scripts/AsteroidShooter/Media/WhiteCircle.png" id="8_t13xm"]
+
+[sub_resource type="GDScript" id="GDScript_asjkd"]
+script/source = "extends Node2D
+"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x37lq"]
 size = Vector2(20, 664)
@@ -15,42 +22,46 @@ size = Vector2(20, 1168)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_asjkd"]
 size = Vector2(18, 56)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_cuk1y"]
+radius = 64.0
+
 [node name="AsteroidShooter" type="Node2D"]
+script = SubResource("GDScript_asjkd")
 
 [node name="ExitButton" parent="." instance=ExtResource("1_ybcku")]
 
 [node name="OuterWalls" type="Node2D" parent="."]
 
-[node name="NegativeX" type="StaticBody2D" parent="OuterWalls"]
+[node name="NegativeY" type="StaticBody2D" parent="OuterWalls"]
 position = Vector2(-8, 320)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="OuterWalls/NegativeX"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OuterWalls/NegativeY"]
 shape = SubResource("RectangleShape2D_x37lq")
 
-[node name="PositiveX" type="StaticBody2D" parent="OuterWalls"]
+[node name="PositiveY" type="StaticBody2D" parent="OuterWalls"]
 position = Vector2(1160, 320)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="OuterWalls/PositiveX"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OuterWalls/PositiveY"]
 shape = SubResource("RectangleShape2D_x37lq")
 
-[node name="NegativeY" type="StaticBody2D" parent="OuterWalls"]
+[node name="NegativeX" type="StaticBody2D" parent="OuterWalls"]
 position = Vector2(576, -8)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="OuterWalls/NegativeY"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OuterWalls/NegativeX"]
 rotation = 1.5707964
 shape = SubResource("RectangleShape2D_afidj")
 
-[node name="PositiveY" type="StaticBody2D" parent="OuterWalls"]
+[node name="PositiveX" type="StaticBody2D" parent="OuterWalls"]
 position = Vector2(576, 656)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="OuterWalls/PositiveY"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OuterWalls/PositiveX"]
 rotation = 1.5707964
 shape = SubResource("RectangleShape2D_afidj")
 
 [node name="Bullet" type="CharacterBody2D" parent="."]
-visible = false
 position = Vector2(576, 320)
 script = ExtResource("2_asjkd")
+metadata/is_shot = false
 
 [node name="Visual" type="Sprite2D" parent="Bullet"]
 position = Vector2(-2.2888184e-05, 8.702278e-06)
@@ -70,9 +81,11 @@ offset_bottom = 83.0
 theme_override_font_sizes/font_size = 48
 text = "Score: 0"
 horizontal_alignment = 1
+script = ExtResource("4_8dmoq")
 
 [node name="Player" type="CharacterBody2D" parent="."]
 position = Vector2(576, 320)
+motion_mode = 1
 script = ExtResource("2_afidj")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Player"]
@@ -84,3 +97,28 @@ polygon = PackedVector2Array(0, 8, 32, -2.7526875, -32, -2.7526894)
 [node name="WhiteTriangle_svg" type="Sprite2D" parent="Player"]
 scale = Vector2(0.03125, 0.03125)
 texture = ExtResource("2_x37lq")
+
+[node name="FireCooldown" type="Timer" parent="Player"]
+process_callback = 0
+wait_time = 0.1
+one_shot = true
+
+[node name="Boulder" type="CharacterBody2D" parent="."]
+position = Vector2(576, -88)
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("7_llpqh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boulder"]
+shape = SubResource("CircleShape2D_cuk1y")
+
+[node name="WhiteCircle" type="Sprite2D" parent="Boulder"]
+position = Vector2(7.6293945e-06, -1.9073486e-06)
+scale = Vector2(0.095333345, 0.095333345)
+texture = ExtResource("8_t13xm")
+
+[node name="SpawnTimer" type="Timer" parent="Boulder"]
+
+[connection signal="point_scored" from="Bullet" to="Score" method="score_updated"]
+[connection signal="fire_shot" from="Player" to="Bullet" method="fire_shot"]
+[connection signal="position_updated" from="Player" to="Bullet" method="recieve_position"]
