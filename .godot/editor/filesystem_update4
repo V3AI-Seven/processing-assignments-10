@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 res://scenes/projects/asteroid_shooter.tscn
 res://scenes/projects/bullet.gd
 res://scripts/AsteroidShooter/bullet.gd
@@ -5,3 +6,14 @@ res://scripts/AsteroidShooter/player.gd
 res://scripts/AsteroidShooter/asteroid_shooter.gd
 res://scenes/projects/score_label.gd
 res://scenes/projects/boulder.gd
+=======
+res://scenes/projects/test.tscn
+res://scenes/main_menu.tscn
+res://scripts/MainMenu/main_menu.gd
+res://scenes/projects/asteroid_shooter.tscn
+res://scripts/Test/question.gd
+res://scripts/MoveableCharacter/player.gd
+res://scripts/Pig/pig.gd
+res://scripts/AsteroidShooter/player.gd
+res://scenes/projects/bullet.gd
+>>>>>>> Stashed changes
