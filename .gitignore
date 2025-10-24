@@ -1,3 +1,8 @@
+<<<<<<< Updated upstream
 /.godot/editor
 /.godot/shader_cache
 .godot/uid_cache.bin
+=======
+
+.godot/editor/
+>>>>>>> Stashed changes

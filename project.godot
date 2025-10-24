@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 Utilities="*res://scripts/Globals/utilities.gd"
 
+[display]
+
+window/stretch/mode="canvas_items"
+
 [dotnet]
 
 project/assembly_name="CompSci 10 Processing"
