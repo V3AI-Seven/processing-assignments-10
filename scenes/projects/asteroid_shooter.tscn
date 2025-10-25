@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://b14glku3kr23n"]
+[gd_scene load_steps=23 format=3 uid="uid://b14glku3kr23n"]
 
 [ext_resource type="PackedScene" uid="uid://d4mmehk8jrrto" path="res://scenes/templates/exit_button.tscn" id="1_ybcku"]
 [ext_resource type="Script" uid="uid://b4y6yumhp0y13" path="res://scripts/AsteroidShooter/player.gd" id="2_afidj"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://53unuext77eo" path="res://scripts/AsteroidShooter/Media/WhiteCircle.png" id="8_t13xm"]
 [ext_resource type="Script" uid="uid://cp17i6kmdevls" path="res://scripts/AsteroidShooter/animation_player.gd" id="9_b57t4"]
 [ext_resource type="Script" uid="uid://ws2sihpcdop6" path="res://scripts/AsteroidShooter/restart_button.gd" id="12_xpkfe"]
+[ext_resource type="Script" uid="uid://cnj82moni6pyf" path="res://scripts/AsteroidShooter/kill_zone.gd" id="13_q531c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x37lq"]
 size = Vector2(20, 664)
@@ -23,7 +24,7 @@ size = Vector2(20, 1168)
 size = Vector2(18, 56)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cuk1y"]
-radius = 64.0
+radius = 56.0
 
 [sub_resource type="Gradient" id="Gradient_b57t4"]
 offsets = PackedFloat32Array(0.5594059, 0.9786096)
@@ -58,9 +59,22 @@ tracks/1/keys = {
 "update": 1,
 "values": [48]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Score:text")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Score: 0"]
+}
 
 [sub_resource type="Animation" id="Animation_t13xm"]
 resource_name = "ScoreToCentre"
+length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -68,10 +82,10 @@ tracks/0/path = NodePath("Score:position")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0, 2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(-16, 16), Vector2(-16, 232)]
+"values": [Vector2(-16, 16), Vector2(-16, 128)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -80,10 +94,23 @@ tracks/1/path = NodePath("Score:theme_override_font_sizes/font_size")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0, 2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [48, 128]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Score:text")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": ["Score: 0", "Game Over
+Score: 0"]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_b57t4"]
@@ -171,7 +198,7 @@ wait_time = 0.3
 one_shot = true
 
 [node name="Boulder" type="CharacterBody2D" parent="."]
-position = Vector2(576, -88)
+position = Vector2(576, -96)
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("7_llpqh")
@@ -201,7 +228,7 @@ script = ExtResource("7_cuk1y")
 offset_left = -16.0
 offset_top = 16.0
 offset_right = 1168.0
-offset_bottom = 191.0
+offset_bottom = 369.0
 theme_override_font_sizes/font_size = 48
 text = "Score: 0"
 horizontal_alignment = 1
@@ -232,16 +259,28 @@ offset_bottom = 104.0
 text = "Restart"
 script = ExtResource("12_xpkfe")
 
+[node name="KillZone" type="Area2D" parent="."]
+position = Vector2(-64, -64)
+script = ExtResource("13_q531c")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="KillZone"]
+position = Vector2(-100.88051, -80.07288)
+scale = Vector2(1.1949685, 1.3606771)
+polygon = PackedVector2Array(1256, -40, -16, -40, -16, 728, 0, 712, 0, -24, 1240, -24, 1240, 712, 0, 712, -16, 728, 1256, 728)
+
 [connection signal="point_scored" from="Bullet" to="Score" method="score_updated"]
 [connection signal="body_entered" from="Bullet/CollisionArea" to="Bullet" method="score_point"]
 [connection signal="blur_on" from="Player" to="Blur" method="blur_on"]
 [connection signal="fire_shot" from="Player" to="Bullet" method="fire_shot"]
+[connection signal="game_end" from="Player" to="Bullet" method="game_end"]
 [connection signal="game_end" from="Player" to="Boulder" method="game_end"]
 [connection signal="game_end" from="Player" to="AnimationPlayer" method="game_end"]
 [connection signal="game_end" from="Player" to="RestartButton" method="enable_visibility"]
 [connection signal="position_updated" from="Player" to="Bullet" method="recieve_position"]
 [connection signal="hit_player" from="Boulder" to="Player" method="hit_boulder"]
 [connection signal="timeout" from="Boulder/SpawnTimer" to="Boulder" method="new_boulder"]
+[connection signal="score_to_player" from="Score" to="Player" method="update_current_score"]
 [connection signal="blur_off" from="StartButton" to="Blur" method="blur_off"]
 [connection signal="pressed" from="StartButton" to="Player" method="start_game"]
 [connection signal="pressed" from="StartButton" to="Boulder" method="start_game"]
+[connection signal="body_entered" from="KillZone" to="KillZone" method="object_entered"]

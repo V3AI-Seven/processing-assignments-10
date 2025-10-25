@@ -30,7 +30,7 @@ func _ready() -> void: #runs when the boulder is added to the game(on start or a
 				
 			2: #positive x
 				spawnX = randi_range(64,1088)
-				spawnY = 96
+				spawnY = -64
 				
 				spawnRot = randf_range(-120,-240)
 				
@@ -78,7 +78,7 @@ func destroy() -> void: #used to kill the clone
 	if is_clone == true:
 		queue_free() # kills the clone
 
-func game_end() -> void: #connected with signal
+func game_end(_score:int) -> void: #connected with signal
 	velocity = Vector2.ZERO
 	$SpawnTimer.stop()
 	for clone in clones:

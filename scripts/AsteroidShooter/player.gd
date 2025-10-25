@@ -11,18 +11,23 @@ const move_speed = 350 #pixels/s
 
 signal position_updated(outgoing_position:Vector2, outgoing_rotation: float)
 signal fire_shot()
-signal game_end()
+signal game_end(score)
 signal blur_on() #enables a blur to make text on top more visible
 
 var game_running = false
 var can_move = true
+
+var score = 0
+
+func update_current_score(current_score:int) -> void:#linked with signal
+	score = current_score
 
 func start_game() -> void:#linked with signal
 	game_running = true
 
 func hit_boulder(hit_position:Vector2) -> void:#connected with signal
 	can_move = false
-	game_end.emit()
+	game_end.emit(score)
 	blur_on.emit()
 
 func _physics_process(delta: float) -> void:#runs at a fixed rate, and delta is time between ticks(updates)

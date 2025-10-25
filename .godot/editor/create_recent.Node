@@ -1,14 +1,13 @@
+CollisionPolygon2D
+Area2D
+CollisionShape2D
+Node2D
 Button
 TextureRect
 AnimationPlayer
 Timer
 Sprite2D
-CollisionShape2D
 CharacterBody2D
 Label      - Matches the "text" keyword.
-Area2D
 CharacterBody2D
 Label      - Matches the "text" keyword.
-CollisionShape2D
-Area2D
-Sprite2D

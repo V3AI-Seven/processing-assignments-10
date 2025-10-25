@@ -1,6 +1,9 @@
 res://scenes/projects/asteroid_shooter.tscn
+res://scripts/TemplateScenes/ExitButton/exit_button.gd
 res://scripts/AsteroidShooter/boulder.gd
-res://scripts/AsteroidShooter/restart_button.gd
-res://scripts/AsteroidShooter/player.gd
+res://scripts/AsteroidShooter/bullet.gd
+res://scripts/AsteroidShooter/kill_zone.gd
 res://scripts/AsteroidShooter/animation_player.gd
-res://scripts/AsteroidShooter/blur.gd
+res://scripts/AsteroidShooter/player.gd
+res://scripts/AsteroidShooter/score_label.gd
+res://scripts/AsteroidShooter/restart_button.gd

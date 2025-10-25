@@ -21,9 +21,15 @@ func _ready() -> void:# runs when loaded(normally or as clone)
 	if is_shot == true:
 		#print("[Asteroid] Bullet shot!")
 		visible = true
+		set_meta("is_shot",true)
 	else:
 		#print("[Asteroid] Regular bullet")
 		visible = false
+		set_meta("is_shot",false)
+
+func game_end(_score) -> void:
+	if is_shot == true:
+		queue_free()
 
 func fire_shot():#linked with signal
 	#print("[Asteroid] Bullet cloned")
