@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://b14glku3kr23n"]
+[gd_scene load_steps=28 format=3 uid="uid://b14glku3kr23n"]
 
 [ext_resource type="PackedScene" uid="uid://d4mmehk8jrrto" path="res://scenes/templates/exit_button.tscn" id="1_ybcku"]
 [ext_resource type="Script" uid="uid://b4y6yumhp0y13" path="res://scripts/AsteroidShooter/player.gd" id="2_afidj"]
@@ -13,6 +13,10 @@
 [ext_resource type="Script" uid="uid://cp17i6kmdevls" path="res://scripts/AsteroidShooter/animation_player.gd" id="9_b57t4"]
 [ext_resource type="Script" uid="uid://ws2sihpcdop6" path="res://scripts/AsteroidShooter/restart_button.gd" id="12_xpkfe"]
 [ext_resource type="Script" uid="uid://cnj82moni6pyf" path="res://scripts/AsteroidShooter/kill_zone.gd" id="13_q531c"]
+[ext_resource type="Script" uid="uid://c54bxtocu5yic" path="res://scripts/AsteroidShooter/audio_player.gd" id="14_3mn2t"]
+[ext_resource type="AudioStream" uid="uid://b77tecsrmmutm" path="res://scripts/AsteroidShooter/Media/shoot.wav" id="15_xnspx"]
+[ext_resource type="AudioStream" uid="uid://cjrvadqf7d47f" path="res://scripts/AsteroidShooter/Media/boulder_destroy.mp3" id="16_qlkwb"]
+[ext_resource type="AudioStream" uid="uid://cil64ccull7yn" path="res://scripts/AsteroidShooter/Media/game-over-39-199830.mp3" id="17_xnspx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x37lq"]
 size = Vector2(20, 664)
@@ -71,6 +75,30 @@ tracks/2/keys = {
 "update": 1,
 "values": ["Score: 0"]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Score:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Score:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_t13xm"]
 resource_name = "ScoreToCentre"
@@ -82,7 +110,7 @@ tracks/0/path = NodePath("Score:position")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 2),
+"times": PackedFloat32Array(0, 1.6666666),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(-16, 16), Vector2(-16, 128)]
@@ -94,7 +122,7 @@ tracks/1/path = NodePath("Score:theme_override_font_sizes/font_size")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 2),
+"times": PackedFloat32Array(0, 1.6666666),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [48, 128]
@@ -106,16 +134,57 @@ tracks/2/path = NodePath("Score:text")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 2),
+"times": PackedFloat32Array(0, 1.6666666),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": ["Score: 0", "Game Over
 Score: 0"]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Score:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1.6666666),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_q531c"]
+resource_name = "ScoreShake"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Score:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.13333334, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.9896016858807847, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Score:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.13333334, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 1.2), Vector2(1, 1)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_b57t4"]
 _data = {
 &"RESET": SubResource("Animation_cuk1y"),
+&"ScoreShake": SubResource("Animation_q531c"),
 &"ScoreToCentre": SubResource("Animation_t13xm")
 }
 
@@ -229,6 +298,7 @@ offset_left = -16.0
 offset_top = 16.0
 offset_right = 1168.0
 offset_bottom = 369.0
+pivot_offset = Vector2(586, 40)
 theme_override_font_sizes/font_size = 48
 text = "Score: 0"
 horizontal_alignment = 1
@@ -268,14 +338,36 @@ position = Vector2(-100.88051, -80.07288)
 scale = Vector2(1.1949685, 1.3606771)
 polygon = PackedVector2Array(1256, -40, -16, -40, -16, 728, 0, 712, 0, -24, 1240, -24, 1240, 712, 0, 712, -16, 728, 1256, 728)
 
+[node name="AudioPlayers" type="Node2D" parent="."]
+script = ExtResource("14_3mn2t")
+
+[node name="Shoot" type="AudioStreamPlayer2D" parent="AudioPlayers"]
+position = Vector2(576, 320)
+stream = ExtResource("15_xnspx")
+volume_db = -18.069
+attenuation = 0.8122524
+
+[node name="BoulderDestroy" type="AudioStreamPlayer2D" parent="AudioPlayers"]
+position = Vector2(576, 320)
+stream = ExtResource("16_qlkwb")
+volume_db = -0.025
+
+[node name="GameOver" type="AudioStreamPlayer2D" parent="AudioPlayers"]
+position = Vector2(576, 320)
+stream = ExtResource("17_xnspx")
+
 [connection signal="point_scored" from="Bullet" to="Score" method="score_updated"]
+[connection signal="point_scored" from="Bullet" to="AnimationPlayer" method="point_scored"]
+[connection signal="point_scored" from="Bullet" to="AudioPlayers" method="play_boulder_destroy_sound"]
 [connection signal="body_entered" from="Bullet/CollisionArea" to="Bullet" method="score_point"]
 [connection signal="blur_on" from="Player" to="Blur" method="blur_on"]
 [connection signal="fire_shot" from="Player" to="Bullet" method="fire_shot"]
+[connection signal="fire_shot" from="Player" to="AudioPlayers" method="play_shoot_sound"]
 [connection signal="game_end" from="Player" to="Bullet" method="game_end"]
 [connection signal="game_end" from="Player" to="Boulder" method="game_end"]
 [connection signal="game_end" from="Player" to="AnimationPlayer" method="game_end"]
 [connection signal="game_end" from="Player" to="RestartButton" method="enable_visibility"]
+[connection signal="game_end" from="Player" to="AudioPlayers" method="play_game_over"]
 [connection signal="position_updated" from="Player" to="Bullet" method="recieve_position"]
 [connection signal="hit_player" from="Boulder" to="Player" method="hit_boulder"]
 [connection signal="timeout" from="Boulder/SpawnTimer" to="Boulder" method="new_boulder"]
