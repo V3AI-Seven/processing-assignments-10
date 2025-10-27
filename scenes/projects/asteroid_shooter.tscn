@@ -1,5 +1,6 @@
-[gd_scene load_steps=28 format=3 uid="uid://b14glku3kr23n"]
+[gd_scene load_steps=31 format=3 uid="uid://b14glku3kr23n"]
 
+[ext_resource type="Texture2D" uid="uid://blft1kesru5pu" path="res://scripts/AsteroidShooter/Media/background.jpg" id="1_ai8ie"]
 [ext_resource type="PackedScene" uid="uid://d4mmehk8jrrto" path="res://scenes/templates/exit_button.tscn" id="1_ybcku"]
 [ext_resource type="Script" uid="uid://b4y6yumhp0y13" path="res://scripts/AsteroidShooter/player.gd" id="2_afidj"]
 [ext_resource type="Script" uid="uid://dvfoble2cq0q7" path="res://scripts/AsteroidShooter/bullet.gd" id="2_asjkd"]
@@ -7,13 +8,15 @@
 [ext_resource type="Texture2D" uid="uid://c6ra6w73t0bf7" path="res://scripts/AsteroidShooter/Media/White_triangle.svg.png" id="2_x37lq"]
 [ext_resource type="Script" uid="uid://bqutef4p3ttk3" path="res://scripts/AsteroidShooter/score_label.gd" id="4_8dmoq"]
 [ext_resource type="Texture2D" uid="uid://crb1vgkqapdjf" path="res://scripts/AsteroidShooter/Media/blue.png" id="4_afidj"]
+[ext_resource type="Texture2D" uid="uid://c4rp31impfyll" path="res://scripts/AsteroidShooter/Media/spaceship.png" id="6_6vxml"]
 [ext_resource type="Script" uid="uid://eykmsifyt7ym" path="res://scripts/AsteroidShooter/blur.gd" id="7_cuk1y"]
 [ext_resource type="Script" uid="uid://x5swyj3bqhgi" path="res://scripts/AsteroidShooter/boulder.gd" id="7_llpqh"]
+[ext_resource type="Texture2D" uid="uid://wug523udud1m" path="res://scripts/AsteroidShooter/Media/meteor1.png" id="7_qlkwb"]
 [ext_resource type="Texture2D" uid="uid://53unuext77eo" path="res://scripts/AsteroidShooter/Media/WhiteCircle.png" id="8_t13xm"]
 [ext_resource type="Script" uid="uid://cp17i6kmdevls" path="res://scripts/AsteroidShooter/animation_player.gd" id="9_b57t4"]
 [ext_resource type="Script" uid="uid://ws2sihpcdop6" path="res://scripts/AsteroidShooter/restart_button.gd" id="12_xpkfe"]
-[ext_resource type="Script" uid="uid://cnj82moni6pyf" path="res://scripts/AsteroidShooter/kill_zone.gd" id="13_q531c"]
-[ext_resource type="Script" uid="uid://c54bxtocu5yic" path="res://scripts/AsteroidShooter/audio_player.gd" id="14_3mn2t"]
+[ext_resource type="Script" path="res://scripts/AsteroidShooter/kill_zone.gd" id="13_q531c"]
+[ext_resource type="Script" path="res://scripts/AsteroidShooter/audio_player.gd" id="14_3mn2t"]
 [ext_resource type="AudioStream" uid="uid://b77tecsrmmutm" path="res://scripts/AsteroidShooter/Media/shoot.wav" id="15_xnspx"]
 [ext_resource type="AudioStream" uid="uid://cjrvadqf7d47f" path="res://scripts/AsteroidShooter/Media/boulder_destroy.mp3" id="16_qlkwb"]
 [ext_resource type="AudioStream" uid="uid://cil64ccull7yn" path="res://scripts/AsteroidShooter/Media/game-over-39-199830.mp3" id="17_xnspx"]
@@ -28,7 +31,7 @@ size = Vector2(20, 1168)
 size = Vector2(18, 56)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cuk1y"]
-radius = 56.0
+radius = 64.49806
 
 [sub_resource type="Gradient" id="Gradient_b57t4"]
 offsets = PackedFloat32Array(0.5594059, 0.9786096)
@@ -100,6 +103,34 @@ tracks/4/keys = {
 "values": [Vector2(1, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_q531c"]
+resource_name = "ScoreShake"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Score:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.13333334, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.9896016858807848, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Score:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.13333334, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 1.2), Vector2(1, 1)]
+}
+
 [sub_resource type="Animation" id="Animation_t13xm"]
 resource_name = "ScoreToCentre"
 length = 2.0
@@ -153,34 +184,6 @@ tracks/3/keys = {
 "values": [0.0, 0.0]
 }
 
-[sub_resource type="Animation" id="Animation_q531c"]
-resource_name = "ScoreShake"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Score:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.13333334, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [0.0, 0.9896016858807847, 0.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Score:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.13333334, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(1, 1), Vector2(1.2, 1.2), Vector2(1, 1)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_b57t4"]
 _data = {
 &"RESET": SubResource("Animation_cuk1y"),
@@ -189,6 +192,11 @@ _data = {
 }
 
 [node name="AsteroidShooter" type="Node2D"]
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(516, 336.00006)
+scale = Vector2(0.2669271, 0.4142195)
+texture = ExtResource("1_ai8ie")
 
 [node name="OuterWalls" type="Node2D" parent="."]
 
@@ -255,9 +263,10 @@ metadata/is_player = true
 position = Vector2(0, 16)
 rotation = -3.1415927
 scale = Vector2(1, 5.8125)
-polygon = PackedVector2Array(0, 8, 32, -2.7526875, -32, -2.7526894)
+polygon = PackedVector2Array(0, 9.634407, 40, -1.3763466, 6.1035156e-05, -5.5053787, -40, -1.3763466)
 
 [node name="WhiteTriangle_svg" type="Sprite2D" parent="Player"]
+visible = false
 scale = Vector2(0.03125, 0.03125)
 texture = ExtResource("2_x37lq")
 
@@ -265,6 +274,12 @@ texture = ExtResource("2_x37lq")
 process_callback = 0
 wait_time = 0.3
 one_shot = true
+
+[node name="Spaceship" type="Sprite2D" parent="Player"]
+position = Vector2(2.000061, 0)
+rotation = -3.1415925
+scale = Vector2(0.13476713, 0.13476712)
+texture = ExtResource("6_6vxml")
 
 [node name="Boulder" type="CharacterBody2D" parent="."]
 position = Vector2(576, -96)
@@ -277,12 +292,18 @@ metadata/is_in_play = false
 shape = SubResource("CircleShape2D_cuk1y")
 
 [node name="WhiteCircle" type="Sprite2D" parent="Boulder"]
+visible = false
 position = Vector2(7.6293945e-06, -1.9073486e-06)
 scale = Vector2(0.095333345, 0.095333345)
 texture = ExtResource("8_t13xm")
 
 [node name="SpawnTimer" type="Timer" parent="Boulder"]
 wait_time = 0.2
+
+[node name="MeteorTexture" type="Sprite2D" parent="Boulder"]
+position = Vector2(-2.670288e-05, 7.6293945e-06)
+scale = Vector2(0.06600006, 0.06600007)
+texture = ExtResource("7_qlkwb")
 
 [node name="Blur" type="TextureRect" parent="."]
 visible = false

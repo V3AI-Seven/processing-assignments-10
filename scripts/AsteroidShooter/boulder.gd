@@ -7,14 +7,40 @@ var is_clone = false
 var game_running = false
 
 var impact
+var visual_spin_direction = 0
+var meteor_texture_index = -1
 var clones = []
+
+var visual_rot_speed = 15 #degrees/sec
+
+var meteor_texture_1 = preload("res://scripts/AsteroidShooter/Media/meteor1.png")
+var meteor_texture_2 = preload("res://scripts/AsteroidShooter/Media/meteor2.png")
+var meteor_texture_3 = preload("res://scripts/AsteroidShooter/Media/meteor3.png")
 
 signal hit_player(hit_position: Vector2)
 
 func _ready() -> void: #runs when the boulder is added to the game(on start or as clone)
 	if is_clone:
 		move_speed = randi_range(175,300)
+		visual_rot_speed = randi_range(10,30) #degrees/sec
 		
+		visual_spin_direction = randi_range(1,2)
+		meteor_texture_index = randi_range(0,2) 
+		
+		
+		match visual_spin_direction: #determine direction that the sprite should spin
+			1:
+				visual_spin_direction = "left"
+			2:
+				visual_spin_direction = "right"
+		
+		match meteor_texture_index: #determines the texture for the meteor
+			0:
+				$MeteorTexture.texture = meteor_texture_1
+			1:
+				$MeteorTexture.texture = meteor_texture_2
+			2:
+				$MeteorTexture.texture = meteor_texture_3
 		var spawn_side = randi_range(1,4)
 		var spawnX#spawn x coordinate
 		var spawnY #spawn y coordinate
@@ -79,14 +105,18 @@ func destroy() -> void: #used to kill the clone
 		queue_free() # kills the clone
 
 func game_end(_score:int) -> void: #connected with signal
-	velocity = Vector2.ZERO
+	velocity = Vector2.ZERO #clears the velocity
 	$SpawnTimer.stop()
 	for clone in clones:
 		if clone != null:
-			clone.queue_free()
+			clone.queue_free()#kills the clone
 
 func _physics_process(delta) -> void:#runs at a fixed rate, and delta is time between ticks(updates)
 	if is_clone == true:
+		#visual rotation
+		$MeteorTexture.rotate(deg_to_rad(visual_rot_speed)*delta) #visually rotates the meteor
+		
+		#collisions and movement from here
 		impact = move_and_collide(velocity*delta) #Built in function to have nice movement, velocity, and collision
 		
 		if impact != null:
