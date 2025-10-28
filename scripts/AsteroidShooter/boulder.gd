@@ -11,7 +11,7 @@ var visual_spin_direction = 0
 var meteor_texture_index = -1
 var clones = []
 
-var visual_rot_speed = 15 #degrees/sec
+var visual_rot_speed = 50 #degrees/sec
 
 var meteor_texture_1 = preload("res://scripts/AsteroidShooter/Media/meteor1.png")
 var meteor_texture_2 = preload("res://scripts/AsteroidShooter/Media/meteor2.png")
@@ -22,7 +22,7 @@ signal hit_player(hit_position: Vector2)
 func _ready() -> void: #runs when the boulder is added to the game(on start or as clone)
 	if is_clone:
 		move_speed = randi_range(175,300)
-		visual_rot_speed = randi_range(10,30) #degrees/sec
+		visual_rot_speed = randi_range(40,90) #degrees/sec
 		
 		visual_spin_direction = randi_range(1,2)
 		meteor_texture_index = randi_range(0,2) 
