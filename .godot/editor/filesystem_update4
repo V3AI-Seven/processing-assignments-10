@@ -1,9 +1,4 @@
-res://scenes/projects/asteroid_shooter.tscn
-res://scripts/AsteroidShooter/boulder.gd
-res://scripts/AsteroidShooter/restart_button.gd
-res://scripts/AsteroidShooter/player.gd
-res://scripts/AsteroidShooter/animation_player.gd
-res://scripts/AsteroidShooter/blur.gd
-res://scripts/AsteroidShooter/bullet.gd
-res://scripts/AsteroidShooter/score_label.gd
-res://scripts/AsteroidShooter/audio_player.gd
+res://scenes/projects/time_trials.tscn
+res://scripts/TimeTrials/player.gd
+res://scripts/MainMenu/main_menu.gd
+res://scenes/main_menu.tscn
