@@ -6,3 +6,7 @@
 
 .godot/editor/
 >>>>>>> Stashed changes
+scripts/AsteroidShooter/Media/meteor2.png.import
+scripts/AsteroidShooter/Media/meteor3.png.import
+*.import
+/.godot/imported

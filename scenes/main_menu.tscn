@@ -1,38 +1,51 @@
-[gd_scene load_steps=5 format=3 uid="uid://b7a6v8c4mmlb1"]
+[gd_scene load_steps=2 format=3 uid="uid://d2xajq0p5tvda"]
 
-[ext_resource type="Script" uid="uid://bi153785iu53y" path="res://scripts/TimeTrials/player.gd" id="1_l6cm7"]
+[ext_resource type="Script" uid="uid://dh66qokrs1736" path="res://scripts/MainMenu/main_menu.gd" id="1_l6cm7"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yb1jc"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_mvp68"]
-size = Vector3(10, 1, 10)
-
-[sub_resource type="BoxMesh" id="BoxMesh_yb1jc"]
-size = Vector3(10, 1, 10)
-
-[node name="TimeTrials" type="Node3D"]
-
-[node name="Player" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_l6cm7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
-shape = SubResource("CapsuleShape3D_yb1jc")
+[node name="Title" type="Label" parent="."]
+layout_mode = 0
+offset_left = 128.0
+offset_right = 1024.0
+offset_bottom = 128.0
+theme_override_font_sizes/font_size = 48
+text = "Computer Class Assignments"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="CameraAnchor" type="Marker3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.843, 0)
+[node name="Go" type="Button" parent="."]
+layout_mode = 0
+offset_left = 312.0
+offset_top = 384.0
+offset_right = 840.0
+offset_bottom = 552.0
+theme_override_font_sizes/font_size = 48
+text = "Go!"
 
-[node name="Camera3D" type="Camera3D" parent="Player/CameraAnchor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1994114e-05, 0)
+[node name="ProjectSelector" type="OptionButton" parent="."]
+layout_mode = 0
+offset_left = 312.0
+offset_top = 200.0
+offset_right = 840.0
+offset_bottom = 368.0
+item_count = 5
+popup/item_0/text = "Clicker Game"
+popup/item_0/id = 0
+popup/item_1/text = "Moveable Character"
+popup/item_1/id = 1
+popup/item_2/text = "Test/Quiz Thing"
+popup/item_2/id = 2
+popup/item_3/text = "Pig Clicker?"
+popup/item_3/id = 3
+popup/item_4/text = "Asteroid Shooter"
+popup/item_4/id = 4
 
-[node name="Floor" type="StaticBody3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
-shape = SubResource("BoxShape3D_mvp68")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
-mesh = SubResource("BoxMesh_yb1jc")
-
-[node name="Sun" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 0)
-omni_range = 76.0
+[connection signal="pressed" from="Go" to="." method="switch_to_project"]
