@@ -1,4 +1,2 @@
-res://scripts/MainMenu/main_menu.gd
-res://scenes/main_menu.tscn
 res://scenes/projects/time_trials.tscn
 res://scripts/TimeTrials/player.gd
