@@ -1,6 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://b7a6v8c4mmlb1"]
+[gd_scene load_steps=6 format=3 uid="uid://c4vm034v8x0b5"]
 
 [ext_resource type="Script" uid="uid://bi153785iu53y" path="res://scripts/TimeTrials/player.gd" id="1_mvp68"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_mvp68"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yb1jc"]
 
@@ -16,6 +18,9 @@ size = Vector3(10, 1, 48)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 script = ExtResource("1_mvp68")
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
+mesh = SubResource("CapsuleMesh_mvp68")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 shape = SubResource("CapsuleShape3D_yb1jc")
 
@@ -30,6 +35,12 @@ offset_right = 128.0
 offset_bottom = 23.0
 text = "VelX:0 VelY:0 VelZ:0"
 
+[node name="TargetVelocityDebug" type="Label" parent="Player/CameraAnchor/Camera3D"]
+offset_top = 24.0
+offset_right = 149.0
+offset_bottom = 47.0
+text = "TVelX:0 TVelY:0 TVelZ:0"
+
 [node name="Floor" type="StaticBody3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
@@ -40,6 +51,6 @@ shape = SubResource("BoxShape3D_mvp68")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 19)
 mesh = SubResource("BoxMesh_yb1jc")
 
-[node name="Sun" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 0)
-omni_range = 76.0
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.8660254, 0.50000006, 0, -0.50000006, -0.8660254, 0, 14, -22)
+shadow_enabled = true

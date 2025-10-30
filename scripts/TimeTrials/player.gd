@@ -2,17 +2,22 @@ extends CharacterBody3D
 
 const mouse_sensitivity = 0.002
 
-const sprint_speed = 15 # running speed
-const move_speed = 10 #not running speed
+const sprint_acceleration = 1.5 # running acceleration in m/s
 
-const air_sprint_speed = 25 # running speed
-const air_move_speed = 20 #not running speed
+const air_sprint_speed = 1.5 # running speed in m/s
 
-const jump_velocity = 10
-const gravity = 10 #in m/s
+const jump_velocity = 10 #no clue what this is measured in or why this seems good
+const gravity = 15 #in m/s
+
+var max_sprint_speed = 5 # in m/s
 
 var target_velocity = Vector3.ZERO
 var world_target_velocity = Vector3.ZERO
+
+var velocity_increase = Vector3.ZERO
+var single_velocity_multiplier = 1 #multiplier to increase velocity
+var different_velocity_multiplier = 1 #multiplier to increase velocity on all three axes individually
+
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -25,50 +30,83 @@ func _unhandled_input(event):
 		$CameraAnchor/Camera3D.rotation.x = clampf($CameraAnchor/Camera3D.rotation.x, -deg_to_rad(70), deg_to_rad(70))
 
 func update_velocity_feed() -> void:
-	var velX = velocity.x
-	var velY = velocity.y
-	var velZ = velocity.z
+	#actual velocities
+	var velX = snapped(velocity.x,0.1)
+	var velY = snapped(velocity.y,0.1)
+	var velZ = snapped(velocity.z,0.1)
 	$CameraAnchor/Camera3D/VelocityDebug.text = "VelX:"+str(velX)+" VelY:"+str(velY)+" VelZ:"+str(velZ)
+	
+	#target velocities
+	var target_velX = snapped(target_velocity.x,0.1)
+	var target_velY = snapped(target_velocity.y,0.1)
+	var target_velZ = snapped(target_velocity.z,0.1)
+	$CameraAnchor/Camera3D/TargetVelocityDebug.text = "TVelX:"+str(target_velX)+" TVelY:"+str(target_velY)+" TVelZ:"+str(target_velZ)
 
-func _physics_process(delta: float) -> void:
-	update_velocity_feed()
+func add_velocity(added_velocity:Vector3) -> void: #function to be called by other things, to add or remove velocity
+	velocity_increase = added_velocity
+
+func multiply_all_velocity(multiplier:float) -> void: #function to be called by other things and here, to mutliply velocity
+	print("Velocity multiplier called, mutliplying by "+str(multiplier)+" at the end of the current physics frame")
+	single_velocity_multiplier = multiplier
+
+func _physics_process(delta: float) -> void: #runs at a fixed rate, useful for physics based things like movement, you then multiply by delta, which is the time between ticks(updates)
 	
-	var applied_speed = move_speed
-	#target_velocity = Vector3.ZERO
-	world_target_velocity = Vector3.ZERO
+	var target_acceleration = Vector3.ZERO
+	var applied_acceleration = sprint_acceleration #speed that is applied to the player when they are moving
 	
+	#gravity handling
+	if target_velocity.y > -gravity and not is_on_floor():
+		target_velocity.y -= gravity * delta
+	elif is_on_floor():
+		target_velocity.y = 0
 	
-	if Input.is_key_pressed(KEY_SPACE) and is_on_floor(): #jumpinh
-		velocity.y += jump_velocity
+	if Input.is_key_pressed(KEY_SPACE) and is_on_floor(): #jumping
+		target_velocity.y += jump_velocity
+		multiply_all_velocity(1.2)
 	
-	if Input.is_key_pressed(KEY_SHIFT): #sprinting
-		applied_speed = sprint_speed
+	if not is_on_floor(): #mid air movement
+		applied_acceleration = 2 #m/s
 	
-	if not is_on_floor():
-		applied_speed = 2 #m/s
+	#movement
+	if Input.is_key_pressed(KEY_W):
+		target_acceleration.z -= applied_acceleration
+	if Input.is_key_pressed(KEY_S):
+		target_acceleration.z += applied_acceleration
+	if Input.is_key_pressed(KEY_A):
+		target_acceleration.x -= applied_acceleration
+	if Input.is_key_pressed(KEY_D):
+		target_acceleration.x += applied_acceleration
 	
-	if Input.is_key_pressed(KEY_W) and abs(velocity.z) < applied_speed:
-		target_velocity.z -= applied_speed
-	if Input.is_key_pressed(KEY_S) and abs(velocity.z) < applied_speed:
-		target_velocity.z += applied_speed
-	if Input.is_key_pressed(KEY_A) and abs(velocity.x) < applied_speed:
-		target_velocity.x -= applied_speed
-	if Input.is_key_pressed(KEY_D) and abs(velocity.x) < applied_speed:
-		target_velocity.x += applied_speed
+	#z axis movement application, caps running speed to not add speed if we are more than the max speed
+	if abs(target_velocity.z) < max_sprint_speed or sign(target_acceleration.z) != sign(target_velocity.z):
+		print("currently accelerating")
+		target_velocity.z += target_acceleration.z
+		#target_velocity.z = clampf(target_velocity.z,-max_sprint_speed,max_spr8int_speed) 
 	
+	#x axis movement application, caps running speed to not add speed if we are more than the max speed
+	if abs(target_velocity.x) < max_sprint_speed or sign(target_acceleration.x) != sign(target_velocity.x):
+		print("currently accelerating")
+		target_velocity.x += target_acceleration.x
+		#target_velocity.x = clampf(target_velocity.x,-max_sprint_speed,max_sprint_speed) 
 	
-	world_target_velocity += target_velocity.rotated(Vector3.UP, rotation.y)
+	#natural deceleration
+	if not (Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_S)) and is_on_floor():
+		target_velocity.z = lerpf(target_velocity.z,0,0.5)
+	if not (Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_D)) and is_on_floor():
+		target_velocity.x = lerpf(target_velocity.x,0,0.5)
 	
-	#nice, smooth stop
-	if not (Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_S) or Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_D)):
-		if is_on_floor():
-			world_target_velocity.x = lerpf(target_velocity.x,0,0.5)
-			world_target_velocity.y = lerpf(target_velocity.y,0,0.5)
+	if single_velocity_multiplier != 1: #adds velocity mutliplier
+		print("Multiplying velocity by "+str(single_velocity_multiplier))
+		target_velocity *= single_velocity_multiplier
+		print("New velocity will be "+str(target_velocity))
+		single_velocity_multiplier = 1
+	
+	if velocity_increase != Vector3.ZERO: #adds velocity
+		target_velocity += velocity_increase
+		velocity_increase = Vector3.ZERO
 		
-	if abs(velocity.x) < applied_speed:
-		velocity.x += world_target_velocity.x * delta
-	if abs(velocity.z) < applied_speed:
-		velocity.z += world_target_velocity.z * delta
+	velocity = target_velocity
+	velocity = velocity.rotated(Vector3.UP,rotation.y)
 	
-	velocity.y -= gravity * delta
+	update_velocity_feed()
 	move_and_slide()

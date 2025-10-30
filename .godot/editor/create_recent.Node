@@ -1,3 +1,5 @@
+MeshInstance3D
+DirectionalLight3D
 Label
 OptionButton      - Matches the "dropdown" keyword.
 Button
@@ -11,4 +13,3 @@ CollisionShape2D
 TextureRect
 Timer
 Sprite2D
-CharacterBody2D
