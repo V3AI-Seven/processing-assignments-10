@@ -1,53 +1,61 @@
 extends CharacterBody3D
 
+@export var debug:bool = true
+
 const mouse_sensitivity = 0.002
 
 const sprint_acceleration = 1.5 # running acceleration in m/s
-
-const air_sprint_speed = 1.5 # running speed in m/s
+const max_sprint_speed = 5 # in m/s
+const air_sprint_speed = 1.5 # speed in m/s
 
 const jump_velocity = 10 #no clue what this is measured in or why this seems good
 const gravity = 15 #in m/s
-
-var max_sprint_speed = 5 # in m/s
 
 var target_velocity = Vector3.ZERO
 var world_target_velocity = Vector3.ZERO
 
 var velocity_increase = Vector3.ZERO
 var single_velocity_multiplier = 1 #multiplier to increase velocity
-var different_velocity_multiplier = 1 #multiplier to increase velocity on all three axes individually
 
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	
+	if debug == true:
+		$CameraAnchor/Camera3D/Debug.visible = true
+	else:
+		$CameraAnchor/Camera3D/Debug.visible = false
 
-func _unhandled_input(event):
+func _input(event): #called on inputs(mouse movements and keypressed)
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		rotate_y(-event.relative.x * mouse_sensitivity)
-
+		
 		$CameraAnchor/Camera3D.rotate_x(-event.relative.y * mouse_sensitivity)
 		$CameraAnchor/Camera3D.rotation.x = clampf($CameraAnchor/Camera3D.rotation.x, -deg_to_rad(70), deg_to_rad(70))
 
-func update_velocity_feed() -> void:
+
+func update_velocity_feed() -> void: #updates a debug feed for velocities
 	#actual velocities
 	var velX = snapped(velocity.x,0.1)
 	var velY = snapped(velocity.y,0.1)
 	var velZ = snapped(velocity.z,0.1)
-	$CameraAnchor/Camera3D/VelocityDebug.text = "VelX:"+str(velX)+" VelY:"+str(velY)+" VelZ:"+str(velZ)
+	$CameraAnchor/Camera3D/Debug/VelocityDebug.text = "VelX:"+str(velX)+" VelY:"+str(velY)+" VelZ:"+str(velZ)
 	
 	#target velocities
 	var target_velX = snapped(target_velocity.x,0.1)
 	var target_velY = snapped(target_velocity.y,0.1)
 	var target_velZ = snapped(target_velocity.z,0.1)
-	$CameraAnchor/Camera3D/TargetVelocityDebug.text = "TVelX:"+str(target_velX)+" TVelY:"+str(target_velY)+" TVelZ:"+str(target_velZ)
+	$CameraAnchor/Camera3D/Debug/TargetVelocityDebug.text = "TVelX:"+str(target_velX)+" TVelY:"+str(target_velY)+" TVelZ:"+str(target_velZ)
+
 
 func add_velocity(added_velocity:Vector3) -> void: #function to be called by other things, to add or remove velocity
+	print("[Runner] Velocity increase called, increasing by "+str(added_velocity)+" at the end of the current physics frame")
 	velocity_increase = added_velocity
 
 func multiply_all_velocity(multiplier:float) -> void: #function to be called by other things and here, to mutliply velocity
-	print("Velocity multiplier called, mutliplying by "+str(multiplier)+" at the end of the current physics frame")
+	print("[Runner] Velocity multiplier called, multiplying by "+str(multiplier)+" at the end of the current physics frame")
 	single_velocity_multiplier = multiplier
+
 
 func _physics_process(delta: float) -> void: #runs at a fixed rate, useful for physics based things like movement, you then multiply by delta, which is the time between ticks(updates)
 	
@@ -79,26 +87,23 @@ func _physics_process(delta: float) -> void: #runs at a fixed rate, useful for p
 	
 	#z axis movement application, caps running speed to not add speed if we are more than the max speed
 	if abs(target_velocity.z) < max_sprint_speed or sign(target_acceleration.z) != sign(target_velocity.z):
-		print("currently accelerating")
 		target_velocity.z += target_acceleration.z
-		#target_velocity.z = clampf(target_velocity.z,-max_sprint_speed,max_spr8int_speed) 
 	
 	#x axis movement application, caps running speed to not add speed if we are more than the max speed
 	if abs(target_velocity.x) < max_sprint_speed or sign(target_acceleration.x) != sign(target_velocity.x):
-		print("currently accelerating")
 		target_velocity.x += target_acceleration.x
-		#target_velocity.x = clampf(target_velocity.x,-max_sprint_speed,max_sprint_speed) 
 	
-	#natural deceleration
+	
+	#natural deceleration when not moving
 	if not (Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_S)) and is_on_floor():
 		target_velocity.z = lerpf(target_velocity.z,0,0.5)
 	if not (Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_D)) and is_on_floor():
 		target_velocity.x = lerpf(target_velocity.x,0,0.5)
 	
+	
 	if single_velocity_multiplier != 1: #adds velocity mutliplier
-		print("Multiplying velocity by "+str(single_velocity_multiplier))
 		target_velocity *= single_velocity_multiplier
-		print("New velocity will be "+str(target_velocity))
+		print("[Runner] New velocity will be "+str(target_velocity))
 		single_velocity_multiplier = 1
 	
 	if velocity_increase != Vector3.ZERO: #adds velocity

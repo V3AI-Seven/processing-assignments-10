@@ -1,2 +1,3 @@
 res://scenes/projects/time_trials.tscn
 res://scripts/TimeTrials/player.gd
+res://scripts/TimeTrials/boost_pad.gd

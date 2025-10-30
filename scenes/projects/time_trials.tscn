@@ -1,16 +1,42 @@
-[gd_scene load_steps=6 format=3 uid="uid://c4vm034v8x0b5"]
+[gd_scene load_steps=15 format=3 uid="uid://c4vm034v8x0b5"]
 
 [ext_resource type="Script" uid="uid://bi153785iu53y" path="res://scripts/TimeTrials/player.gd" id="1_mvp68"]
+[ext_resource type="Texture2D" uid="uid://nlleb1gm5roe" path="res://TemplateMedia/CubeAssets/PNG/Green/texture_10.png" id="2_hprxx"]
+[ext_resource type="Texture2D" uid="uid://d157yr2s7j8t1" path="res://TemplateMedia/CubeAssets/PNG/Light/texture_08.png" id="2_yb1jc"]
+[ext_resource type="Script" uid="uid://dovdijvt6rdoe" path="res://scripts/TimeTrials/boost_pad.gd" id="3_iwb4k"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nlo2j"]
+albedo_texture = ExtResource("2_yb1jc")
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_mvp68"]
+material = SubResource("StandardMaterial3D_nlo2j")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yb1jc"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mvp68"]
 size = Vector3(10, 1, 48)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mvp68"]
+albedo_texture = ExtResource("2_yb1jc")
+uv1_scale = Vector3(3, 10, 10)
+
 [sub_resource type="BoxMesh" id="BoxMesh_yb1jc"]
+material = SubResource("StandardMaterial3D_mvp68")
 size = Vector3(10, 1, 48)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_iwb4k"]
+size = Vector3(2, 0.5, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hprxx"]
+albedo_texture = ExtResource("2_hprxx")
+uv1_scale = Vector3(1, 2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_iwb4k"]
+material = SubResource("StandardMaterial3D_hprxx")
+size = Vector3(2, 0.5, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nlo2j"]
+size = Vector3(2, 1, 2)
 
 [node name="TimeTrials" type="Node3D"]
 
@@ -30,27 +56,53 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.843, 0)
 [node name="Camera3D" type="Camera3D" parent="Player/CameraAnchor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1994114e-05, 0)
 
-[node name="VelocityDebug" type="Label" parent="Player/CameraAnchor/Camera3D"]
-offset_right = 128.0
+[node name="Debug" type="Control" parent="Player/CameraAnchor/Camera3D"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 192.0
+offset_bottom = 56.0
+
+[node name="VelocityDebug" type="Label" parent="Player/CameraAnchor/Camera3D/Debug"]
+layout_mode = 0
+offset_right = 149.0
 offset_bottom = 23.0
 text = "VelX:0 VelY:0 VelZ:0"
 
-[node name="TargetVelocityDebug" type="Label" parent="Player/CameraAnchor/Camera3D"]
+[node name="TargetVelocityDebug" type="Label" parent="Player/CameraAnchor/Camera3D/Debug"]
+layout_mode = 0
 offset_top = 24.0
-offset_right = 149.0
+offset_right = 176.0
 offset_bottom = 47.0
 text = "TVelX:0 TVelY:0 TVelZ:0"
 
-[node name="Floor" type="StaticBody3D" parent="."]
+[node name="StartingPlatform" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 19)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StartingPlatform"]
 shape = SubResource("BoxShape3D_mvp68")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 19)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StartingPlatform"]
 mesh = SubResource("BoxMesh_yb1jc")
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.8660254, 0.50000006, 0, -0.50000006, -0.8660254, 0, 14, -22)
 shadow_enabled = true
+
+[node name="BoostPad" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -9)
+script = ExtResource("3_iwb4k")
+metadata/BoostMultiplier = 2.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoostPad"]
+shape = SubResource("BoxShape3D_iwb4k")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BoostPad"]
+mesh = SubResource("BoxMesh_iwb4k")
+
+[node name="Area3D" type="Area3D" parent="BoostPad"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoostPad/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_nlo2j")
+
+[connection signal="body_entered" from="BoostPad/Area3D" to="BoostPad" method="boost_player"]

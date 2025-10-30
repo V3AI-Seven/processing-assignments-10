@@ -30,6 +30,7 @@ project/assembly_name="CompSci 10 Processing"
 [file_customization]
 
 folder_colors={
+"res://TemplateMedia/": "purple",
 "res://scenes/": "orange",
 "res://scripts/": "blue"
 }
