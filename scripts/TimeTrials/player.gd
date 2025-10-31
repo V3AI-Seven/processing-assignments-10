@@ -85,7 +85,7 @@ func _physics_process(delta: float) -> void: #runs at a fixed rate, useful for p
 	if Input.is_key_pressed(KEY_D):
 		target_acceleration.x += applied_acceleration
 	
-	target_acceleration = target_acceleration.rotated(Vector3.UP,rotation.y) # TODO: this is wrong, needs fixing to rotate properly
+	target_acceleration = target_acceleration.rotated(Vector3.UP,rotation.y) # TODO: this is wrong, needs fixing to rotate properly. Should use a third variable to get total movement speed
 	#z axis movement application, caps running speed to not add speed if we are more than the max speed
 	if abs(target_velocity.z) < max_sprint_speed or sign(target_acceleration.z) != sign(target_velocity.z):
 		target_velocity.z += target_acceleration.z
