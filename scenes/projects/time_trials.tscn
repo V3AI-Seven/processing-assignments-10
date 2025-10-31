@@ -1,9 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://c4vm034v8x0b5"]
+[gd_scene load_steps=17 format=3 uid="uid://c4vm034v8x0b5"]
 
 [ext_resource type="Script" uid="uid://bi153785iu53y" path="res://scripts/TimeTrials/player.gd" id="1_mvp68"]
 [ext_resource type="Texture2D" uid="uid://nlleb1gm5roe" path="res://TemplateMedia/CubeAssets/PNG/Green/texture_10.png" id="2_hprxx"]
 [ext_resource type="Texture2D" uid="uid://d157yr2s7j8t1" path="res://TemplateMedia/CubeAssets/PNG/Light/texture_08.png" id="2_yb1jc"]
 [ext_resource type="Script" uid="uid://dovdijvt6rdoe" path="res://scripts/TimeTrials/boost_pad.gd" id="3_iwb4k"]
+[ext_resource type="Script" uid="uid://cg4q403hac1ud" path="res://scripts/TimeTrials/starting_line.gd" id="3_nlo2j"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nlo2j"]
 albedo_texture = ExtResource("2_yb1jc")
@@ -25,24 +26,29 @@ material = SubResource("StandardMaterial3D_mvp68")
 size = Vector3(10, 1, 48)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_iwb4k"]
-size = Vector3(2, 0.5, 2)
+size = Vector3(10, 0.5, 2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hprxx"]
 albedo_texture = ExtResource("2_hprxx")
-uv1_scale = Vector3(1, 2, 1)
+uv1_scale = Vector3(10, 1.5, 1)
+uv1_offset = Vector3(0.25, 0, 0)
 
 [sub_resource type="BoxMesh" id="BoxMesh_iwb4k"]
 material = SubResource("StandardMaterial3D_hprxx")
-size = Vector3(2, 0.5, 2)
+size = Vector3(10, 0.5, 2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_nlo2j"]
-size = Vector3(2, 1, 2)
+size = Vector3(10, 1, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5f3ed"]
+size = Vector3(11, 6, 1)
 
 [node name="TimeTrials" type="Node3D"]
 
 [node name="Player" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 script = ExtResource("1_mvp68")
+metadata/IsPlayer = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
 mesh = SubResource("CapsuleMesh_mvp68")
@@ -88,21 +94,40 @@ mesh = SubResource("BoxMesh_yb1jc")
 transform = Transform3D(1, 0, 0, 0, -0.8660254, 0.50000006, 0, -0.50000006, -0.8660254, 0, 14, -22)
 shadow_enabled = true
 
-[node name="BoostPad" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -9)
+[node name="StartingLine" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+script = ExtResource("3_nlo2j")
+
+[node name="BoostPad" type="StaticBody3D" parent="StartingLine"]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -4, 0.3029402, -9.536743e-07)
 script = ExtResource("3_iwb4k")
 metadata/BoostMultiplier = 2.0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="BoostPad"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StartingLine/BoostPad"]
+transform = Transform3D(1, 0, 0, 0, 0.9999966, 0, 0, 0, 0.9999966, 4, 0, 0)
 shape = SubResource("BoxShape3D_iwb4k")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="BoostPad"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StartingLine/BoostPad"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
 mesh = SubResource("BoxMesh_iwb4k")
 
-[node name="Area3D" type="Area3D" parent="BoostPad"]
+[node name="Area3D" type="Area3D" parent="StartingLine/BoostPad"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="BoostPad/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StartingLine/BoostPad/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 0.9999937, 0, 0, 0, 0.9999937, 4, 0.49999994, 0)
 shape = SubResource("BoxShape3D_nlo2j")
 
-[connection signal="body_entered" from="BoostPad/Area3D" to="BoostPad" method="boost_player"]
+[node name="StartLabel" type="Label3D" parent="StartingLine"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+double_sided = false
+text = "Start"
+font_size = 256
+
+[node name="StartTrigger" type="Area3D" parent="StartingLine"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StartingLine/StartTrigger"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+shape = SubResource("BoxShape3D_5f3ed")
+
+[connection signal="body_exited" from="StartingLine/BoostPad/Area3D" to="StartingLine/BoostPad" method="boost_player"]
+[connection signal="body_entered" from="StartingLine/StartTrigger" to="StartingLine" method="start_game"]

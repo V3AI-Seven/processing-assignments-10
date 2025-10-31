@@ -1,5 +1,7 @@
 CollisionShape3D
 Area3D
+Label3D
+Node3D
 MeshInstance3D
 StaticBody3D
 Control
@@ -10,5 +12,3 @@ Button
 AnimationPlayer
 AudioStreamPlayer
 Node2D
-AudioStreamPlayer2D      - Matches the "sound" keyword.
-CollisionPolygon2D

@@ -4,11 +4,11 @@ extends CharacterBody3D
 
 const mouse_sensitivity = 0.002
 
-const sprint_acceleration = 1.5 # running acceleration in m/s
-const max_sprint_speed = 5 # in m/s
+const sprint_acceleration = 2.5 # running acceleration in m/s
+const max_sprint_speed = 9 # in m/s
 const air_sprint_speed = 1.5 # speed in m/s
 
-const jump_velocity = 10 #no clue what this is measured in or why this seems good
+const jump_velocity = 8 #no clue what this is measured in or why this seems good
 const gravity = 15 #in m/s
 
 var target_velocity = Vector3.ZERO
@@ -85,6 +85,7 @@ func _physics_process(delta: float) -> void: #runs at a fixed rate, useful for p
 	if Input.is_key_pressed(KEY_D):
 		target_acceleration.x += applied_acceleration
 	
+	target_acceleration = target_acceleration.rotated(Vector3.UP,rotation.y) # TODO: this is wrong, needs fixing to rotate properly
 	#z axis movement application, caps running speed to not add speed if we are more than the max speed
 	if abs(target_velocity.z) < max_sprint_speed or sign(target_acceleration.z) != sign(target_velocity.z):
 		target_velocity.z += target_acceleration.z
@@ -111,7 +112,7 @@ func _physics_process(delta: float) -> void: #runs at a fixed rate, useful for p
 		velocity_increase = Vector3.ZERO
 		
 	velocity = target_velocity
-	velocity = velocity.rotated(Vector3.UP,rotation.y)
+	#velocity = velocity.rotated(Vector3.UP,rotation.y)
 	
 	update_velocity_feed()
 	move_and_slide()
