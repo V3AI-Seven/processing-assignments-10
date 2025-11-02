@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-@export var debug:bool = true
+@export var debug = true
 
 const mouse_sensitivity = 0.002
 
@@ -17,14 +17,39 @@ var world_target_velocity = Vector3.ZERO
 var velocity_increase = Vector3.ZERO
 var single_velocity_multiplier = 1 #multiplier to increase velocity
 
+var game_running:bool = false
+var timer_running:bool = false
+var timer:float = 0
+
+var should_jump:bool = false #variable that is true when the player should jump on the next physics tick
+
+func start_game() -> void:#linked with signal
+	game_running = true
+	timer_running = true
+func unpause_game() -> void:#linked with signal
+	game_running = true
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	
 	if debug == true:
-		$CameraAnchor/Camera3D/Debug.visible = true
+		$CameraAnchor/Camera3D/DebugUI.visible = true
 	else:
-		$CameraAnchor/Camera3D/Debug.visible = false
+		$CameraAnchor/Camera3D/DebugUI.visible = false
+
+func _process(delta: float) -> void:
+	if timer_running and game_running:
+		timer += delta
+	
+		var total_ms = int(timer * 1000.0)
+		@warning_ignore("integer_division")
+		var minutes = (total_ms / 1000) / 60
+		@warning_ignore("integer_division")
+		var seconds = (total_ms / 1000) % 60
+		var milliseconds = total_ms % 1000 
+
+		var timer_text = "%02d:%02d:%03d" % [minutes, seconds, milliseconds]
+		$CameraAnchor/Camera3D/GameUI/Timer.text = timer_text
 
 func _input(event): #called on inputs(mouse movements and keypressed)
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
@@ -32,20 +57,28 @@ func _input(event): #called on inputs(mouse movements and keypressed)
 		
 		$CameraAnchor/Camera3D.rotate_x(-event.relative.y * mouse_sensitivity)
 		$CameraAnchor/Camera3D.rotation.x = clampf($CameraAnchor/Camera3D.rotation.x, -deg_to_rad(70), deg_to_rad(70))
-
+	
+	elif event is InputEventKey:
+		if event.keycode == KEY_SPACE and not event.is_echo() and is_on_floor(): #queues a jump for the next physics tick
+			should_jump = true
+		
+		if event.keycode == KEY_ESCAPE and not event.is_echo():
+			game_running = false
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+			$CameraAnchor/Camera3D/EscapeMenu.visible = true
 
 func update_velocity_feed() -> void: #updates a debug feed for velocities
 	#actual velocities
 	var velX = snapped(velocity.x,0.1)
 	var velY = snapped(velocity.y,0.1)
 	var velZ = snapped(velocity.z,0.1)
-	$CameraAnchor/Camera3D/Debug/VelocityDebug.text = "VelX:"+str(velX)+" VelY:"+str(velY)+" VelZ:"+str(velZ)
+	$CameraAnchor/Camera3D/DebugUI/VelocityDebug.text = "VelX:"+str(velX)+" VelY:"+str(velY)+" VelZ:"+str(velZ)
 	
 	#target velocities
 	var target_velX = snapped(target_velocity.x,0.1)
 	var target_velY = snapped(target_velocity.y,0.1)
 	var target_velZ = snapped(target_velocity.z,0.1)
-	$CameraAnchor/Camera3D/Debug/TargetVelocityDebug.text = "TVelX:"+str(target_velX)+" TVelY:"+str(target_velY)+" TVelZ:"+str(target_velZ)
+	$CameraAnchor/Camera3D/DebugUI/TargetVelocityDebug.text = "TVelX:"+str(target_velX)+" TVelY:"+str(target_velY)+" TVelZ:"+str(target_velZ)
 
 
 func add_velocity(added_velocity:Vector3) -> void: #function to be called by other things, to add or remove velocity
@@ -57,7 +90,7 @@ func multiply_all_velocity(multiplier:float) -> void: #function to be called by 
 	single_velocity_multiplier = multiplier
 
 
-func _physics_process(delta: float) -> void: #runs at a fixed rate, useful for physics based things like movement, you then multiply by delta, which is the time between ticks(updates)
+func _physics_process(delta: float) -> void: #runs at a fixed rate, useful for physics based things like movement, you then multiply by delta, which is the time between ticks(updates)	
 	
 	var target_acceleration = Vector3.ZERO
 	var applied_acceleration = sprint_acceleration #speed that is applied to the player when they are moving
@@ -68,9 +101,10 @@ func _physics_process(delta: float) -> void: #runs at a fixed rate, useful for p
 	elif is_on_floor():
 		target_velocity.y = 0
 	
-	if Input.is_key_pressed(KEY_SPACE) and is_on_floor(): #jumping
+	if should_jump == true and is_on_floor(): #jumping
 		target_velocity.y += jump_velocity
 		multiply_all_velocity(1.2)
+		should_jump = false
 	
 	if not is_on_floor(): #mid air movement
 		applied_acceleration = 2 #m/s
@@ -85,7 +119,6 @@ func _physics_process(delta: float) -> void: #runs at a fixed rate, useful for p
 	if Input.is_key_pressed(KEY_D):
 		target_acceleration.x += applied_acceleration
 	
-	target_acceleration = target_acceleration.rotated(Vector3.UP,rotation.y) # TODO: this is wrong, needs fixing to rotate properly. Should use a third variable to get total movement speed
 	#z axis movement application, caps running speed to not add speed if we are more than the max speed
 	if abs(target_velocity.z) < max_sprint_speed or sign(target_acceleration.z) != sign(target_velocity.z):
 		target_velocity.z += target_acceleration.z
@@ -94,6 +127,7 @@ func _physics_process(delta: float) -> void: #runs at a fixed rate, useful for p
 	if abs(target_velocity.x) < max_sprint_speed or sign(target_acceleration.x) != sign(target_velocity.x):
 		target_velocity.x += target_acceleration.x
 	
+	#target_velocity = target_velocity.rotated(Vector3.UP,rotation.y) # TODO: this is wrong, needs fixing to rotate properly. Should use a third variable to get total movement speed
 	
 	#natural deceleration when not moving
 	if not (Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_S)) and is_on_floor():
@@ -112,7 +146,21 @@ func _physics_process(delta: float) -> void: #runs at a fixed rate, useful for p
 		velocity_increase = Vector3.ZERO
 		
 	velocity = target_velocity
-	#velocity = velocity.rotated(Vector3.UP,rotation.y)
+	velocity = velocity.rotated(Vector3.UP,rotation.y)
 	
 	update_velocity_feed()
 	move_and_slide()
+	
+	var collision = get_last_slide_collision()
+	var collider
+	
+	if collision != null:
+		collider = collision.get_collider()
+	
+	if collider != null and collider.get_meta("CollidesAsWall",false) == true:
+		target_velocity.x = 0
+		target_velocity.z = 0
+		
+		velocity.x = 0
+		velocity.z = 0
+	

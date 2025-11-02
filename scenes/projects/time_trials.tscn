@@ -1,10 +1,13 @@
-[gd_scene load_steps=17 format=3 uid="uid://c4vm034v8x0b5"]
+[gd_scene load_steps=26 format=3 uid="uid://c4vm034v8x0b5"]
 
+[ext_resource type="Script" uid="uid://mnlwypcfu1kw" path="res://scripts/TimeTrials/time_trials.gd" id="1_5f3ed"]
 [ext_resource type="Script" uid="uid://bi153785iu53y" path="res://scripts/TimeTrials/player.gd" id="1_mvp68"]
 [ext_resource type="Texture2D" uid="uid://nlleb1gm5roe" path="res://TemplateMedia/CubeAssets/PNG/Green/texture_10.png" id="2_hprxx"]
 [ext_resource type="Texture2D" uid="uid://d157yr2s7j8t1" path="res://TemplateMedia/CubeAssets/PNG/Light/texture_08.png" id="2_yb1jc"]
 [ext_resource type="Script" uid="uid://dovdijvt6rdoe" path="res://scripts/TimeTrials/boost_pad.gd" id="3_iwb4k"]
 [ext_resource type="Script" uid="uid://cg4q403hac1ud" path="res://scripts/TimeTrials/starting_line.gd" id="3_nlo2j"]
+[ext_resource type="Script" uid="uid://b7gufglckjw3o" path="res://scripts/TimeTrials/escape_menu.gd" id="4_k0soe"]
+[ext_resource type="Script" uid="uid://3vi16j6y1o4d" path="res://scripts/TemplateScenes/ExitButton/exit_button.gd" id="5_qyffo"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nlo2j"]
 albedo_texture = ExtResource("2_yb1jc")
@@ -13,6 +16,13 @@ albedo_texture = ExtResource("2_yb1jc")
 material = SubResource("StandardMaterial3D_nlo2j")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yb1jc"]
+
+[sub_resource type="Gradient" id="Gradient_b57t4"]
+offsets = PackedFloat32Array(0.5594059, 0.9786096)
+colors = PackedColorArray(0.5254902, 0.5254902, 0.5254902, 0.8039216, 0.5254902, 0.5254902, 0.5254902, 0.8039216)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qyffo"]
+gradient = SubResource("Gradient_b57t4")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mvp68"]
 size = Vector3(10, 1, 48)
@@ -41,9 +51,28 @@ size = Vector3(10, 0.5, 2)
 size = Vector3(10, 1, 2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5f3ed"]
-size = Vector3(11, 6, 1)
+size = Vector3(11, 32, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_k0soe"]
+size = Vector3(15, 1, 15)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qyffo"]
+albedo_texture = ExtResource("2_yb1jc")
+uv1_scale = Vector3(7.5, 5, 0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fk6oy"]
+material = SubResource("StandardMaterial3D_qyffo")
+size = Vector3(15, 1, 15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qyffo"]
+size = Vector3(5, 10, 1)
 
 [node name="TimeTrials" type="Node3D"]
+script = ExtResource("1_5f3ed")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-3.090862e-08, 0.7071068, 0.7071067, -3.0908623e-08, -0.7071067, 0.7071068, 1, 1.776357e-15, 4.3711392e-08, 35, 78, -69)
+shadow_enabled = true
 
 [node name="Player" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
@@ -62,24 +91,86 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.843, 0)
 [node name="Camera3D" type="Camera3D" parent="Player/CameraAnchor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1994114e-05, 0)
 
-[node name="Debug" type="Control" parent="Player/CameraAnchor/Camera3D"]
+[node name="DebugUI" type="Control" parent="Player/CameraAnchor/Camera3D"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 192.0
 offset_bottom = 56.0
 
-[node name="VelocityDebug" type="Label" parent="Player/CameraAnchor/Camera3D/Debug"]
+[node name="VelocityDebug" type="Label" parent="Player/CameraAnchor/Camera3D/DebugUI"]
 layout_mode = 0
 offset_right = 149.0
 offset_bottom = 23.0
 text = "VelX:0 VelY:0 VelZ:0"
 
-[node name="TargetVelocityDebug" type="Label" parent="Player/CameraAnchor/Camera3D/Debug"]
+[node name="TargetVelocityDebug" type="Label" parent="Player/CameraAnchor/Camera3D/DebugUI"]
 layout_mode = 0
 offset_top = 24.0
 offset_right = 176.0
 offset_bottom = 47.0
 text = "TVelX:0 TVelY:0 TVelZ:0"
+
+[node name="GameUI" type="Control" parent="Player/CameraAnchor/Camera3D"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+
+[node name="Timer" type="Label" parent="Player/CameraAnchor/Camera3D/GameUI"]
+layout_mode = 0
+offset_left = 384.0
+offset_right = 768.0
+offset_bottom = 72.0
+theme_override_font_sizes/font_size = 48
+text = "00:00:000"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EscapeMenu" type="Control" parent="Player/CameraAnchor/Camera3D"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+script = ExtResource("4_k0soe")
+
+[node name="Blur" type="TextureRect" parent="Player/CameraAnchor/Camera3D/EscapeMenu"]
+layout_mode = 0
+offset_left = -64.0
+offset_top = -24.0
+offset_right = 1200.0
+offset_bottom = 680.0
+texture = SubResource("GradientTexture1D_qyffo")
+
+[node name="GamePaused" type="Label" parent="Player/CameraAnchor/Camera3D/EscapeMenu"]
+layout_mode = 0
+offset_left = 416.0
+offset_top = 64.0
+offset_right = 736.0
+offset_bottom = 131.0
+theme_override_font_sizes/font_size = 48
+text = "Game Paused"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="Player/CameraAnchor/Camera3D/EscapeMenu"]
+layout_mode = 0
+offset_left = 480.0
+offset_top = 256.0
+offset_right = 672.0
+offset_bottom = 312.0
+theme_override_font_sizes/font_size = 32
+text = "Resume"
+
+[node name="ExitButton" type="Button" parent="Player/CameraAnchor/Camera3D/EscapeMenu"]
+layout_mode = 0
+offset_left = 480.0
+offset_top = 320.0
+offset_right = 672.0
+offset_bottom = 376.0
+theme_override_font_sizes/font_size = 32
+text = "Exit"
+script = ExtResource("5_qyffo")
 
 [node name="StartingPlatform" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20)
@@ -90,9 +181,24 @@ shape = SubResource("BoxShape3D_mvp68")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StartingPlatform"]
 mesh = SubResource("BoxMesh_yb1jc")
 
-[node name="Sun" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -0.8660254, 0.50000006, 0, -0.50000006, -0.8660254, 0, 14, -22)
-shadow_enabled = true
+[node name="BoostPad" type="StaticBody3D" parent="StartingPlatform"]
+transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, -4, 0.38731623, -23.102104)
+script = ExtResource("3_iwb4k")
+metadata/BoostMultiplier = 2.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StartingPlatform/BoostPad"]
+transform = Transform3D(1, 0, 0, 0, 0.9999966, 0, 0, 0, 0.9999966, 4, 0, 0)
+shape = SubResource("BoxShape3D_iwb4k")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StartingPlatform/BoostPad"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
+mesh = SubResource("BoxMesh_iwb4k")
+
+[node name="Area3D" type="Area3D" parent="StartingPlatform/BoostPad"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StartingPlatform/BoostPad/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 0.9999937, 0, 0, 0, 0.9999937, 4, 0.49999994, 0)
+shape = SubResource("BoxShape3D_nlo2j")
 
 [node name="StartingLine" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
@@ -126,8 +232,42 @@ font_size = 256
 [node name="StartTrigger" type="Area3D" parent="StartingLine"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StartingLine/StartTrigger"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.5, 0)
 shape = SubResource("BoxShape3D_5f3ed")
 
+[node name="MainPlatform1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -140.27403)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MainPlatform1"]
+shape = SubResource("BoxShape3D_k0soe")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MainPlatform1"]
+mesh = SubResource("BoxMesh_fk6oy")
+
+[node name="MainPlatform2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 6, -222.27403)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MainPlatform2"]
+shape = SubResource("BoxShape3D_k0soe")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MainPlatform2"]
+mesh = SubResource("BoxMesh_fk6oy")
+
+[node name="Blockade1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13, -192)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Blockade1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
+shape = SubResource("BoxShape3D_qyffo")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Blockade1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
+shape = SubResource("BoxShape3D_qyffo")
+
+[connection signal="resume_game" from="Player/CameraAnchor/Camera3D/EscapeMenu" to="Player" method="unpause_game"]
+[connection signal="pressed" from="Player/CameraAnchor/Camera3D/EscapeMenu/ResumeButton" to="Player/CameraAnchor/Camera3D/EscapeMenu" method="resume_game_button"]
+[connection signal="pressed" from="Player/CameraAnchor/Camera3D/EscapeMenu/ExitButton" to="Player/CameraAnchor/Camera3D/EscapeMenu/ExitButton" method="exit"]
+[connection signal="body_exited" from="StartingPlatform/BoostPad/Area3D" to="StartingPlatform/BoostPad" method="boost_player"]
+[connection signal="game_start" from="StartingLine" to="Player" method="start_game"]
 [connection signal="body_exited" from="StartingLine/BoostPad/Area3D" to="StartingLine/BoostPad" method="boost_player"]
 [connection signal="body_entered" from="StartingLine/StartTrigger" to="StartingLine" method="start_game"]
