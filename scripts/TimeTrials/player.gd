@@ -9,7 +9,7 @@ const max_sprint_speed = 9 # in m/s
 const air_sprint_speed = 1.5 # speed in m/s
 
 const jump_velocity = 8 #no clue what this is measured in or why this seems good
-const gravity = 15 #in m/s
+const gravity = 25 #in m/s
 
 var target_velocity = Vector3.ZERO
 var world_target_velocity = Vector3.ZERO
@@ -23,13 +23,30 @@ var timer:float = 0
 
 var should_jump:bool = false #variable that is true when the player should jump on the next physics tick
 
+func reset_game() -> void:#linked via signal
+	timer_running = false
+	timer = 0
+	
+	var timer_text = "00:00:000"
+	$CameraAnchor/Camera3D/GameUI/Timer.text = timer_text
+	
+	position.x = 0
+	position.y = 2
+	position.z = 0
+	
+	rotation.y = 0
+	$CameraAnchor.rotation.x = 0
+	
+	velocity = Vector3.ZERO
+	target_velocity = Vector3.ZERO
+
 func start_game() -> void:#linked with signal
-	game_running = true
 	timer_running = true
 func unpause_game() -> void:#linked with signal
 	game_running = true
 
 func _ready() -> void:
+	game_running = true
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	
 	if debug == true:
@@ -55,11 +72,11 @@ func _input(event): #called on inputs(mouse movements and keypressed)
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		rotate_y(-event.relative.x * mouse_sensitivity)
 		
-		$CameraAnchor/Camera3D.rotate_x(-event.relative.y * mouse_sensitivity)
-		$CameraAnchor/Camera3D.rotation.x = clampf($CameraAnchor/Camera3D.rotation.x, -deg_to_rad(70), deg_to_rad(70))
+		$CameraAnchor.rotate_x(-event.relative.y * mouse_sensitivity)
+		$CameraAnchor.rotation.x = clampf($CameraAnchor.rotation.x, -deg_to_rad(70), deg_to_rad(70))
 	
 	elif event is InputEventKey:
-		if event.keycode == KEY_SPACE and not event.is_echo() and is_on_floor(): #queues a jump for the next physics tick
+		if event.keycode == KEY_SPACE and is_on_floor(): #queues a jump for the next physics tick
 			should_jump = true
 		
 		if event.keycode == KEY_ESCAPE and not event.is_echo():
@@ -91,76 +108,76 @@ func multiply_all_velocity(multiplier:float) -> void: #function to be called by 
 
 
 func _physics_process(delta: float) -> void: #runs at a fixed rate, useful for physics based things like movement, you then multiply by delta, which is the time between ticks(updates)	
-	
-	var target_acceleration = Vector3.ZERO
-	var applied_acceleration = sprint_acceleration #speed that is applied to the player when they are moving
-	
-	#gravity handling
-	if target_velocity.y > -gravity and not is_on_floor():
-		target_velocity.y -= gravity * delta
-	elif is_on_floor():
-		target_velocity.y = 0
-	
-	if should_jump == true and is_on_floor(): #jumping
-		target_velocity.y += jump_velocity
-		multiply_all_velocity(1.2)
-		should_jump = false
-	
-	if not is_on_floor(): #mid air movement
-		applied_acceleration = 2 #m/s
-	
-	#movement
-	if Input.is_key_pressed(KEY_W):
-		target_acceleration.z -= applied_acceleration
-	if Input.is_key_pressed(KEY_S):
-		target_acceleration.z += applied_acceleration
-	if Input.is_key_pressed(KEY_A):
-		target_acceleration.x -= applied_acceleration
-	if Input.is_key_pressed(KEY_D):
-		target_acceleration.x += applied_acceleration
-	
-	#z axis movement application, caps running speed to not add speed if we are more than the max speed
-	if abs(target_velocity.z) < max_sprint_speed or sign(target_acceleration.z) != sign(target_velocity.z):
-		target_velocity.z += target_acceleration.z
-	
-	#x axis movement application, caps running speed to not add speed if we are more than the max speed
-	if abs(target_velocity.x) < max_sprint_speed or sign(target_acceleration.x) != sign(target_velocity.x):
-		target_velocity.x += target_acceleration.x
-	
-	#target_velocity = target_velocity.rotated(Vector3.UP,rotation.y) # TODO: this is wrong, needs fixing to rotate properly. Should use a third variable to get total movement speed
-	
-	#natural deceleration when not moving
-	if not (Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_S)) and is_on_floor():
-		target_velocity.z = lerpf(target_velocity.z,0,0.5)
-	if not (Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_D)) and is_on_floor():
-		target_velocity.x = lerpf(target_velocity.x,0,0.5)
-	
-	
-	if single_velocity_multiplier != 1: #adds velocity mutliplier
-		target_velocity *= single_velocity_multiplier
-		print("[Runner] New velocity will be "+str(target_velocity))
-		single_velocity_multiplier = 1
-	
-	if velocity_increase != Vector3.ZERO: #adds velocity
-		target_velocity += velocity_increase
-		velocity_increase = Vector3.ZERO
+	if game_running:
+		var target_acceleration = Vector3.ZERO
+		var applied_acceleration = sprint_acceleration #speed that is applied to the player when they are moving
 		
-	velocity = target_velocity
-	velocity = velocity.rotated(Vector3.UP,rotation.y)
-	
-	update_velocity_feed()
-	move_and_slide()
-	
-	var collision = get_last_slide_collision()
-	var collider
-	
-	if collision != null:
-		collider = collision.get_collider()
-	
-	if collider != null and collider.get_meta("CollidesAsWall",false) == true:
-		target_velocity.x = 0
-		target_velocity.z = 0
+		#gravity handling
+		if target_velocity.y > -gravity and not is_on_floor():
+			target_velocity.y -= gravity * delta
+		elif is_on_floor():
+			target_velocity.y = 0
 		
-		velocity.x = 0
-		velocity.z = 0
+		if should_jump == true and is_on_floor(): #jumping
+			target_velocity.y += jump_velocity
+			multiply_all_velocity(1.2)
+			should_jump = false
+		
+		if not is_on_floor(): #mid air movement
+			applied_acceleration = 2 #m/s
+		
+		#movement
+		if Input.is_key_pressed(KEY_W):
+			target_acceleration.z -= applied_acceleration
+		if Input.is_key_pressed(KEY_S):
+			target_acceleration.z += applied_acceleration
+		if Input.is_key_pressed(KEY_A):
+			target_acceleration.x -= applied_acceleration
+		if Input.is_key_pressed(KEY_D):
+			target_acceleration.x += applied_acceleration
+		
+		#z axis movement application, caps running speed to not add speed if we are more than the max speed
+		if abs(target_velocity.z) < max_sprint_speed or sign(target_acceleration.z) != sign(target_velocity.z):
+			target_velocity.z += target_acceleration.z
+		
+		#x axis movement application, caps running speed to not add speed if we are more than the max speed
+		if abs(target_velocity.x) < max_sprint_speed or sign(target_acceleration.x) != sign(target_velocity.x):
+			target_velocity.x += target_acceleration.x
+		
+		#target_velocity = target_velocity.rotated(Vector3.UP,rotation.y) # TODO: this is wrong, needs fixing to rotate properly. Should use a third variable to get total movement speed
+		
+		#natural deceleration when not moving
+		if not (Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_S)) and is_on_floor():
+			target_velocity.z = lerpf(target_velocity.z,0,0.5)
+		if not (Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_D)) and is_on_floor():
+			target_velocity.x = lerpf(target_velocity.x,0,0.5)
+		
+		
+		if single_velocity_multiplier != 1: #adds velocity mutliplier
+			target_velocity *= single_velocity_multiplier
+			print("[Runner] New velocity will be "+str(target_velocity))
+			single_velocity_multiplier = 1
+		
+		if velocity_increase != Vector3.ZERO: #adds velocity
+			target_velocity += velocity_increase
+			velocity_increase = Vector3.ZERO
+			
+		velocity = target_velocity
+		velocity = velocity.rotated(Vector3.UP,rotation.y)
+		
+		update_velocity_feed()
+		move_and_slide()
+		
+		var collision = get_last_slide_collision()
+		var collider
+		
+		if collision != null:
+			collider = collision.get_collider()
+		
+		if collider != null and collider.get_meta("CollidesAsWall",false) == true:
+			target_velocity.x = 0
+			target_velocity.z = 0
+			
+			velocity.x = 0
+			velocity.z = 0
 	

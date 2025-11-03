@@ -8,3 +8,6 @@ func start_game(object:Node3D) -> void: #linked with signal to area
 		print("[Runner] Game started")
 		game_started = true
 		game_start.emit()
+
+func reset_game() -> void:#linked with signal
+	game_started = false
