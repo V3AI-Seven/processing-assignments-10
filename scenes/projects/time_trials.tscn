@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://c4vm034v8x0b5"]
+[gd_scene load_steps=46 format=3 uid="uid://c4vm034v8x0b5"]
 
 [ext_resource type="Script" path="res://scripts/TimeTrials/time_trials.gd" id="1_5f3ed"]
 [ext_resource type="Script" uid="uid://bi153785iu53y" path="res://scripts/TimeTrials/player.gd" id="1_mvp68"]
@@ -49,7 +49,7 @@ material = SubResource("StandardMaterial3D_hprxx")
 size = Vector3(10, 0.5, 2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_nlo2j"]
-size = Vector3(10, 1, 2)
+size = Vector3(10, 4, 3)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5f3ed"]
 size = Vector3(11, 32, 1)
@@ -65,16 +65,74 @@ uv1_scale = Vector3(7.5, 5, 0)
 material = SubResource("StandardMaterial3D_qyffo")
 size = Vector3(15, 1, 15)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_qyffo"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_qqlau"]
+size = Vector3(15, 1, 15)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_3k7ew"]
+load_path = "res://.godot/imported/texture_08.png-f2866061790af517e6f855bf46a0a7ec.s3tc.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2ubhj"]
+albedo_texture = SubResource("CompressedTexture2D_3k7ew")
+uv1_scale = Vector3(7.5, 5, 0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_w8vqc"]
+material = SubResource("StandardMaterial3D_2ubhj")
+size = Vector3(15, 1, 15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vusm0"]
+size = Vector3(5, 10, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kx258"]
+size = Vector3(5, 10, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qqlau"]
+albedo_texture = ExtResource("2_yb1jc")
+uv1_scale = Vector3(1.5, 2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3k7ew"]
+material = SubResource("StandardMaterial3D_qqlau")
+size = Vector3(5, 10, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a83sp"]
+albedo_texture = ExtResource("2_yb1jc")
+uv1_scale = Vector3(1.5, 2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2ubhj"]
+material = SubResource("StandardMaterial3D_a83sp")
+size = Vector3(5, 10, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_w8vqc"]
 size = Vector3(5, 10, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fk6oy"]
 albedo_texture = ExtResource("2_yb1jc")
 uv1_scale = Vector3(1.5, 2, 1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_qyffo"]
+[sub_resource type="BoxMesh" id="BoxMesh_thxj6"]
 material = SubResource("StandardMaterial3D_fk6oy")
 size = Vector3(5, 10, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fk6oy"]
+size = Vector3(10, 10, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5ogsv"]
+size = Vector3(10, 10, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_io0cm"]
+albedo_texture = ExtResource("2_yb1jc")
+uv1_scale = Vector3(3, 2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vusm0"]
+material = SubResource("StandardMaterial3D_io0cm")
+size = Vector3(10, 10, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u166y"]
+albedo_texture = ExtResource("2_yb1jc")
+uv1_scale = Vector3(3, 2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_kx258"]
+material = SubResource("StandardMaterial3D_u166y")
+size = Vector3(10, 10, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_cguc8"]
 size = Vector3(150, 1, 653)
@@ -276,7 +334,7 @@ shape = SubResource("BoxShape3D_k0soe")
 mesh = SubResource("BoxMesh_fk6oy")
 
 [node name="MainPlatform3" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 3, -202.27403)
+transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 3, -208.27403)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MainPlatform3"]
 shape = SubResource("BoxShape3D_k0soe")
@@ -284,24 +342,27 @@ shape = SubResource("BoxShape3D_k0soe")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="MainPlatform3"]
 mesh = SubResource("BoxMesh_fk6oy")
 
-[node name="BoostPad" type="StaticBody3D" parent="MainPlatform3"]
-transform = Transform3D(1, 0, 0, 0, 0.86602527, -0.4999999, 0, 0.4999999, 0.86602527, -4, -0.6126814, 5.8979034)
-script = ExtResource("3_iwb4k")
-metadata/BoostMultiplier = 2.0
+[node name="MainPlatform4" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 3, -281.27405)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MainPlatform3/BoostPad"]
-transform = Transform3D(1, 0, 0, 0, 0.9999966, 0, 0, 0, 0.9999966, 4, 0, 0)
-shape = SubResource("BoxShape3D_iwb4k")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MainPlatform4"]
+shape = SubResource("BoxShape3D_k0soe")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="MainPlatform3/BoostPad"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
-mesh = SubResource("BoxMesh_iwb4k")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MainPlatform4"]
+mesh = SubResource("BoxMesh_fk6oy")
 
-[node name="Area3D" type="Area3D" parent="MainPlatform3/BoostPad"]
+[node name="MainWall1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 11, -293.27405)
+metadata/CollidesAsWall = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MainPlatform3/BoostPad/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 0.9999937, 0, 0, 0, 0.9999937, 4, 0.49999994, 0)
-shape = SubResource("BoxShape3D_nlo2j")
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="MainWall1"]
+transform = Transform3D(1, 0, 0, 0, -4.371138e-08, -1, 0, 1, -4.371138e-08, 0, 0, 0)
+shape = SubResource("BoxShape3D_qqlau")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="MainWall1"]
+transform = Transform3D(1, 0, 0, 0, -4.371138e-08, -1, 0, 1, -4.371138e-08, 0, 0, 0)
+mesh = SubResource("BoxMesh_w8vqc")
+skeleton = NodePath("../../MainPlatform4")
 
 [node name="Blockade1" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, -124)
@@ -309,50 +370,50 @@ metadata/CollidesAsWall = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Blockade1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
-shape = SubResource("BoxShape3D_qyffo")
+shape = SubResource("BoxShape3D_vusm0")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="Blockade1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
-shape = SubResource("BoxShape3D_qyffo")
+shape = SubResource("BoxShape3D_kx258")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Blockade1"]
 transform = Transform3D(-1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0, 1, 5, 0, 0)
-mesh = SubResource("BoxMesh_qyffo")
+mesh = SubResource("BoxMesh_3k7ew")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Blockade1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
-mesh = SubResource("BoxMesh_qyffo")
-
-[node name="Blockade3" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.8660253, -0.49999997, 0, 0.49999997, 0.8660253, 0, 15, -235)
-metadata/CollidesAsWall = true
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Blockade3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
-shape = SubResource("BoxShape3D_qyffo")
-
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="Blockade3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
-shape = SubResource("BoxShape3D_qyffo")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Blockade3"]
-transform = Transform3D(-1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0, 1, 5, 0, 0)
-mesh = SubResource("BoxMesh_qyffo")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Blockade3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
-mesh = SubResource("BoxMesh_qyffo")
+mesh = SubResource("BoxMesh_2ubhj")
 
 [node name="Blockade2" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, -174)
 metadata/CollidesAsWall = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Blockade2"]
-shape = SubResource("BoxShape3D_qyffo")
+shape = SubResource("BoxShape3D_w8vqc")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Blockade2"]
 transform = Transform3D(-1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0, 1, 0, 0, 0)
-mesh = SubResource("BoxMesh_qyffo")
+mesh = SubResource("BoxMesh_thxj6")
+
+[node name="Blockade3" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.9999999, -2.9802322e-08, 0, 2.9802322e-08, 0.9999999, 0, 10, -235)
+metadata/CollidesAsWall = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Blockade3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0, 0)
+shape = SubResource("BoxShape3D_fk6oy")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Blockade3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0, 0)
+shape = SubResource("BoxShape3D_5ogsv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Blockade3"]
+transform = Transform3D(-1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 2.1175824e-22, 0, 1, 7.5, 0, 0)
+mesh = SubResource("BoxMesh_vusm0")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Blockade3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0, 0)
+mesh = SubResource("BoxMesh_kx258")
 
 [node name="KillZone" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -14, 0)
@@ -372,7 +433,6 @@ shape = SubResource("BoxShape3D_cguc8")
 [connection signal="game_start" from="StartingLine" to="Player" method="start_game"]
 [connection signal="body_exited" from="StartingLine/BoostPad/Area3D" to="StartingLine/BoostPad" method="boost_player"]
 [connection signal="body_entered" from="StartingLine/StartTrigger" to="StartingLine" method="start_game"]
-[connection signal="body_exited" from="MainPlatform3/BoostPad/Area3D" to="MainPlatform3/BoostPad" method="boost_player"]
 [connection signal="body_entered" from="KillZone" to="KillZone" method="player_entered"]
 [connection signal="reset_game" from="KillZone" to="Player" method="reset_game"]
 [connection signal="reset_game" from="KillZone" to="StartingLine" method="reset_game"]
