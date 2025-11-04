@@ -1,13 +1,13 @@
 CollisionShape3D
 Area3D
-MeshInstance3D
 StaticBody3D
+Label3D
+MeshInstance3D
 Button
 Label
 Control
 DirectionalLight3D
 Sprite2D
-Label3D
 Node3D
 OptionButton      - Matches the "dropdown" keyword.
 AnimationPlayer

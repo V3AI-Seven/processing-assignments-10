@@ -9,7 +9,7 @@ const max_sprint_speed = 9 # in m/s
 const air_sprint_speed = 1.5 # speed in m/s
 
 const jump_velocity = 8 #no clue what this is measured in or why this seems good
-const gravity = 25 #in m/s
+const terminal_fall_velocity = 25 #in m/s 
 
 var target_velocity = Vector3.ZERO
 var world_target_velocity = Vector3.ZERO
@@ -113,10 +113,11 @@ func _physics_process(delta: float) -> void: #runs at a fixed rate, useful for p
 		var applied_acceleration = sprint_acceleration #speed that is applied to the player when they are moving
 		
 		#gravity handling
-		if target_velocity.y > -gravity and not is_on_floor():
-			target_velocity.y -= gravity * delta
+		if not is_on_floor():
+			target_velocity += get_gravity() * delta
 		elif is_on_floor():
 			target_velocity.y = 0
+		target_velocity.y = clamp(target_velocity.y,-terminal_fall_velocity,9223372036854775807)
 		
 		if should_jump == true and is_on_floor(): #jumping
 			target_velocity.y += jump_velocity
@@ -137,7 +138,7 @@ func _physics_process(delta: float) -> void: #runs at a fixed rate, useful for p
 			target_acceleration.x += applied_acceleration
 		
 		#z axis movement application, caps running speed to not add speed if we are more than the max speed
-		if abs(target_velocity.z) < max_sprint_speed or sign(target_acceleration.z) != sign(target_velocity.z):
+		if abs(target_velocity.z) < max_sprint_speed:# or sign(target_acceleration.z) != sign(target_velocity.z):
 			target_velocity.z += target_acceleration.z
 		
 		#x axis movement application, caps running speed to not add speed if we are more than the max speed
@@ -163,21 +164,23 @@ func _physics_process(delta: float) -> void: #runs at a fixed rate, useful for p
 			velocity_increase = Vector3.ZERO
 			
 		velocity = target_velocity
-		velocity = velocity.rotated(Vector3.UP,rotation.y)
+		velocity = transform.basis * velocity #rotate velocity to be relative to player rotation
 		
 		update_velocity_feed()
 		move_and_slide()
 		
-		var collision = get_last_slide_collision()
-		var collider
-		
-		if collision != null:
-			collider = collision.get_collider()
-		
-		if collider != null and collider.get_meta("CollidesAsWall",false) == true:
-			target_velocity.x = 0
-			target_velocity.z = 0
+		var impact = get_last_slide_collision()
+		if impact != null and not is_on_floor():
+			var collider = impact.get_collider()
+			var bounce = collider.physics_material_override.bounce
 			
-			velocity.x = 0
-			velocity.z = 0
-	
+			var impact_normal = impact.get_normal()
+			#impact_normal *= bounce
+			#impact_normal = impact_normal.normalized()
+					
+			velocity = velocity.bounce(impact_normal)
+			velocity *= bounce
+			target_velocity = velocity
+			
+			impact = null
+			impact = move_and_collide(velocity*delta)
