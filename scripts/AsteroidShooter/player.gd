@@ -39,13 +39,9 @@ func _physics_process(delta: float) -> void:#runs at a fixed rate, and delta is 
 				$FireCooldown.start()
 				fire_shot.emit()
 		
-		#roll control
-		var target_roll = 0
-		if Input.is_key_pressed(KEY_A):
-			target_roll += -roll_speed * delta
-		if Input.is_key_pressed(KEY_D):
-			target_roll += roll_speed * delta
-		rotate(target_roll)
+		var mouse_pos = get_viewport().get_mouse_position()
+		look_at(mouse_pos)
+		rotation_degrees += 90
 		
 		#movement
 		var target_velocity = Vector2.ZERO
@@ -53,7 +49,10 @@ func _physics_process(delta: float) -> void:#runs at a fixed rate, and delta is 
 			target_velocity.y += -move_speed
 		if Input.is_key_pressed(KEY_S):
 			target_velocity.y += move_speed
-	
+		if Input.is_key_pressed(KEY_A):
+			target_velocity.x += -move_speed
+		if Input.is_key_pressed(KEY_D):
+			target_velocity.x += move_speed
 		target_velocity = target_velocity.rotated(rotation)
 		
 		velocity = target_velocity

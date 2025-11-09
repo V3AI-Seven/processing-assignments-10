@@ -15,7 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://53unuext77eo" path="res://scripts/AsteroidShooter/Media/WhiteCircle.png" id="8_t13xm"]
 [ext_resource type="Script" uid="uid://cp17i6kmdevls" path="res://scripts/AsteroidShooter/animation_player.gd" id="9_b57t4"]
 [ext_resource type="Script" uid="uid://ws2sihpcdop6" path="res://scripts/AsteroidShooter/restart_button.gd" id="12_xpkfe"]
-[ext_resource type="Script" uid="uid://cnj82moni6pyf" path="res://scripts/AsteroidShooter/kill_zone.gd" id="13_q531c"]
+[ext_resource type="Script" path="res://scripts/AsteroidShooter/kill_zone.gd" id="13_q531c"]
 [ext_resource type="Script" uid="uid://c54bxtocu5yic" path="res://scripts/AsteroidShooter/audio_player.gd" id="14_3mn2t"]
 [ext_resource type="AudioStream" uid="uid://b77tecsrmmutm" path="res://scripts/AsteroidShooter/Media/shoot.wav" id="15_xnspx"]
 [ext_resource type="AudioStream" uid="uid://cjrvadqf7d47f" path="res://scripts/AsteroidShooter/Media/boulder_destroy.mp3" id="16_qlkwb"]
@@ -262,8 +262,8 @@ _data = {
 [node name="AsteroidShooter" type="Node2D"]
 
 [node name="Background" type="Sprite2D" parent="."]
-position = Vector2(516, 336.00006)
-scale = Vector2(0.2669271, 0.4142195)
+position = Vector2(664, 336.00006)
+scale = Vector2(0.31510416, 0.4142195)
 texture = ExtResource("1_ai8ie")
 
 [node name="OuterWalls" type="Node2D" parent="."]

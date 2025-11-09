@@ -3,5 +3,6 @@ res://scenes/projects/moveable_character.tscn::4298265d65c4e5ed4ed047447e7b6a64:
 res://scenes/projects/pig.tscn::6d5c600e2a6beb09e557e6afa997162b::1759947482::res://.godot/exported/133200997/export-137227d4e28d890601e624d5eb16d60c-pig.scn
 res://scenes/projects/test.tscn::12ae989e748a55bc14b01f6b9ad96676::1761069768::res://.godot/exported/133200997/export-e81d58cf6c5c9f849c9fcbda3f266240-test.scn
 res://scenes/templates/exit_button.tscn::a5d669619bf8af228d6ed3ddf1ea2b01::1759368058::res://.godot/exported/133200997/export-10cb4fde693153a0c81a2b6593ec71f9-exit_button.scn
-res://scenes/main_menu.tscn::da778bc5f442929f33490e383f8b524c::1761241515::res://.godot/exported/133200997/export-ea5c6ad4629af728dc514cefde332394-main_menu.scn
-res://scenes/projects/asteroid_shooter.tscn::e50110e4d593b566f1d0c4c1d37361ad::1761591083::res://.godot/exported/133200997/export-2dd93797fa8af87020067c1af9209e62-asteroid_shooter.scn
+res://scenes/main_menu.tscn::5da140589805b22401acaa3406311908::1762136154::res://.godot/exported/133200997/export-ea5c6ad4629af728dc514cefde332394-main_menu.scn
+res://scenes/projects/asteroid_shooter.tscn::a6f4d83d936db5b0b7850b05e1c449e2::1762539115::res://.godot/exported/133200997/export-2dd93797fa8af87020067c1af9209e62-asteroid_shooter.scn
+res://scenes/projects/time_trials.tscn::67c9d58a1ac6058ae97d390a4867060a::1762370778::res://.godot/exported/133200997/export-f0f3c2ecda5a3029eebdee224a57e37e-time_trials.scn

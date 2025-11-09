@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://c4vm034v8x0b5"]
+[gd_scene load_steps=73 format=3 uid="uid://c4vm034v8x0b5"]
 
 [ext_resource type="Script" path="res://scripts/TimeTrials/time_trials.gd" id="1_5f3ed"]
 [ext_resource type="Script" uid="uid://bi153785iu53y" path="res://scripts/TimeTrials/player.gd" id="1_mvp68"]
@@ -8,6 +8,9 @@
 [ext_resource type="Script" uid="uid://cg4q403hac1ud" path="res://scripts/TimeTrials/starting_line.gd" id="3_nlo2j"]
 [ext_resource type="Script" path="res://scripts/TimeTrials/escape_menu.gd" id="4_k0soe"]
 [ext_resource type="Script" uid="uid://3vi16j6y1o4d" path="res://scripts/TemplateScenes/ExitButton/exit_button.gd" id="5_qyffo"]
+[ext_resource type="AudioStream" uid="uid://bykpnmd4eh464" path="res://scripts/TimeTrials/Media/victory-96688.mp3" id="6_5ogsv"]
+[ext_resource type="AudioStream" uid="uid://bbs4ayrnftbjb" path="res://scripts/TimeTrials/Media/5944863434080256.wav" id="7_vusm0"]
+[ext_resource type="Script" uid="uid://ce3l2imfas6jm" path="res://scripts/TimeTrials/finish_area.gd" id="9_cguc8"]
 [ext_resource type="Script" uid="uid://d4abf8l1ryyue" path="res://scripts/TimeTrials/kill_zone.gd" id="9_fk6oy"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nlo2j"]
@@ -17,6 +20,90 @@ albedo_texture = ExtResource("2_yb1jc")
 material = SubResource("StandardMaterial3D_nlo2j")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yb1jc"]
+
+[sub_resource type="Animation" id="Animation_5ogsv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Timer:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(384, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Win:theme_override_font_sizes/font_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [64]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Win:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.033333335),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_cguc8"]
+resource_name = "Victory"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Timer:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(384, 0), Vector2(384, 216)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Win:theme_override_font_sizes/font_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(-0.033333335, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1, 64]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Win:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.03333333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vusm0"]
+_data = {
+&"RESET": SubResource("Animation_5ogsv"),
+&"Victory": SubResource("Animation_cguc8")
+}
 
 [sub_resource type="Gradient" id="Gradient_b57t4"]
 offsets = PackedFloat32Array(0.5594059, 0.9786096)
@@ -76,6 +163,43 @@ size = Vector3(15, 1, 15)
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_a83sp"]
 bounce = 0.5
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_w8vqc"]
+bounce = 0.5
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_thxj6"]
+size = Vector3(15, 1, 40)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_io0cm"]
+load_path = "res://.godot/imported/texture_08.png-f2866061790af517e6f855bf46a0a7ec.s3tc.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5pno1"]
+albedo_texture = SubResource("CompressedTexture2D_io0cm")
+uv1_scale = Vector3(7.5, 12, 0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3yfnv"]
+material = SubResource("StandardMaterial3D_5pno1")
+size = Vector3(15, 1, 40)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_b0lld"]
+bounce = 0.5
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fykls"]
+size = Vector3(15, 1, 15)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_8sagb"]
+load_path = "res://.godot/imported/texture_08.png-f2866061790af517e6f855bf46a0a7ec.s3tc.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c4rab"]
+albedo_texture = SubResource("CompressedTexture2D_8sagb")
+uv1_scale = Vector3(7.5, 5, 0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hftyb"]
+material = SubResource("StandardMaterial3D_c4rab")
+size = Vector3(15, 1, 15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ayxls"]
+size = Vector3(15, 12, 15)
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vusm0"]
 bounce = 0.35
@@ -217,11 +341,28 @@ offset_bottom = 648.0
 layout_mode = 0
 offset_left = 384.0
 offset_right = 768.0
-offset_bottom = 72.0
+offset_bottom = 72.00015
 theme_override_font_sizes/font_size = 48
 text = "00:00:000"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Win" type="Label" parent="Player/CameraAnchor/Camera3D/GameUI"]
+visible = false
+layout_mode = 0
+offset_left = 320.0
+offset_top = 256.0
+offset_right = 832.0
+offset_bottom = 384.0
+theme_override_font_sizes/font_size = 64
+text = "You Win!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player/CameraAnchor/Camera3D/GameUI"]
+libraries = {
+&"": SubResource("AnimationLibrary_vusm0")
+}
 
 [node name="EscapeMenu" type="Control" parent="Player/CameraAnchor/Camera3D"]
 visible = false
@@ -278,6 +419,13 @@ offset_bottom = 448.0
 theme_override_font_sizes/font_size = 32
 text = "Exit"
 script = ExtResource("5_qyffo")
+
+[node name="VictoryMusic" type="AudioStreamPlayer" parent="Player"]
+stream = ExtResource("6_5ogsv")
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="Player"]
+stream = ExtResource("7_vusm0")
+volume_db = -0.365
 
 [node name="StartingPlatform" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20)
@@ -383,6 +531,40 @@ shape = SubResource("BoxShape3D_k0soe")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="MainPlatform4"]
 mesh = SubResource("BoxMesh_fk6oy")
 
+[node name="MainPlatform5" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 17, 3, -281.27405)
+physics_material_override = SubResource("PhysicsMaterial_w8vqc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MainPlatform5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3841858e-07, 12)
+shape = SubResource("BoxShape3D_thxj6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MainPlatform5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1920929e-06, 12)
+mesh = SubResource("BoxMesh_3yfnv")
+
+[node name="MainPlatform6" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 3, -306.27405)
+physics_material_override = SubResource("PhysicsMaterial_b0lld")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MainPlatform6"]
+shape = SubResource("BoxShape3D_fykls")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MainPlatform6"]
+mesh = SubResource("BoxMesh_hftyb")
+
+[node name="FinishArea" type="Area3D" parent="MainPlatform6"]
+script = ExtResource("9_cguc8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MainPlatform6/FinishArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+shape = SubResource("BoxShape3D_ayxls")
+
+[node name="Finish" type="Label3D" parent="MainPlatform6"]
+transform = Transform3D(-4.371139e-08, 8.742278e-08, 1, 1.7484555e-07, -1, 8.7422784e-08, 1, 1.7484555e-07, 4.3711374e-08, 0, -3, 0)
+text = "The End!"
+font_size = 512
+
 [node name="MainWall1" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 11, -293.27405)
 physics_material_override = SubResource("PhysicsMaterial_vusm0")
@@ -477,6 +659,8 @@ shape = SubResource("BoxShape3D_3k7ew")
 [connection signal="game_start" from="StartingLine" to="Player" method="start_game"]
 [connection signal="body_exited" from="StartingLine/BoostPad/Area3D" to="StartingLine/BoostPad" method="boost_player"]
 [connection signal="body_entered" from="StartingLine/StartTrigger" to="StartingLine" method="start_game"]
+[connection signal="body_entered" from="MainPlatform6/FinishArea" to="MainPlatform6/FinishArea" method="object_entered"]
+[connection signal="game_finish" from="MainPlatform6/FinishArea" to="Player" method="player_won"]
 [connection signal="body_entered" from="KillZone" to="KillZone" method="player_entered"]
 [connection signal="reset_game" from="KillZone" to="Player" method="reset_game"]
 [connection signal="reset_game" from="KillZone" to="StartingLine" method="reset_game"]

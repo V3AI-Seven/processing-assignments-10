@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-@export var debug = true
+@export var debug = false
 
 const mouse_sensitivity = 0.002
 
@@ -29,6 +29,9 @@ func reset_game() -> void:#linked via signal
 	
 	var timer_text = "00:00:000"
 	$CameraAnchor/Camera3D/GameUI/Timer.text = timer_text
+	$CameraAnchor/Camera3D/GameUI/AnimationPlayer.play("RESET")
+	
+	$CameraAnchor/Camera3D/GameUI/Win.visible = false
 	
 	position.x = 0
 	position.y = 2
@@ -39,9 +42,11 @@ func reset_game() -> void:#linked via signal
 	
 	velocity = Vector3.ZERO
 	target_velocity = Vector3.ZERO
+	$BackgroundMusic.stop()
 
 func start_game() -> void:#linked with signal
 	timer_running = true
+	$BackgroundMusic.play()
 func unpause_game() -> void:#linked with signal
 	game_running = true
 
@@ -67,6 +72,12 @@ func _process(delta: float) -> void:
 
 		var timer_text = "%02d:%02d:%03d" % [minutes, seconds, milliseconds]
 		$CameraAnchor/Camera3D/GameUI/Timer.text = timer_text
+
+func player_won() -> void:
+	timer_running = false
+	$CameraAnchor/Camera3D/GameUI/AnimationPlayer.play("Victory")
+	$VictoryMusic.play()
+	$BackgroundMusic.stop()
 
 func _input(event): #called on inputs(mouse movements and keypressed)
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
@@ -175,9 +186,7 @@ func _physics_process(delta: float) -> void: #runs at a fixed rate, useful for p
 			var bounce = collider.physics_material_override.bounce
 			
 			var impact_normal = impact.get_normal()
-			#impact_normal *= bounce
-			#impact_normal = impact_normal.normalized()
-					
+
 			velocity = velocity.bounce(impact_normal)
 			velocity *= bounce
 			target_velocity = velocity
