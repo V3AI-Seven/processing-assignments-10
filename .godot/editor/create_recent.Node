@@ -1,14 +1,14 @@
+Label
+PopupPanel
+Popup
+Button
+TextEdit
+LineEdit      - Matches the "text" keyword.
 Label3D
 AudioStreamPlayer
 AnimationPlayer
-Label
 CollisionShape3D
 Area3D
 StaticBody3D
 MeshInstance3D
-Button
 Control
-DirectionalLight3D
-Sprite2D
-Node3D
-OptionButton      - Matches the "dropdown" keyword.
