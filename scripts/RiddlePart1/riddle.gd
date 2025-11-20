@@ -10,6 +10,5 @@ func decrypt() -> void:
 	decryptionKey = $LineEdit.text
 	textToDecrypt = $TextEdit.text
 	
-	if decryptionKey == validDecryptionKey:
-		if textToDecrypt == validText:
-			$PopupPanel.popup()
+	if decryptionKey == validDecryptionKey and textToDecrypt == validText:
+		$PopupPanel.popup()

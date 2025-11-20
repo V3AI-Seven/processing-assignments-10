@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ccbijnegsl5vm"]
 
-[ext_resource type="Script" uid="uid://b6121egcbtm1g" path="res://scripts/Riddle/riddle.gd" id="1_db6cd"]
+[ext_resource type="Script" uid="uid://b6121egcbtm1g" path="res://scripts/RiddlePart1/riddle.gd" id="1_f0tmo"]
 
 [node name="Riddle" type="Control"]
 layout_mode = 3
@@ -9,7 +9,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_db6cd")
+script = ExtResource("1_f0tmo")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0

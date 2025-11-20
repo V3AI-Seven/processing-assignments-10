@@ -6,4 +6,5 @@ res://scenes/templates/exit_button.tscn::a5d669619bf8af228d6ed3ddf1ea2b01::17593
 res://scenes/main_menu.tscn::6abf4cc32d0a0b68ba43cec34dfe3eed::1763491730::res://.godot/exported/133200997/export-ea5c6ad4629af728dc514cefde332394-main_menu.scn
 res://scenes/projects/asteroid_shooter.tscn::a6f4d83d936db5b0b7850b05e1c449e2::1762541176::res://.godot/exported/133200997/export-2dd93797fa8af87020067c1af9209e62-asteroid_shooter.scn
 res://scenes/projects/time_trials.tscn::67c9d58a1ac6058ae97d390a4867060a::1762370778::res://.godot/exported/133200997/export-f0f3c2ecda5a3029eebdee224a57e37e-time_trials.scn
-res://scenes/projects/riddle.tscn::dc184f3e85f17ca0ebf0c9a35fb39c24::1763493491::res://.godot/exported/133200997/export-b2469d86a509b8615fab8216e50b4a26-riddle.scn
+res://scenes/projects/riddle_part_1.tscn::ae89e8efd6ef1bbb9dc0f123c22c76c9::1763665799::res://.godot/exported/133200997/export-ae758e7863bc7f814d14dc984e6b4919-riddle_part_1.scn
+res://scenes/projects/riddle_part_2.tscn::9847d332b5c1a04dab1cc26c5d1b8d2a::1763666049::res://.godot/exported/133200997/export-1716537295ea83d40d02dc2d0b356a0f-riddle_part_2.scn

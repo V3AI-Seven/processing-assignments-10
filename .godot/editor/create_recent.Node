@@ -1,7 +1,8 @@
+Button
+LineEdit
 Label
 PopupPanel
 Popup
-Button
 TextEdit
 LineEdit      - Matches the "text" keyword.
 Label3D
@@ -11,4 +12,3 @@ CollisionShape3D
 Area3D
 StaticBody3D
 MeshInstance3D
-Control
