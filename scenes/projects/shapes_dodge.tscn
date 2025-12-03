@@ -1,0 +1,245 @@
+[gd_scene load_steps=17 format=3 uid="uid://bmp6ekjmslkgy"]
+
+[ext_resource type="Script" uid="uid://e4a1mtqjw2do" path="res://scripts/Shapes/player.gd" id="2_nydrw"]
+[ext_resource type="Script" uid="uid://tsg2m6cty82u" path="res://scripts/Shapes/game_ui.gd" id="4_3ptjk"]
+[ext_resource type="Script" uid="uid://cqchlou66tmey" path="res://scripts/Shapes/sliding_box.gd" id="4_krmav"]
+[ext_resource type="PackedScene" uid="uid://d4mmehk8jrrto" path="res://scenes/templates/exit_button.tscn" id="5_krmav"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_24jta"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nydrw"]
+size = Vector2(32, 32)
+
+[sub_resource type="QuadMesh" id="QuadMesh_hrw6t"]
+
+[sub_resource type="Gradient" id="Gradient_3ptjk"]
+offsets = PackedFloat32Array(0.22635135)
+colors = PackedColorArray(0.8140625, 0.65582514, 0.15645263, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_krmav"]
+gradient = SubResource("Gradient_3ptjk")
+
+[sub_resource type="Animation" id="Animation_a4ec7"]
+resource_name = "SlidingBox"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 1, 1.3333334, 2.8, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-768, 384), Vector2(-640, 384), Vector2(-640, 384), Vector2(576, 384), Vector2(576, 384), Vector2(1920, 384)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_y0t3g"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(896, -704)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5et4b"]
+_data = {
+&"RESET": SubResource("Animation_y0t3g"),
+&"SlidingBox": SubResource("Animation_a4ec7")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1fkto"]
+size = Vector2(1328, 80.5)
+
+[sub_resource type="Animation" id="Animation_3ptjk"]
+resource_name = "SlidingBox"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.26666668, 1, 1.3, 2.1333334, 2.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(192, -704), Vector2(192, -600), Vector2(192, -600), Vector2(192, 256), Vector2(192, 256), Vector2(192, 1408)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_krmav"]
+_data = {
+&"RESET": SubResource("Animation_y0t3g"),
+&"SlidingBox": SubResource("Animation_3ptjk")
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a4ec7"]
+
+[node name="ShapesDodge" type="Node2D"]
+
+[node name="RoundTimer" type="Timer" parent="."]
+wait_time = 60.0
+one_shot = true
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+position = Vector2(576, 304)
+floor_stop_on_slope = false
+floor_constant_speed = true
+script = ExtResource("2_nydrw")
+metadata/IsPlayer = true
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="CharacterBody2D"]
+position = Vector2(-4.7683716e-07, 0)
+scale = Vector2(32, 32)
+mesh = SubResource("QuadMesh_24jta")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("RectangleShape2D_nydrw")
+
+[node name="GameUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_3ptjk")
+
+[node name="StartButton" type="Button" parent="GameUI"]
+layout_mode = 0
+offset_left = 512.0
+offset_top = 64.0
+offset_right = 640.0
+offset_bottom = 117.0
+theme_override_font_sizes/font_size = 32
+text = "Start"
+
+[node name="ExitButton" parent="GameUI" instance=ExtResource("5_krmav")]
+layout_mode = 0
+
+[node name="SlidingBox" type="AnimatableBody2D" parent="."]
+position = Vector2(896, -704)
+script = ExtResource("4_krmav")
+
+[node name="TriggerTimer" type="Timer" parent="SlidingBox"]
+wait_time = 0.4
+one_shot = true
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="SlidingBox"]
+scale = Vector2(1328.0001, 80)
+mesh = SubResource("QuadMesh_hrw6t")
+texture = SubResource("GradientTexture1D_krmav")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SlidingBox"]
+libraries = {
+&"": SubResource("AnimationLibrary_5et4b")
+}
+
+[node name="Area2D" type="Area2D" parent="SlidingBox"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SlidingBox/Area2D"]
+shape = SubResource("RectangleShape2D_1fkto")
+
+[node name="SlidingBox2" type="AnimatableBody2D" parent="."]
+position = Vector2(896, -704)
+rotation = 1.5707964
+script = ExtResource("4_krmav")
+
+[node name="TriggerTimer" type="Timer" parent="SlidingBox2"]
+wait_time = 1.4669999999999999
+one_shot = true
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="SlidingBox2"]
+scale = Vector2(1328.0001, 80)
+mesh = SubResource("QuadMesh_hrw6t")
+texture = SubResource("GradientTexture1D_krmav")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SlidingBox2"]
+libraries = {
+&"": SubResource("AnimationLibrary_krmav"),
+&"SlidingBox1": SubResource("AnimationLibrary_a4ec7")
+}
+
+[node name="Area2D" type="Area2D" parent="SlidingBox2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SlidingBox2/Area2D"]
+shape = SubResource("RectangleShape2D_1fkto")
+
+[node name="SlidingBox3" type="AnimatableBody2D" parent="."]
+position = Vector2(896, -704)
+rotation = 1.5707964
+script = ExtResource("4_krmav")
+
+[node name="TriggerTimer" type="Timer" parent="SlidingBox3"]
+wait_time = 1.4669999999999999
+one_shot = true
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="SlidingBox3"]
+scale = Vector2(1328.0001, 80)
+mesh = SubResource("QuadMesh_hrw6t")
+texture = SubResource("GradientTexture1D_krmav")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SlidingBox3"]
+libraries = {
+&"": SubResource("AnimationLibrary_krmav"),
+&"SlidingBox1": SubResource("AnimationLibrary_a4ec7")
+}
+
+[node name="Area2D" type="Area2D" parent="SlidingBox3"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SlidingBox3/Area2D"]
+shape = SubResource("RectangleShape2D_1fkto")
+
+[connection signal="pressed" from="GameUI/StartButton" to="GameUI" method="start"]
+[connection signal="pressed" from="GameUI/StartButton" to="SlidingBox" method="start_game"]
+[connection signal="player_hit" from="SlidingBox" to="CharacterBody2D" method="player_hit"]
+[connection signal="timeout" from="SlidingBox/TriggerTimer" to="SlidingBox" method="play_animation"]
+[connection signal="body_entered" from="SlidingBox/Area2D" to="SlidingBox" method="object_hit"]
+[connection signal="player_hit" from="SlidingBox2" to="CharacterBody2D" method="player_hit"]
+[connection signal="timeout" from="SlidingBox2/TriggerTimer" to="SlidingBox2" method="play_animation"]
+[connection signal="body_entered" from="SlidingBox2/Area2D" to="SlidingBox2" method="object_hit"]
+[connection signal="player_hit" from="SlidingBox3" to="CharacterBody2D" method="player_hit"]
+[connection signal="timeout" from="SlidingBox3/TriggerTimer" to="SlidingBox3" method="play_animation"]
+[connection signal="body_entered" from="SlidingBox3/Area2D" to="SlidingBox3" method="object_hit"]

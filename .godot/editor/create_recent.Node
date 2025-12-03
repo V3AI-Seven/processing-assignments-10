@@ -1,14 +1,14 @@
-Button
-LineEdit
-Label
-PopupPanel
-Popup
-TextEdit
-LineEdit      - Matches the "text" keyword.
-Label3D
-AudioStreamPlayer
+Timer
+MeshInstance2D
+CollisionShape2D
+Area2D
 AnimationPlayer
-CollisionShape3D
-Area3D
-StaticBody3D
-MeshInstance3D
+AnimatableBody2D
+Button
+Control
+Label
+Node2D
+Marker2D
+CharacterBody2D
+AnimationTree
+LineEdit

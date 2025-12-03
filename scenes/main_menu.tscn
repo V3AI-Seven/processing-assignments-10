@@ -49,7 +49,7 @@ popup/item_4/text = "Asteroid Shooter"
 popup/item_4/id = 4
 popup/item_5/text = "Time Trials"
 popup/item_5/id = 5
-popup/item_6/text = "Riddle Solver"
+popup/item_6/text = "Shapes and Stuff"
 popup/item_6/id = 6
 
 [connection signal="pressed" from="Go" to="." method="switch_to_project"]
