@@ -10,3 +10,8 @@ scripts/AsteroidShooter/Media/meteor2.png.import
 scripts/AsteroidShooter/Media/meteor3.png.import
 *.import
 /.godot/imported
+.godot/editor/editor_layout.cfg
+.godot/editor/filesystem_cache10
+.godot/editor/project_metadata.cfg
+.godot/editor/script_editor_cache.cfg
+.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.md5
