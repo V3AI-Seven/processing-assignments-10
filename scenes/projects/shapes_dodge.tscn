@@ -1,8 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://bmp6ekjmslkgy"]
+[gd_scene load_steps=26 format=3 uid="uid://bmp6ekjmslkgy"]
 
 [ext_resource type="Script" uid="uid://e4a1mtqjw2do" path="res://scripts/Shapes/player.gd" id="2_nydrw"]
 [ext_resource type="Script" uid="uid://tsg2m6cty82u" path="res://scripts/Shapes/game_ui.gd" id="4_3ptjk"]
-[ext_resource type="Script" uid="uid://cqchlou66tmey" path="res://scripts/Shapes/sliding_box.gd" id="4_krmav"]
+[ext_resource type="Script" uid="uid://2v7d702jq350" path="res://scripts/Shapes/moving_boxes.gd" id="4_krmav"]
 [ext_resource type="PackedScene" uid="uid://d4mmehk8jrrto" path="res://scenes/templates/exit_button.tscn" id="5_krmav"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_24jta"]
@@ -10,14 +10,56 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nydrw"]
 size = Vector2(32, 32)
 
+[sub_resource type="Animation" id="Animation_0lici"]
+resource_name = "LoseAnimation"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_o7nvy"]
+_data = {
+&"LoseAnimation": SubResource("Animation_0lici")
+}
+
+[sub_resource type="Gradient" id="Gradient_krmav"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_a4ec7"]
+gradient = SubResource("Gradient_krmav")
+
 [sub_resource type="QuadMesh" id="QuadMesh_hrw6t"]
 
 [sub_resource type="Gradient" id="Gradient_3ptjk"]
 offsets = PackedFloat32Array(0.22635135)
-colors = PackedColorArray(0.8140625, 0.65582514, 0.15645263, 1)
+colors = PackedColorArray(0.6765625, 0.081398934, 0.081398934, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_krmav"]
 gradient = SubResource("Gradient_3ptjk")
+
+[sub_resource type="Animation" id="Animation_y0t3g"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(896, -704)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_a4ec7"]
 resource_name = "SlidingBox"
@@ -33,33 +75,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(-768, 384), Vector2(-640, 384), Vector2(-640, 384), Vector2(576, 384), Vector2(576, 384), Vector2(1920, 384)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-
-[sub_resource type="Animation" id="Animation_y0t3g"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(896, -704)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -93,10 +108,10 @@ tracks/0/path = NodePath(".:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.26666668, 1, 1.3, 2.1333334, 2.3),
+"times": PackedFloat32Array(0, 0.3, 1, 1.3, 2.1333334, 2.3),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(192, -704), Vector2(192, -600), Vector2(192, -600), Vector2(192, 256), Vector2(192, 256), Vector2(192, 1408)]
+"values": [Vector2(256, -704), Vector2(256, -600), Vector2(256, -600), Vector2(256, 256), Vector2(256, 256), Vector2(256, 1408)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -117,7 +132,105 @@ _data = {
 &"SlidingBox": SubResource("Animation_3ptjk")
 }
 
+[sub_resource type="Animation" id="Animation_krmav"]
+resource_name = "SlidingBox"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 1, 1.3, 2.1333334, 2.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(256, -704), Vector2(256, -600), Vector2(256, -600), Vector2(256, 256), Vector2(256, 256), Vector2(256, 1408)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_y0t3g"]
+_data = {
+&"SlidingBox": SubResource("Animation_krmav")
+}
+
+[sub_resource type="Animation" id="Animation_5et4b"]
+resource_name = "SlidingBox"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 1, 1.3, 2.1333334, 2.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(896, -704), Vector2(896, -600), Vector2(896, -600), Vector2(896, 256), Vector2(896, 256), Vector2(896, 1408)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_a4ec7"]
+_data = {
+&"SlidingBox": SubResource("Animation_5et4b")
+}
+
+[sub_resource type="Animation" id="Animation_1fkto"]
+resource_name = "SlidingBox"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 1, 1.3, 2.1333334, 2.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(256, -704), Vector2(256, -600), Vector2(256, -600), Vector2(256, 256), Vector2(256, 256), Vector2(256, 1408)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0lici"]
+_data = {
+&"RESET": SubResource("Animation_y0t3g"),
+&"SlidingBox": SubResource("Animation_1fkto")
+}
 
 [node name="ShapesDodge" type="Node2D"]
 
@@ -159,87 +272,116 @@ text = "Start"
 [node name="ExitButton" parent="GameUI" instance=ExtResource("5_krmav")]
 layout_mode = 0
 
-[node name="SlidingBox" type="AnimatableBody2D" parent="."]
-position = Vector2(896, -704)
+[node name="LoseAnim" type="Control" parent="GameUI"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="LoseText" type="Label" parent="GameUI/LoseAnim"]
+layout_mode = 0
+offset_left = 456.0
+offset_top = 8.0
+offset_right = 696.0
+offset_bottom = 64.0
+text = "You Lose!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GameUI/LoseAnim"]
+libraries = {
+&"": SubResource("AnimationLibrary_o7nvy")
+}
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="GameUI/LoseAnim"]
+emitting = false
+texture = SubResource("GradientTexture1D_a4ec7")
+one_shot = true
+explosiveness = 0.16
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+
+[node name="MovingBoxes" type="Node2D" parent="."]
 script = ExtResource("4_krmav")
 
-[node name="TriggerTimer" type="Timer" parent="SlidingBox"]
+[node name="SlidingBox" type="AnimatableBody2D" parent="MovingBoxes"]
+position = Vector2(896, -704)
+
+[node name="TriggerTimer" type="Timer" parent="MovingBoxes/SlidingBox"]
 wait_time = 0.4
 one_shot = true
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="SlidingBox"]
+[node name="MeshInstance2D" type="MeshInstance2D" parent="MovingBoxes/SlidingBox"]
 scale = Vector2(1328.0001, 80)
 mesh = SubResource("QuadMesh_hrw6t")
 texture = SubResource("GradientTexture1D_krmav")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="SlidingBox"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MovingBoxes/SlidingBox"]
 libraries = {
 &"": SubResource("AnimationLibrary_5et4b")
 }
 
-[node name="Area2D" type="Area2D" parent="SlidingBox"]
+[node name="Area2D" type="Area2D" parent="MovingBoxes/SlidingBox"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SlidingBox/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MovingBoxes/SlidingBox/Area2D"]
 shape = SubResource("RectangleShape2D_1fkto")
 
-[node name="SlidingBox2" type="AnimatableBody2D" parent="."]
+[node name="SlidingBox2" type="AnimatableBody2D" parent="MovingBoxes"]
 position = Vector2(896, -704)
 rotation = 1.5707964
-script = ExtResource("4_krmav")
 
-[node name="TriggerTimer" type="Timer" parent="SlidingBox2"]
-wait_time = 1.4669999999999999
+[node name="TriggerTimer" type="Timer" parent="MovingBoxes/SlidingBox2"]
+wait_time = 1.467
 one_shot = true
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="SlidingBox2"]
+[node name="MeshInstance2D" type="MeshInstance2D" parent="MovingBoxes/SlidingBox2"]
 scale = Vector2(1328.0001, 80)
 mesh = SubResource("QuadMesh_hrw6t")
 texture = SubResource("GradientTexture1D_krmav")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="SlidingBox2"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MovingBoxes/SlidingBox2"]
 libraries = {
 &"": SubResource("AnimationLibrary_krmav"),
-&"SlidingBox1": SubResource("AnimationLibrary_a4ec7")
+&"SlidingBox2": SubResource("AnimationLibrary_y0t3g"),
+&"SlidingBox3": SubResource("AnimationLibrary_a4ec7")
 }
 
-[node name="Area2D" type="Area2D" parent="SlidingBox2"]
+[node name="Area2D" type="Area2D" parent="MovingBoxes/SlidingBox2"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SlidingBox2/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MovingBoxes/SlidingBox2/Area2D"]
 shape = SubResource("RectangleShape2D_1fkto")
 
-[node name="SlidingBox3" type="AnimatableBody2D" parent="."]
+[node name="SlidingBox3" type="AnimatableBody2D" parent="MovingBoxes"]
 position = Vector2(896, -704)
 rotation = 1.5707964
-script = ExtResource("4_krmav")
 
-[node name="TriggerTimer" type="Timer" parent="SlidingBox3"]
-wait_time = 1.4669999999999999
+[node name="TriggerTimer" type="Timer" parent="MovingBoxes/SlidingBox3"]
+wait_time = 1.777
 one_shot = true
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="SlidingBox3"]
+[node name="MeshInstance2D" type="MeshInstance2D" parent="MovingBoxes/SlidingBox3"]
 scale = Vector2(1328.0001, 80)
 mesh = SubResource("QuadMesh_hrw6t")
 texture = SubResource("GradientTexture1D_krmav")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="SlidingBox3"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MovingBoxes/SlidingBox3"]
 libraries = {
-&"": SubResource("AnimationLibrary_krmav"),
+&"": SubResource("AnimationLibrary_0lici"),
 &"SlidingBox1": SubResource("AnimationLibrary_a4ec7")
 }
 
-[node name="Area2D" type="Area2D" parent="SlidingBox3"]
+[node name="Area2D" type="Area2D" parent="MovingBoxes/SlidingBox3"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SlidingBox3/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MovingBoxes/SlidingBox3/Area2D"]
 shape = SubResource("RectangleShape2D_1fkto")
 
 [connection signal="pressed" from="GameUI/StartButton" to="GameUI" method="start"]
-[connection signal="pressed" from="GameUI/StartButton" to="SlidingBox" method="start_game"]
-[connection signal="player_hit" from="SlidingBox" to="CharacterBody2D" method="player_hit"]
-[connection signal="timeout" from="SlidingBox/TriggerTimer" to="SlidingBox" method="play_animation"]
-[connection signal="body_entered" from="SlidingBox/Area2D" to="SlidingBox" method="object_hit"]
-[connection signal="player_hit" from="SlidingBox2" to="CharacterBody2D" method="player_hit"]
-[connection signal="timeout" from="SlidingBox2/TriggerTimer" to="SlidingBox2" method="play_animation"]
-[connection signal="body_entered" from="SlidingBox2/Area2D" to="SlidingBox2" method="object_hit"]
-[connection signal="player_hit" from="SlidingBox3" to="CharacterBody2D" method="player_hit"]
-[connection signal="timeout" from="SlidingBox3/TriggerTimer" to="SlidingBox3" method="play_animation"]
-[connection signal="body_entered" from="SlidingBox3/Area2D" to="SlidingBox3" method="object_hit"]
+[connection signal="pressed" from="GameUI/StartButton" to="MovingBoxes" method="start_game"]
+[connection signal="player_hit" from="MovingBoxes" to="CharacterBody2D" method="player_hit"]
+[connection signal="timeout" from="MovingBoxes/SlidingBox/TriggerTimer" to="MovingBoxes" method="sliding_box_1"]
+[connection signal="body_entered" from="MovingBoxes/SlidingBox/Area2D" to="MovingBoxes" method="object_collide"]
+[connection signal="timeout" from="MovingBoxes/SlidingBox2/TriggerTimer" to="MovingBoxes" method="sliding_box_2"]
+[connection signal="body_entered" from="MovingBoxes/SlidingBox2/Area2D" to="MovingBoxes" method="object_collide"]
+[connection signal="timeout" from="MovingBoxes/SlidingBox3/TriggerTimer" to="MovingBoxes" method="sliding_box_3"]
+[connection signal="body_entered" from="MovingBoxes/SlidingBox3/Area2D" to="MovingBoxes" method="object_collide"]
