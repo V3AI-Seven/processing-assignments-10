@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://bmp6ekjmslkgy"]
+[gd_scene load_steps=45 format=3 uid="uid://bmp6ekjmslkgy"]
 
 [ext_resource type="Script" uid="uid://e4a1mtqjw2do" path="res://scripts/Shapes/player.gd" id="2_nydrw"]
 [ext_resource type="Script" uid="uid://tsg2m6cty82u" path="res://scripts/Shapes/game_ui.gd" id="4_3ptjk"]
@@ -55,93 +55,8 @@ linear_accel_min = -2.2351742e-06
 linear_accel_max = -2.2351742e-06
 scale_over_velocity_curve = SubResource("CurveTexture_krmav")
 
-[sub_resource type="LabelSettings" id="LabelSettings_3ptjk"]
-font_color = Color(0, 0.9765625, 1, 1)
-
-[sub_resource type="Animation" id="Animation_0lici"]
-resource_name = "LoseAnimation"
-length = 3.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("LoseText:label_settings:font_size")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [1, 64]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("LoseText:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("RestartButton:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 1.8666667),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
-
-[sub_resource type="Animation" id="Animation_o7nvy"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("LoseText:label_settings:font_size")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [16]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("LoseText:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("RestartButton:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_o7nvy"]
-_data = {
-&"LoseAnimation": SubResource("Animation_0lici"),
-&"RESET": SubResource("Animation_o7nvy")
-}
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_krmav"]
+polygon = PackedVector2Array(-16, 16, 16, 16, 16, -16, -16, -16)
 
 [sub_resource type="QuadMesh" id="QuadMesh_hrw6t"]
 
@@ -350,6 +265,105 @@ _data = {
 &"SlidingBox": SubResource("Animation_1fkto")
 }
 
+[sub_resource type="Animation" id="Animation_f7eay"]
+resource_name = "SlidingBox"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 1, 1.2, 2.8, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-768, 576), Vector2(-640, 576), Vector2(-640, 576), Vector2(576, 576), Vector2(576, 576), Vector2(1920, 576)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_unrnv"]
+_data = {
+&"SlidingBox": SubResource("Animation_f7eay")
+}
+
+[sub_resource type="Animation" id="Animation_unrnv"]
+resource_name = "SlidingBox"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 1, 1.2, 2.8, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-768, 384), Vector2(-640, 384), Vector2(-640, 384), Vector2(576, 384), Vector2(576, 384), Vector2(1920, 384)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2caqx"]
+_data = {
+&"SlidingBox": SubResource("Animation_unrnv")
+}
+
+[sub_resource type="Animation" id="Animation_2caqx"]
+resource_name = "SlidingBox"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 1, 1.2, 2.8, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-768, 192), Vector2(-640, 192), Vector2(-640, 192), Vector2(576, 192), Vector2(576, 192), Vector2(1920, 192)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_64vhj"]
+_data = {
+&"SlidingBox": SubResource("Animation_2caqx")
+}
+
 [sub_resource type="Gradient" id="Gradient_y0t3g"]
 offsets = PackedFloat32Array(0.5555556)
 colors = PackedColorArray(0.6784314, 0.08235294, 0.08235294, 1)
@@ -368,6 +382,97 @@ direction = Vector3(1, 1, 0)
 initial_velocity_min = 146.23999
 initial_velocity_max = 344.28
 gravity = Vector3(0, 0, 0)
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 0.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_3ptjk"]
+font_color = Color(0, 0.9765625, 1, 1)
+
+[sub_resource type="Animation" id="Animation_0lici"]
+resource_name = "LoseAnimation"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LoseText:label_settings:font_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1, 64]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LoseText:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("RestartButton:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.8666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_o7nvy"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LoseText:label_settings:font_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [16]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LoseText:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("RestartButton:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_o7nvy"]
+_data = {
+&"LoseAnimation": SubResource("Animation_0lici"),
+&"RESET": SubResource("Animation_o7nvy")
+}
 
 [node name="ShapesDodge" type="Node2D"]
 
@@ -407,73 +512,8 @@ randomness = 0.07
 draw_order = 0
 process_material = SubResource("ParticleProcessMaterial_3ptjk")
 
-[node name="GameUI" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("4_3ptjk")
-
-[node name="ExitButton" parent="GameUI" instance=ExtResource("5_krmav")]
-layout_mode = 0
-
-[node name="LoseAnim" type="Control" parent="GameUI"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="LoseText" type="Label" parent="GameUI/LoseAnim"]
-visible = false
-layout_mode = 0
-offset_left = 432.0
-offset_top = 200.0
-offset_right = 726.0
-offset_bottom = 288.0
-text = "You Lose!"
-label_settings = SubResource("LabelSettings_3ptjk")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="GameUI/LoseAnim"]
-libraries = {
-&"": SubResource("AnimationLibrary_o7nvy")
-}
-
-[node name="RestartButton" type="Button" parent="GameUI/LoseAnim"]
-visible = false
-layout_mode = 0
-offset_left = 512.0
-offset_top = 64.0
-offset_right = 632.0
-offset_bottom = 117.0
-theme_override_font_sizes/font_size = 32
-text = "Restart
-"
-
-[node name="StartUI" type="Control" parent="GameUI"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="StartButton" type="Button" parent="GameUI/StartUI"]
-layout_mode = 0
-offset_left = 512.0
-offset_top = 64.0
-offset_right = 640.0
-offset_bottom = 117.0
-theme_override_font_sizes/font_size = 32
-text = "Start"
-
-[node name="Instructions" type="Label" parent="GameUI/StartUI"]
-layout_mode = 0
-offset_left = 120.0
-offset_top = 136.0
-offset_right = 1027.0
-offset_bottom = 170.0
-theme_override_font_sizes/font_size = 24
-text = "Your goal is to not get hit by the red. You control the character by using WASD."
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="LightOccluder2D" type="LightOccluder2D" parent="CharacterBody2D"]
+occluder = SubResource("OccluderPolygon2D_krmav")
 
 [node name="MovingBoxes" type="Node2D" parent="."]
 script = ExtResource("4_krmav")
@@ -549,6 +589,75 @@ libraries = {
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MovingBoxes/SlidingBox3/Area2D"]
 shape = SubResource("RectangleShape2D_1fkto")
 
+[node name="SlidingBox4" type="AnimatableBody2D" parent="MovingBoxes"]
+position = Vector2(896, -704)
+
+[node name="TriggerTimer" type="Timer" parent="MovingBoxes/SlidingBox4"]
+wait_time = 20.556
+one_shot = true
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="MovingBoxes/SlidingBox4"]
+scale = Vector2(1328.0001, 80)
+mesh = SubResource("QuadMesh_hrw6t")
+texture = SubResource("GradientTexture1D_krmav")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MovingBoxes/SlidingBox4"]
+libraries = {
+&"": SubResource("AnimationLibrary_5et4b"),
+&"SlidingBox4": SubResource("AnimationLibrary_unrnv")
+}
+
+[node name="Area2D" type="Area2D" parent="MovingBoxes/SlidingBox4"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MovingBoxes/SlidingBox4/Area2D"]
+shape = SubResource("RectangleShape2D_1fkto")
+
+[node name="SlidingBox5" type="AnimatableBody2D" parent="MovingBoxes"]
+position = Vector2(896, -704)
+
+[node name="TriggerTimer" type="Timer" parent="MovingBoxes/SlidingBox5"]
+wait_time = 21.0
+one_shot = true
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="MovingBoxes/SlidingBox5"]
+scale = Vector2(1328.0001, 80)
+mesh = SubResource("QuadMesh_hrw6t")
+texture = SubResource("GradientTexture1D_krmav")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MovingBoxes/SlidingBox5"]
+libraries = {
+&"": SubResource("AnimationLibrary_5et4b"),
+&"SlidingBox5": SubResource("AnimationLibrary_2caqx")
+}
+
+[node name="Area2D" type="Area2D" parent="MovingBoxes/SlidingBox5"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MovingBoxes/SlidingBox5/Area2D"]
+shape = SubResource("RectangleShape2D_1fkto")
+
+[node name="SlidingBox6" type="AnimatableBody2D" parent="MovingBoxes"]
+position = Vector2(896, -704)
+
+[node name="TriggerTimer" type="Timer" parent="MovingBoxes/SlidingBox6"]
+wait_time = 21.5
+one_shot = true
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="MovingBoxes/SlidingBox6"]
+scale = Vector2(1328.0001, 80)
+mesh = SubResource("QuadMesh_hrw6t")
+texture = SubResource("GradientTexture1D_krmav")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MovingBoxes/SlidingBox6"]
+libraries = {
+&"": SubResource("AnimationLibrary_5et4b"),
+&"SlidingBox6": SubResource("AnimationLibrary_64vhj")
+}
+
+[node name="Area2D" type="Area2D" parent="MovingBoxes/SlidingBox6"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MovingBoxes/SlidingBox6/Area2D"]
+shape = SubResource("RectangleShape2D_1fkto")
+
 [node name="SimulatedEnemy" type="Node2D" parent="."]
 script = ExtResource("5_a4ec7")
 
@@ -566,13 +675,77 @@ process_material = SubResource("ParticleProcessMaterial_krmav")
 wait_time = 4.0
 one_shot = true
 
+[node name="GameUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_3ptjk")
+
+[node name="ExitButton" parent="GameUI" instance=ExtResource("5_krmav")]
+layout_mode = 0
+
+[node name="LoseAnim" type="Control" parent="GameUI"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="LoseText" type="Label" parent="GameUI/LoseAnim"]
+visible = false
+layout_mode = 0
+offset_left = 432.0
+offset_top = 200.0
+offset_right = 726.0
+offset_bottom = 288.0
+text = "You Lose!"
+label_settings = SubResource("LabelSettings_3ptjk")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GameUI/LoseAnim"]
+libraries = {
+&"": SubResource("AnimationLibrary_o7nvy")
+}
+
+[node name="RestartButton" type="Button" parent="GameUI/LoseAnim"]
+visible = false
+layout_mode = 0
+offset_left = 512.0
+offset_top = 64.0
+offset_right = 632.0
+offset_bottom = 117.0
+theme_override_font_sizes/font_size = 32
+text = "Restart
+"
+
+[node name="StartUI" type="Control" parent="GameUI"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="StartButton" type="Button" parent="GameUI/StartUI"]
+layout_mode = 0
+offset_left = 512.0
+offset_top = 64.0
+offset_right = 640.0
+offset_bottom = 117.0
+theme_override_font_sizes/font_size = 32
+text = "Start"
+
+[node name="Instructions" type="Label" parent="GameUI/StartUI"]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 136.0
+offset_right = 1027.0
+offset_bottom = 170.0
+theme_override_font_sizes/font_size = 24
+text = "Your goal is to not get hit by the red. You control the character by using WASD."
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="game_over" from="CharacterBody2D" to="GameUI" method="game_over"]
 [connection signal="game_over" from="CharacterBody2D" to="MovingBoxes" method="stop_game"]
 [connection signal="game_over" from="CharacterBody2D" to="SimulatedEnemy" method="end_game"]
-[connection signal="pressed" from="GameUI/LoseAnim/RestartButton" to="GameUI" method="restart_game"]
-[connection signal="pressed" from="GameUI/StartUI/StartButton" to="GameUI" method="start"]
-[connection signal="pressed" from="GameUI/StartUI/StartButton" to="MovingBoxes" method="start_game"]
-[connection signal="pressed" from="GameUI/StartUI/StartButton" to="SimulatedEnemy" method="start_game"]
 [connection signal="player_hit" from="MovingBoxes" to="CharacterBody2D" method="player_hit"]
 [connection signal="timeout" from="MovingBoxes/SlidingBox/TriggerTimer" to="MovingBoxes" method="sliding_box_1"]
 [connection signal="body_entered" from="MovingBoxes/SlidingBox/Area2D" to="MovingBoxes" method="object_collide"]
@@ -580,4 +753,14 @@ one_shot = true
 [connection signal="body_entered" from="MovingBoxes/SlidingBox2/Area2D" to="MovingBoxes" method="object_collide"]
 [connection signal="timeout" from="MovingBoxes/SlidingBox3/TriggerTimer" to="MovingBoxes" method="sliding_box_3"]
 [connection signal="body_entered" from="MovingBoxes/SlidingBox3/Area2D" to="MovingBoxes" method="object_collide"]
+[connection signal="timeout" from="MovingBoxes/SlidingBox4/TriggerTimer" to="MovingBoxes" method="sliding_box_4"]
+[connection signal="body_entered" from="MovingBoxes/SlidingBox4/Area2D" to="MovingBoxes" method="object_collide"]
+[connection signal="timeout" from="MovingBoxes/SlidingBox5/TriggerTimer" to="MovingBoxes" method="sliding_box_5"]
+[connection signal="body_entered" from="MovingBoxes/SlidingBox5/Area2D" to="MovingBoxes" method="object_collide"]
+[connection signal="timeout" from="MovingBoxes/SlidingBox6/TriggerTimer" to="MovingBoxes" method="sliding_box_6"]
+[connection signal="body_entered" from="MovingBoxes/SlidingBox6/Area2D" to="MovingBoxes" method="object_collide"]
 [connection signal="timeout" from="SimulatedEnemy/TriggerTimer" to="SimulatedEnemy" method="start_particles"]
+[connection signal="pressed" from="GameUI/LoseAnim/RestartButton" to="GameUI" method="restart_game"]
+[connection signal="pressed" from="GameUI/StartUI/StartButton" to="GameUI" method="start"]
+[connection signal="pressed" from="GameUI/StartUI/StartButton" to="MovingBoxes" method="start_game"]
+[connection signal="pressed" from="GameUI/StartUI/StartButton" to="SimulatedEnemy" method="start_game"]
