@@ -1,29 +1,147 @@
-[gd_scene load_steps=26 format=3 uid="uid://bmp6ekjmslkgy"]
+[gd_scene load_steps=38 format=3 uid="uid://bmp6ekjmslkgy"]
 
 [ext_resource type="Script" uid="uid://e4a1mtqjw2do" path="res://scripts/Shapes/player.gd" id="2_nydrw"]
 [ext_resource type="Script" uid="uid://tsg2m6cty82u" path="res://scripts/Shapes/game_ui.gd" id="4_3ptjk"]
 [ext_resource type="Script" uid="uid://2v7d702jq350" path="res://scripts/Shapes/moving_boxes.gd" id="4_krmav"]
+[ext_resource type="Script" uid="uid://ckge7lsvys147" path="res://scripts/Shapes/simulated_enemy.gd" id="5_a4ec7"]
 [ext_resource type="PackedScene" uid="uid://d4mmehk8jrrto" path="res://scenes/templates/exit_button.tscn" id="5_krmav"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_3ptjk"]
+
+[sub_resource type="Gradient" id="Gradient_a4ec7"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_y0t3g"]
+gradient = SubResource("Gradient_a4ec7")
 
 [sub_resource type="QuadMesh" id="QuadMesh_24jta"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nydrw"]
 size = Vector2(32, 32)
 
+[sub_resource type="Gradient" id="Gradient_krmav"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_a4ec7"]
+gradient = SubResource("Gradient_krmav")
+width = 6
+height = 6
+fill_from = Vector2(1, 0)
+fill_to = Vector2(0.491453, 0.46153846)
+
+[sub_resource type="Curve" id="Curve_3ptjk"]
+_limits = [0.0, 3.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_krmav"]
+curve = SubResource("Curve_3ptjk")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3ptjk"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(16, 16, 1)
+angle_min = -720.0
+angle_max = 720.0
+direction = Vector3(0, 0, 0)
+spread = 180.0
+flatness = 1.0
+initial_velocity_min = 199.15
+initial_velocity_max = 351.69
+gravity = Vector3(0, 100, 0)
+linear_accel_min = -2.2351742e-06
+linear_accel_max = -2.2351742e-06
+scale_over_velocity_curve = SubResource("CurveTexture_krmav")
+
+[sub_resource type="LabelSettings" id="LabelSettings_3ptjk"]
+font_color = Color(0, 0.9765625, 1, 1)
+
 [sub_resource type="Animation" id="Animation_0lici"]
 resource_name = "LoseAnimation"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LoseText:label_settings:font_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1, 64]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LoseText:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("RestartButton:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.8666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_o7nvy"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LoseText:label_settings:font_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [16]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LoseText:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("RestartButton:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_o7nvy"]
 _data = {
-&"LoseAnimation": SubResource("Animation_0lici")
+&"LoseAnimation": SubResource("Animation_0lici"),
+&"RESET": SubResource("Animation_o7nvy")
 }
-
-[sub_resource type="Gradient" id="Gradient_krmav"]
-offsets = PackedFloat32Array(0)
-colors = PackedColorArray(0, 0, 0, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_a4ec7"]
-gradient = SubResource("Gradient_krmav")
 
 [sub_resource type="QuadMesh" id="QuadMesh_hrw6t"]
 
@@ -71,7 +189,7 @@ tracks/0/path = NodePath(".:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 1, 1.3333334, 2.8, 3),
+"times": PackedFloat32Array(0, 0.2, 1, 1.2, 2.8, 3),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(-768, 384), Vector2(-640, 384), Vector2(-640, 384), Vector2(576, 384), Vector2(576, 384), Vector2(1920, 384)]
@@ -232,10 +350,35 @@ _data = {
 &"SlidingBox": SubResource("Animation_1fkto")
 }
 
+[sub_resource type="Gradient" id="Gradient_y0t3g"]
+offsets = PackedFloat32Array(0.5555556)
+colors = PackedColorArray(0.6784314, 0.08235294, 0.08235294, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_5et4b"]
+gradient = SubResource("Gradient_y0t3g")
+width = 24
+height = 24
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_krmav"]
+lifetime_randomness = 0.11
+particle_flag_disable_z = true
+angle_min = -720.0
+angle_max = 720.0
+direction = Vector3(1, 1, 0)
+initial_velocity_min = 146.23999
+initial_velocity_max = 344.28
+gravity = Vector3(0, 0, 0)
+
 [node name="ShapesDodge" type="Node2D"]
 
+[node name="Background" type="MeshInstance2D" parent="."]
+position = Vector2(575.75, 323.75003)
+scale = Vector2(1152.5, 648.50006)
+mesh = SubResource("QuadMesh_3ptjk")
+texture = SubResource("GradientTexture1D_y0t3g")
+
 [node name="RoundTimer" type="Timer" parent="."]
-wait_time = 60.0
+wait_time = 30.0
 one_shot = true
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
@@ -253,21 +396,23 @@ mesh = SubResource("QuadMesh_24jta")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 shape = SubResource("RectangleShape2D_nydrw")
 
+[node name="GPUParticles2D" type="GPUParticles2D" parent="CharacterBody2D"]
+emitting = false
+amount = 35
+texture = SubResource("GradientTexture2D_a4ec7")
+lifetime = 0.6
+one_shot = true
+explosiveness = 0.85
+randomness = 0.07
+draw_order = 0
+process_material = SubResource("ParticleProcessMaterial_3ptjk")
+
 [node name="GameUI" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("4_3ptjk")
-
-[node name="StartButton" type="Button" parent="GameUI"]
-layout_mode = 0
-offset_left = 512.0
-offset_top = 64.0
-offset_right = 640.0
-offset_bottom = 117.0
-theme_override_font_sizes/font_size = 32
-text = "Start"
 
 [node name="ExitButton" parent="GameUI" instance=ExtResource("5_krmav")]
 layout_mode = 0
@@ -278,12 +423,14 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="LoseText" type="Label" parent="GameUI/LoseAnim"]
+visible = false
 layout_mode = 0
-offset_left = 456.0
-offset_top = 8.0
-offset_right = 696.0
-offset_bottom = 64.0
+offset_left = 432.0
+offset_top = 200.0
+offset_right = 726.0
+offset_bottom = 288.0
 text = "You Lose!"
+label_settings = SubResource("LabelSettings_3ptjk")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -292,15 +439,41 @@ libraries = {
 &"": SubResource("AnimationLibrary_o7nvy")
 }
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="GameUI/LoseAnim"]
-emitting = false
-texture = SubResource("GradientTexture1D_a4ec7")
-one_shot = true
-explosiveness = 0.16
-emission_shape = 1
-emission_sphere_radius = 1.0
-spread = 180.0
-gravity = Vector2(0, 0)
+[node name="RestartButton" type="Button" parent="GameUI/LoseAnim"]
+visible = false
+layout_mode = 0
+offset_left = 512.0
+offset_top = 64.0
+offset_right = 632.0
+offset_bottom = 117.0
+theme_override_font_sizes/font_size = 32
+text = "Restart
+"
+
+[node name="StartUI" type="Control" parent="GameUI"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="StartButton" type="Button" parent="GameUI/StartUI"]
+layout_mode = 0
+offset_left = 512.0
+offset_top = 64.0
+offset_right = 640.0
+offset_bottom = 117.0
+theme_override_font_sizes/font_size = 32
+text = "Start"
+
+[node name="Instructions" type="Label" parent="GameUI/StartUI"]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 136.0
+offset_right = 1027.0
+offset_bottom = 170.0
+theme_override_font_sizes/font_size = 24
+text = "Your goal is to not get hit by the red. You control the character by using WASD."
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="MovingBoxes" type="Node2D" parent="."]
 script = ExtResource("4_krmav")
@@ -376,8 +549,30 @@ libraries = {
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MovingBoxes/SlidingBox3/Area2D"]
 shape = SubResource("RectangleShape2D_1fkto")
 
-[connection signal="pressed" from="GameUI/StartButton" to="GameUI" method="start"]
-[connection signal="pressed" from="GameUI/StartButton" to="MovingBoxes" method="start_game"]
+[node name="SimulatedEnemy" type="Node2D" parent="."]
+script = ExtResource("5_a4ec7")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="SimulatedEnemy"]
+emitting = false
+amount = 50
+texture = SubResource("GradientTexture2D_5et4b")
+lifetime = 9.26
+one_shot = true
+explosiveness = 0.17
+randomness = 0.1
+process_material = SubResource("ParticleProcessMaterial_krmav")
+
+[node name="TriggerTimer" type="Timer" parent="SimulatedEnemy"]
+wait_time = 4.0
+one_shot = true
+
+[connection signal="game_over" from="CharacterBody2D" to="GameUI" method="game_over"]
+[connection signal="game_over" from="CharacterBody2D" to="MovingBoxes" method="stop_game"]
+[connection signal="game_over" from="CharacterBody2D" to="SimulatedEnemy" method="end_game"]
+[connection signal="pressed" from="GameUI/LoseAnim/RestartButton" to="GameUI" method="restart_game"]
+[connection signal="pressed" from="GameUI/StartUI/StartButton" to="GameUI" method="start"]
+[connection signal="pressed" from="GameUI/StartUI/StartButton" to="MovingBoxes" method="start_game"]
+[connection signal="pressed" from="GameUI/StartUI/StartButton" to="SimulatedEnemy" method="start_game"]
 [connection signal="player_hit" from="MovingBoxes" to="CharacterBody2D" method="player_hit"]
 [connection signal="timeout" from="MovingBoxes/SlidingBox/TriggerTimer" to="MovingBoxes" method="sliding_box_1"]
 [connection signal="body_entered" from="MovingBoxes/SlidingBox/Area2D" to="MovingBoxes" method="object_collide"]
@@ -385,3 +580,4 @@ shape = SubResource("RectangleShape2D_1fkto")
 [connection signal="body_entered" from="MovingBoxes/SlidingBox2/Area2D" to="MovingBoxes" method="object_collide"]
 [connection signal="timeout" from="MovingBoxes/SlidingBox3/TriggerTimer" to="MovingBoxes" method="sliding_box_3"]
 [connection signal="body_entered" from="MovingBoxes/SlidingBox3/Area2D" to="MovingBoxes" method="object_collide"]
+[connection signal="timeout" from="SimulatedEnemy/TriggerTimer" to="SimulatedEnemy" method="start_particles"]
