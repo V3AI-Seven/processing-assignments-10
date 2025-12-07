@@ -1,19 +1,24 @@
-[gd_scene load_steps=45 format=3 uid="uid://bmp6ekjmslkgy"]
+[gd_scene load_steps=52 format=3 uid="uid://bmp6ekjmslkgy"]
 
+[ext_resource type="Script" uid="uid://dpprtpub6tegr" path="res://scripts/Shapes/round_timer.gd" id="1_y0t3g"]
 [ext_resource type="Script" uid="uid://e4a1mtqjw2do" path="res://scripts/Shapes/player.gd" id="2_nydrw"]
 [ext_resource type="Script" uid="uid://tsg2m6cty82u" path="res://scripts/Shapes/game_ui.gd" id="4_3ptjk"]
+[ext_resource type="Script" uid="uid://ck7hcj1d6k4xh" path="res://scripts/Shapes/particle.gd" id="4_a4ec7"]
 [ext_resource type="Script" uid="uid://2v7d702jq350" path="res://scripts/Shapes/moving_boxes.gd" id="4_krmav"]
-[ext_resource type="Script" uid="uid://ckge7lsvys147" path="res://scripts/Shapes/simulated_enemy.gd" id="5_a4ec7"]
+[ext_resource type="Script" uid="uid://ckge7lsvys147" path="res://scripts/Shapes/particle_spawner.gd" id="5_a4ec7"]
 [ext_resource type="PackedScene" uid="uid://d4mmehk8jrrto" path="res://scenes/templates/exit_button.tscn" id="5_krmav"]
+[ext_resource type="Script" uid="uid://32w0h113me46" path="res://scripts/Shapes/particle_spawner_2.gd" id="6_5et4b"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_3ptjk"]
 
-[sub_resource type="Gradient" id="Gradient_a4ec7"]
-offsets = PackedFloat32Array(0)
-colors = PackedColorArray(0, 0, 0, 1)
+[sub_resource type="Gradient" id="Gradient_5et4b"]
+offsets = PackedFloat32Array(0, 0.5787037, 0.7638889, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_y0t3g"]
-gradient = SubResource("Gradient_a4ec7")
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1fkto"]
+gradient = SubResource("Gradient_5et4b")
+fill_from = Vector2(1, 1)
+fill_to = Vector2(0, 1)
 
 [sub_resource type="QuadMesh" id="QuadMesh_24jta"]
 
@@ -54,9 +59,6 @@ gravity = Vector3(0, 100, 0)
 linear_accel_min = -2.2351742e-06
 linear_accel_max = -2.2351742e-06
 scale_over_velocity_curve = SubResource("CurveTexture_krmav")
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_krmav"]
-polygon = PackedVector2Array(-16, 16, 16, 16, 16, -16, -16, -16)
 
 [sub_resource type="QuadMesh" id="QuadMesh_hrw6t"]
 
@@ -364,27 +366,17 @@ _data = {
 &"SlidingBox": SubResource("Animation_2caqx")
 }
 
+[sub_resource type="QuadMesh" id="QuadMesh_krmav"]
+
 [sub_resource type="Gradient" id="Gradient_y0t3g"]
-offsets = PackedFloat32Array(0.5555556)
+offsets = PackedFloat32Array(0.29166666)
 colors = PackedColorArray(0.6784314, 0.08235294, 0.08235294, 1)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_5et4b"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5et4b"]
 gradient = SubResource("Gradient_y0t3g")
-width = 24
-height = 24
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_krmav"]
-lifetime_randomness = 0.11
-particle_flag_disable_z = true
-angle_min = -720.0
-angle_max = 720.0
-direction = Vector3(1, 1, 0)
-initial_velocity_min = 146.23999
-initial_velocity_max = 344.28
-gravity = Vector3(0, 0, 0)
-collision_mode = 1
-collision_friction = 0.0
-collision_bounce = 0.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a4ec7"]
+size = Vector2(16, 16)
 
 [sub_resource type="LabelSettings" id="LabelSettings_3ptjk"]
 font_color = Color(0, 0.9765625, 1, 1)
@@ -474,34 +466,124 @@ _data = {
 &"RESET": SubResource("Animation_o7nvy")
 }
 
+[sub_resource type="Animation" id="Animation_bhxhs"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../Background:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(576.00006, 384)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WinText:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AttemptCounter:self_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_64vhj"]
+resource_name = "WinAnimation"
+length = 15.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../Background:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4.5333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(576.00006, 384), Vector2(4096, 384)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WinText:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 5, 9.166667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AttemptCounter:self_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 9.933333, 14.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jto7e"]
+_data = {
+&"RESET": SubResource("Animation_bhxhs"),
+&"WinAnimation": SubResource("Animation_64vhj")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_a4ec7"]
+font_size = 45
+font_color = Color(0, 1, 0.2265625, 1)
+
 [node name="ShapesDodge" type="Node2D"]
 
 [node name="Background" type="MeshInstance2D" parent="."]
-position = Vector2(575.75, 323.75003)
-scale = Vector2(1152.5, 648.50006)
+position = Vector2(576.00006, 384)
+scale = Vector2(11536, 6491.1904)
 mesh = SubResource("QuadMesh_3ptjk")
-texture = SubResource("GradientTexture1D_y0t3g")
+texture = SubResource("GradientTexture2D_1fkto")
 
 [node name="RoundTimer" type="Timer" parent="."]
 wait_time = 30.0
 one_shot = true
+script = ExtResource("1_y0t3g")
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+[node name="Player" type="CharacterBody2D" parent="."]
 position = Vector2(576, 304)
 floor_stop_on_slope = false
 floor_constant_speed = true
 script = ExtResource("2_nydrw")
 metadata/IsPlayer = true
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="CharacterBody2D"]
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Player"]
 position = Vector2(-4.7683716e-07, 0)
 scale = Vector2(32, 32)
 mesh = SubResource("QuadMesh_24jta")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 shape = SubResource("RectangleShape2D_nydrw")
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="CharacterBody2D"]
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Player"]
 emitting = false
 amount = 35
 texture = SubResource("GradientTexture2D_a4ec7")
@@ -511,9 +593,6 @@ explosiveness = 0.85
 randomness = 0.07
 draw_order = 0
 process_material = SubResource("ParticleProcessMaterial_3ptjk")
-
-[node name="LightOccluder2D" type="LightOccluder2D" parent="CharacterBody2D"]
-occluder = SubResource("OccluderPolygon2D_krmav")
 
 [node name="MovingBoxes" type="Node2D" parent="."]
 script = ExtResource("4_krmav")
@@ -658,22 +737,67 @@ libraries = {
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MovingBoxes/SlidingBox6/Area2D"]
 shape = SubResource("RectangleShape2D_1fkto")
 
-[node name="SimulatedEnemy" type="Node2D" parent="."]
+[node name="ParticleSpawner" type="Node2D" parent="."]
+position = Vector2(16, 16)
 script = ExtResource("5_a4ec7")
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="SimulatedEnemy"]
-emitting = false
-amount = 50
-texture = SubResource("GradientTexture2D_5et4b")
-lifetime = 9.26
-one_shot = true
-explosiveness = 0.17
-randomness = 0.1
-process_material = SubResource("ParticleProcessMaterial_krmav")
-
-[node name="TriggerTimer" type="Timer" parent="SimulatedEnemy"]
+[node name="TriggerTimer" type="Timer" parent="ParticleSpawner"]
 wait_time = 4.0
 one_shot = true
+
+[node name="EmitTimer" type="Timer" parent="ParticleSpawner"]
+wait_time = 0.8
+
+[node name="RunTime" type="Timer" parent="ParticleSpawner"]
+wait_time = 15.0
+one_shot = true
+
+[node name="SpawnLocation" type="Marker2D" parent="ParticleSpawner"]
+
+[node name="Particle" type="CharacterBody2D" parent="ParticleSpawner"]
+position = Vector2(-88, -56)
+script = ExtResource("4_a4ec7")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="ParticleSpawner/Particle"]
+scale = Vector2(16, 16)
+mesh = SubResource("QuadMesh_krmav")
+texture = SubResource("GradientTexture1D_5et4b")
+
+[node name="Area2D" type="Area2D" parent="ParticleSpawner/Particle"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ParticleSpawner/Particle/Area2D"]
+shape = SubResource("RectangleShape2D_a4ec7")
+
+[node name="ParticleSpawner2" type="Node2D" parent="."]
+position = Vector2(1136, 632)
+script = ExtResource("6_5et4b")
+
+[node name="TriggerTimer" type="Timer" parent="ParticleSpawner2"]
+wait_time = 19.349
+one_shot = true
+
+[node name="EmitTimer" type="Timer" parent="ParticleSpawner2"]
+wait_time = 0.8
+
+[node name="RunTime" type="Timer" parent="ParticleSpawner2"]
+wait_time = 9.0
+one_shot = true
+
+[node name="SpawnLocation" type="Marker2D" parent="ParticleSpawner2"]
+
+[node name="Particle" type="CharacterBody2D" parent="ParticleSpawner2"]
+position = Vector2(80, 40)
+script = ExtResource("4_a4ec7")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="ParticleSpawner2/Particle"]
+scale = Vector2(16, 16)
+mesh = SubResource("QuadMesh_krmav")
+texture = SubResource("GradientTexture1D_5et4b")
+
+[node name="Area2D" type="Area2D" parent="ParticleSpawner2/Particle"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ParticleSpawner2/Particle/Area2D"]
+shape = SubResource("RectangleShape2D_a4ec7")
 
 [node name="GameUI" type="Control" parent="."]
 layout_mode = 3
@@ -743,10 +867,45 @@ text = "Your goal is to not get hit by the red. You control the character by usi
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="game_over" from="CharacterBody2D" to="GameUI" method="game_over"]
-[connection signal="game_over" from="CharacterBody2D" to="MovingBoxes" method="stop_game"]
-[connection signal="game_over" from="CharacterBody2D" to="SimulatedEnemy" method="end_game"]
-[connection signal="player_hit" from="MovingBoxes" to="CharacterBody2D" method="player_hit"]
+[node name="WinAnim" type="Control" parent="GameUI"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GameUI/WinAnim"]
+libraries = {
+&"": SubResource("AnimationLibrary_jto7e")
+}
+
+[node name="WinText" type="Label" parent="GameUI/WinAnim"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_left = 456.0
+offset_top = 128.0
+offset_right = 696.0
+offset_bottom = 191.0
+text = "You Win!"
+label_settings = SubResource("LabelSettings_a4ec7")
+horizontal_alignment = 1
+
+[node name="AttemptCounter" type="Label" parent="GameUI/WinAnim"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_left = 248.0
+offset_top = 200.0
+offset_right = 897.0
+offset_bottom = 263.0
+text = "Total Attempts: not set"
+label_settings = SubResource("LabelSettings_a4ec7")
+horizontal_alignment = 1
+
+[connection signal="timeout" from="RoundTimer" to="GameUI" method="game_win"]
+[connection signal="game_over" from="Player" to="RoundTimer" method="stop_game"]
+[connection signal="game_over" from="Player" to="MovingBoxes" method="stop_game"]
+[connection signal="game_over" from="Player" to="ParticleSpawner" method="end_game"]
+[connection signal="game_over" from="Player" to="GameUI" method="game_over"]
+[connection signal="game_over" from="Player" to="ParticleSpawner2" method="end_game"]
+[connection signal="player_hit" from="MovingBoxes" to="Player" method="player_hit"]
 [connection signal="timeout" from="MovingBoxes/SlidingBox/TriggerTimer" to="MovingBoxes" method="sliding_box_1"]
 [connection signal="body_entered" from="MovingBoxes/SlidingBox/Area2D" to="MovingBoxes" method="object_collide"]
 [connection signal="timeout" from="MovingBoxes/SlidingBox2/TriggerTimer" to="MovingBoxes" method="sliding_box_2"]
@@ -759,8 +918,19 @@ vertical_alignment = 1
 [connection signal="body_entered" from="MovingBoxes/SlidingBox5/Area2D" to="MovingBoxes" method="object_collide"]
 [connection signal="timeout" from="MovingBoxes/SlidingBox6/TriggerTimer" to="MovingBoxes" method="sliding_box_6"]
 [connection signal="body_entered" from="MovingBoxes/SlidingBox6/Area2D" to="MovingBoxes" method="object_collide"]
-[connection signal="timeout" from="SimulatedEnemy/TriggerTimer" to="SimulatedEnemy" method="start_particles"]
+[connection signal="timeout" from="ParticleSpawner/TriggerTimer" to="ParticleSpawner" method="start_particles"]
+[connection signal="timeout" from="ParticleSpawner/EmitTimer" to="ParticleSpawner" method="emit_particles"]
+[connection signal="timeout" from="ParticleSpawner/RunTime" to="ParticleSpawner" method="stop_particles"]
+[connection signal="player_hit" from="ParticleSpawner/Particle" to="Player" method="player_hit"]
+[connection signal="body_entered" from="ParticleSpawner/Particle/Area2D" to="ParticleSpawner/Particle" method="object_hit"]
+[connection signal="timeout" from="ParticleSpawner2/TriggerTimer" to="ParticleSpawner2" method="start_particles"]
+[connection signal="timeout" from="ParticleSpawner2/EmitTimer" to="ParticleSpawner2" method="emit_particles"]
+[connection signal="timeout" from="ParticleSpawner2/RunTime" to="ParticleSpawner2" method="stop_particles"]
+[connection signal="player_hit" from="ParticleSpawner2/Particle" to="Player" method="player_hit"]
+[connection signal="body_entered" from="ParticleSpawner2/Particle/Area2D" to="ParticleSpawner2/Particle" method="object_hit"]
 [connection signal="pressed" from="GameUI/LoseAnim/RestartButton" to="GameUI" method="restart_game"]
-[connection signal="pressed" from="GameUI/StartUI/StartButton" to="GameUI" method="start"]
+[connection signal="pressed" from="GameUI/StartUI/StartButton" to="RoundTimer" method="start_game"]
 [connection signal="pressed" from="GameUI/StartUI/StartButton" to="MovingBoxes" method="start_game"]
-[connection signal="pressed" from="GameUI/StartUI/StartButton" to="SimulatedEnemy" method="start_game"]
+[connection signal="pressed" from="GameUI/StartUI/StartButton" to="ParticleSpawner" method="start_game"]
+[connection signal="pressed" from="GameUI/StartUI/StartButton" to="GameUI" method="start"]
+[connection signal="pressed" from="GameUI/StartUI/StartButton" to="ParticleSpawner2" method="start_game"]
